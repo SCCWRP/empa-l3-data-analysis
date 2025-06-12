@@ -3,6 +3,191 @@ title: "EMPA_Veg_Code"
 author: "Brooke Fulkerson"
 date: "2025-06-12"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
+#Load Packages
 
+```{r load packages}
+
+library(ggplot2)
+library(tidyverse)
+library(tidyr)
+library(ggrepel)
+
+```
+
+#Load Data
+
+```{r load data}
+
+Veg <- read.csv("https://nexus.sccwrp.org/empachecker/export?tablename=tbl_vegetativecover_data")
+
+Veg_metadata <- read.csv("https://nexus.sccwrp.org/empachecker/export?tablename=tbl_vegetation_sample_metadata")
+
+CRAM <- read.csv("Data/EMPA_CRAM_2014-2024.csv")
+
+```
+
+#Clean Data
+
+##Veg
+
+```{r clean veg data}
+
+Veg <- Veg %>%
+  mutate(Season = case_when(
+    str_detect(samplecollectiondate, "2021-09") ~ "Fall",
+    str_detect(samplecollectiondate, "2021-10") ~ "Fall",
+    str_detect(samplecollectiondate, "2021-11") ~ "Fall",
+    str_detect(samplecollectiondate, "2021-03") ~ "Spring",
+    str_detect(samplecollectiondate, "2021-04") ~ "Spring",
+    str_detect(samplecollectiondate, "2021-05") ~ "Spring",
+    str_detect(samplecollectiondate, "2022-03") ~ "Spring",
+    str_detect(samplecollectiondate, "2022-04") ~ "Spring",
+    str_detect(samplecollectiondate, "2022-10") ~ "Fall",
+    str_detect(samplecollectiondate, "2022-12") ~ "Fall",
+    str_detect(samplecollectiondate, "2023-03") ~ "Spring",
+    str_detect(samplecollectiondate, "2023-04") ~ "Spring",
+    str_detect(samplecollectiondate, "2023-05") ~ "Spring",
+    str_detect(samplecollectiondate, "2023-06") ~ "Spring",
+    str_detect(samplecollectiondate, "2023-07") ~ "Spring",
+    str_detect(samplecollectiondate, "2023-09") ~ "Fall",
+    str_detect(samplecollectiondate, "2023-10") ~ "Fall",
+    str_detect(samplecollectiondate, "2023-11") ~ "Fall",
+    str_detect(samplecollectiondate, "2023-12") ~ "Fall")) %>%
+  mutate(Year=case_when(
+    str_detect(samplecollectiondate, "2021") ~ "Year 1",
+    str_detect(samplecollectiondate, "2023") ~ "Year 2",
+    str_detect(samplecollectiondate, "2024") ~ "Year 2")) %>%
+  mutate(Habitat_final=case_when(
+    habitat == "Mid marsh" ~ "Mid Marsh",
+    habitat == "High marsh" ~ "High Marsh",
+    habitat == "Channel" ~ "Low Marsh",
+    habitat == "Upland" ~ "Upland",
+    habitat == "Low marsh" ~ "Low Marsh",
+    habitat == "Unvegetated salt panne" ~ "High Marsh",
+    habitat == "Brackish marsh" ~ "High Marsh"))
+
+```
+
+```{r order veg data}
+
+Veg$siteid <- factor(Veg$siteid, levels = c('NC-TEN', 'NC-BIGR', 'NC-NAV', 'NC-DRA', 'NC-BOL',
+                                                        'CC-PAJ', 'CC-MCS', 'CC-CAR', 'CC-ADLC', 'CC-MOR',
+                                                        'SC-GOL', 'SC-VEN', 'SC-MAL', 'SC-BOL', 'SC-NEW', 'SC-BAT'),
+                           ordered = TRUE)
+
+Veg$Region <- factor(Veg$Region, levels = c('North', 'Central', 'South'),
+                     ordered = TRUE)
+
+Veg$status <- factor(Veg$status, level = c('native', 'non-native', 'invasive'),
+                     ordered = TRUE)
+
+Veg$Habitat_final <- factor(Veg$Habitat_final, level = c('Low Marsh', 'Mid Marsh', 'High Marsh', 'Upland'),
+                     ordered = TRUE)
+
+```
+
+#Plot Colors
+
+```{r plot colors}
+
+region_colors <- c("#56B4E9", "#009E73", "#F0E442")
+
+MPA_colors <- c("#0072B2", "#D55E00")
+
+mouth_colors <- c("#000000", "#CC79A7")
+
+veg_colors <- c("#009900", "#3399FF", "#CC0033", "black")
+
+habitat_colors <- c("#999999", "#0072B2", "#CC79A7")
+
+elevation_colors <- c("#E69F00", "#F0E442", "#009E73", "#56B4E9")
+
+veg_open_colors <- c("#999999", "#009E73")
+
+```
+
+##Veg Metadata
+
+```{r clean veg metadata}
+
+veg_metadata_long <- veg_metadata %>%
+  select(siteid, habitat, samplecollectiondate, vegetated_cover, non_vegetated_cover) %>%
+  pivot_longer(
+    cols = c(vegetated_cover, non_vegetated_cover),
+    names_to = "cover_type",
+    values_to = "cover_value")
+
+```
+
+```{r order veg metadata}
+
+veg_metadata_clean$siteid <- factor(veg_metadata_clean$siteid, levels = c('NC-TEN', 'NC-BIGR', 'NC-NAV', 'NC-DRA', 'NC-BOL',
+                                                        'CC-PAJ', 'CC-MCS', 'CC-CAR', 'CC-ADLC', 'CC-MOR',
+                                                        'SC-GOL', 'SC-VEN', 'SC-MAL', 'SC-BOL', 'SC-NEW', 'SC-BAT'),
+                           ordered = TRUE)
+
+```
+
+#Function Analysis
+
+##Figures
+
+###CRAM
+
+```{r CRAM CDF - Index}
+
+#create empirical CDF function with state data
+cdf_fn <- ecdf(CRAM$indexscore)
+
+#calculate CDF y-values for EMPA sites
+CRAM$index_y <- cdf_fn(CRAM$EMPA_index)
+
+#plot CDF for Index scores
+CRAM_index_CDF <- CRAM %>%
+  ggplot(aes(indexscore)) +
+  stat_ecdf(geom = "step",
+            color = "black",
+            linewidth = 1) +
+  theme_bw() +
+  xlab("CRAM Index Score") +
+  ylab("% of Population") +
+  ggtitle("Statewide CRAM Scores 2014 - 2024") +
+  scale_y_continuous(breaks = seq(0,1,0.1), 
+                     labels = seq(0,100,10)) +
+  theme(plot.title = element_text(face="bold",
+                                  size=18,
+                                  hjust=0.5)) +
+  theme(axis.title.x = element_text(face="bold",
+                                    size=16),
+        axis.text.x= element_text(size=16)) +
+  theme(axis.title.y = element_text(angle=90, 
+                                    face="bold", 
+                                    size=16, 
+                                    vjust=1.5),
+        axis.text.y  = element_text(size=16)) +
+  theme(legend.title = element_blank(),
+        legend.text = element_text(size = 14)) +
+  geom_hline(yintercept = c(.33, .66), 
+             linetype = "dashed") +
+  geom_point(aes(x = EMPA_index, 
+                 y = index_y,
+                 fill = EMPA_MPA),
+             size = 3,
+             shape = 21) +
+  scale_fill_manual(values = MPA_colors, na.translate = F) +
+  geom_text_repel(aes(x = EMPA_index,
+                      y = index_y,
+                      label = EMPA_siteid),
+                  size = 5,
+                  nudge_y = 0.2,
+                  hjust = 1,
+                  direction = "y",
+                  force = 2)
+
+CRAM_index_CDF
+
+```
