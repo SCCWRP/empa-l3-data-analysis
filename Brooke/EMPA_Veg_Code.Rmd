@@ -466,3 +466,7 @@ veg_open_cover <- veg_metadata_clean %>%
 veg_open_cover
 
 ```
+
+###Ruggedness (TBD)
+
+###Marsh Inundation (TBD)
