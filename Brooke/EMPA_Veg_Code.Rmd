@@ -60,7 +60,7 @@ Veg <- Veg %>%
   mutate(Year=case_when(
     str_detect(samplecollectiondate, "2021") ~ "Year 1",
     str_detect(samplecollectiondate, "2023") ~ "Year 2",
-    str_detect(samplecollectiondate, "2024") ~ "Year 2")) %>%
+    str_detect(samplecollectiondate, "2024") ~ "Year 3")) %>%
   mutate(Habitat_final=case_when(
     habitat == "Mid marsh" ~ "Mid Marsh",
     habitat == "High marsh" ~ "High Marsh",
@@ -87,6 +87,66 @@ Veg$status <- factor(Veg$status, level = c('native', 'non-native', 'invasive'),
 
 Veg$Habitat_final <- factor(Veg$Habitat_final, level = c('Low Marsh', 'Mid Marsh', 'High Marsh', 'Upland'),
                      ordered = TRUE)
+
+```
+
+##Veg Metadata
+
+```{r clean veg metadata}
+
+#convert to long format
+veg_metadata_long <- veg_metadata %>%
+  select(siteid, habitat, samplecollectiondate, vegetated_cover, non_vegetated_cover) %>%
+  pivot_longer(
+    cols = c(vegetated_cover, non_vegetated_cover),
+    names_to = "cover_type",
+    values_to = "cover_value")
+
+#clean data
+veg_metadata_clean <- veg_metadata_long %>%
+  mutate(Season = case_when(
+    str_detect(samplecollectiondate, "2021-09") ~ "Fall",
+    str_detect(samplecollectiondate, "2021-10") ~ "Fall",
+    str_detect(samplecollectiondate, "2021-11") ~ "Fall",
+    str_detect(samplecollectiondate, "2021-03") ~ "Spring",
+    str_detect(samplecollectiondate, "2021-04") ~ "Spring",
+    str_detect(samplecollectiondate, "2021-05") ~ "Spring",
+    str_detect(samplecollectiondate, "2022-03") ~ "Spring",
+    str_detect(samplecollectiondate, "2022-04") ~ "Spring",
+    str_detect(samplecollectiondate, "2022-10") ~ "Fall",
+    str_detect(samplecollectiondate, "2022-12") ~ "Fall",
+    str_detect(samplecollectiondate, "2023-03") ~ "Spring",
+    str_detect(samplecollectiondate, "2023-04") ~ "Spring",
+    str_detect(samplecollectiondate, "2023-05") ~ "Spring",
+    str_detect(samplecollectiondate, "2023-06") ~ "Spring",
+    str_detect(samplecollectiondate, "2023-07") ~ "Spring",
+    str_detect(samplecollectiondate, "2023-09") ~ "Fall",
+    str_detect(samplecollectiondate, "2023-10") ~ "Fall",
+    str_detect(samplecollectiondate, "2023-11") ~ "Fall",
+    str_detect(samplecollectiondate, "2023-12") ~ "Fall")) %>%
+  mutate(Year=case_when(
+    str_detect(samplecollectiondate, "2021") ~ "Year 1",
+    str_detect(samplecollectiondate, "2023") ~ "Year 2",
+    str_detect(samplecollectiondate, "2024") ~ "Year 3")) %>%
+  mutate(Habitat_final=case_when(
+    habitat == "Mid marsh" ~ "Mid Marsh",
+    habitat == "High marsh" ~ "High Marsh",
+    habitat == "Channel" ~ "Low Marsh",
+    habitat == "Upland" ~ "Upland",
+    habitat == "Low marsh" ~ "Low Marsh",
+    habitat == "Unvegetated salt panne" ~ "High Marsh",
+    habitat == "Brackish marsh" ~ "High Marsh",
+    habitat == "Not recorded" ~ "Not recorded",
+    habitat == "site-wide" ~ "site-wide"))
+
+```
+
+```{r order veg metadata}
+
+veg_metadata_clean$siteid <- factor(veg_metadata_clean$siteid, levels = c('NC-TEN', 'NC-BIGR', 'NC-NAV', 'NC-DRA', 'NC-BOL',
+                                                        'CC-PAJ', 'CC-MCS', 'CC-CAR', 'CC-ADLC', 'CC-MOR',
+                                                        'SC-GOL', 'SC-VEN', 'SC-MAL', 'SC-BOL', 'SC-NEW', 'SC-BAT'),
+                           ordered = TRUE)
 
 ```
 
@@ -297,5 +357,112 @@ CRAM_Phys_CFD <- CRAM %>%
                   force = 2)
 
 CRAM_Phys_CFD
+
+```
+
+###Native Veg
+
+####Relative Invasive
+
+```{r native veg relative cover}
+
+veg_abundance_FA23 <- Veg %>%
+  filter(siteid %in% c("CC-ADLC", "CC-CAR", "CC-MCS", "CC-MOR", "CC-PAJ", 
+                       "NC-BIGR", "NC-BOL", "NC-DRA", "NC-NAV", "NC-TEN", 
+                       "SC-BAT", "SC-NEW", "SC-MAL", "SC-VEN", "SC-GOL", "SC-BOL")) %>%
+  filter(commonname != "Not recorded") %>%
+  filter(commonname != "unknown plant") %>%
+  filter(commonname != "unknown algae") %>%
+  filter(commonname != "unknown grass") %>%
+  filter(commonname != "unknown weed") %>%
+  filter(status != "Not recorded") %>%
+  filter(status != "naturalized") %>%
+  filter(Year == "Year 2") %>%
+  ggplot(aes(y = percentcovercode,
+             x = siteid,
+             fill = status)) +
+  theme_bw() +
+  scale_fill_manual(values = veg_colors,
+                    labels = str_wrap(c("Native", "Non-Native", "Invasive"),
+                                      width = 14)) +
+  scale_x_discrete(limits = rev) +
+  coord_flip() +
+  theme(strip.text.x = element_text(face = "bold", size = 16)) +
+  geom_bar(position = "fill", stat = "identity") +
+  xlab("Site ID") +
+  ylab("Relative Abundance") +
+  ggtitle("Vegetation - Native vs Non-Native by Site") +
+  theme(axis.title.x = element_text(face="bold",
+                                    size=16),
+        axis.text.x= element_text(size=16)) +
+  theme(plot.title = element_text(face="bold",
+                                  size=18,
+                                  hjust=0.5)) +
+  theme(axis.title.y = element_text(angle=90, 
+                                    face="bold", 
+                                    size=16, 
+                                    vjust=1.5),
+        axis.text.y  = element_text(size=16)) +
+  theme(legend.position = "bottom") +
+  theme(legend.text = element_text(colour="black", 
+                                   size = 14)) +
+  theme(legend.title = element_text(colour="black", 
+                                    size = 14, 
+                                    face = "bold")) +
+  theme(legend.title = element_blank(),
+        legend.text = element_text(size = 14)) +
+  geom_hline(yintercept = c(0.10, 0.2),
+             linetype = "dashed")
+
+veg_abundance_FA23
+
+```
+
+####Invasive Severity (TBD)
+
+####Veg Cover
+
+```{r percent veg cover in upper marsh}
+
+veg_open_cover <- veg_metadata_clean %>%
+  filter(habitat != "Low marsh") %>%
+  filter(habitat != "Upland") %>%
+  filter(habitat != "Not recorded") %>%
+  filter(habitat != "Unvegetated salt panne") %>%
+  filter(siteid != "NA") %>%
+  filter(Year == "Year 2") %>%
+  ggplot(aes(y = cover_value,
+             x = siteid,
+             fill = cover_type)) +
+  theme_bw() +
+  scale_fill_manual(values = veg_open_colors,
+                    labels = str_wrap(c("Non-Vegetated Cover", "Vegetated Cover"),
+                                     width = 14)) +
+  scale_x_discrete(limits = rev) +
+  coord_flip() +
+  geom_bar(position = "fill", stat = "identity") +
+  geom_hline(yintercept = c(0.33, 0.66),
+             linetype = "dashed") +
+  ylab("Percent Cover") +
+  xlab("Site ID") +
+  ggtitle("Percent Vegetated Cover in Upper Marsh Habitats") +
+  scale_y_continuous(labels = scales::percent_format(scale = 100)) +
+  theme(strip.text.x = element_text(face = "bold", 
+                                    size = 16)) +
+  theme(plot.title = element_text(face="bold",
+					                        size=18,
+                                  hjust=0.5)) +
+  theme(axis.title.y = element_text(angle=90, 
+                                    face="bold", 
+                                    size=16, 
+                                    vjust=1.5),
+        axis.text.y  = element_text(size=16)) +
+  theme(axis.title.x = element_text(face="bold",
+                                    size=16),
+        axis.text.x= element_text(size=16)) +
+  theme(legend.title = element_blank(),
+        legend.text = element_text(size = 14))
+
+veg_open_cover
 
 ```
