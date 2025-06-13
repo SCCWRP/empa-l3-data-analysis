@@ -170,28 +170,6 @@ veg_open_colors <- c("#999999", "#009E73")
 
 ```
 
-##Veg Metadata
-
-```{r clean veg metadata}
-
-veg_metadata_long <- veg_metadata %>%
-  select(siteid, habitat, samplecollectiondate, vegetated_cover, non_vegetated_cover) %>%
-  pivot_longer(
-    cols = c(vegetated_cover, non_vegetated_cover),
-    names_to = "cover_type",
-    values_to = "cover_value")
-
-```
-
-```{r order veg metadata}
-
-veg_metadata_clean$siteid <- factor(veg_metadata_clean$siteid, levels = c('NC-TEN', 'NC-BIGR', 'NC-NAV', 'NC-DRA', 'NC-BOL',
-                                                        'CC-PAJ', 'CC-MCS', 'CC-CAR', 'CC-ADLC', 'CC-MOR',
-                                                        'SC-GOL', 'SC-VEN', 'SC-MAL', 'SC-BOL', 'SC-NEW', 'SC-BAT'),
-                           ordered = TRUE)
-
-```
-
 #Function Analysis
 
 ##Figures
