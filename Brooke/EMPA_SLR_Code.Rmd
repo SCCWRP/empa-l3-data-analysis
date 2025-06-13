@@ -3,6 +3,8 @@ title: "EMPA_SLR_Code"
 author: "Brooke Fulkerson"
 date: "2025-06-13"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 #Load Packages
@@ -20,6 +22,386 @@ library(ggrepel)
 
 ```{r load data}
 
-
+wetland_extents <- read.csv("Data/BufferZones_ForR.csv")
 
 ```
+
+#Clean Data
+
+```{r order wetland data}
+
+wetland_extents$Cover_class <- factor(wetland_extents$Cover_class, levels = c('Other', 'Upland', 'High', 'Mid', 
+                                                                              'Low', 'Water', ordered = TRUE))
+
+wetland_extents$Site_ID <- factor(wetland_extents$Site_ID, levels = c('NC-TEN', 'NC-BIGR', 'NC-NAV', 'NC-DRA', 'NC-BOL',
+                                                        'CC-PAJ', 'CC-MCS', 'CC-CAR', 'CC-ADLC', 'CC-MOR',
+                                                        'SC-GOL', 'SC-VEN', 'SC-MAL', 'SC-BOL', 'SC-NEW', 'SC-BAT'),
+                           ordered = TRUE)
+
+wetland_extents$Region <- factor(wetland_extents$Region, levels = c('North', 'Central', 'South',
+                                                                    ordered = TRUE))
+
+wetland_extents$Extent <- factor(wetland_extents$Extent, levels = c('Current Wetland Footprint', 'Wetland Migration/Avoid Developed (1.2 ft)', 'Wetland Migration/All Areas (1.2 ft)',
+                                                                    ordered = TRUE))
+
+```
+
+#Plot Colors
+
+```{r plot colors}
+
+region_colors <- c("#56B4E9", "#009E73", "#F0E442")
+
+MPA_colors <- c("#0072B2", "#D55E00")
+
+mouth_colors <- c("#000000", "#CC79A7")
+
+veg_colors <- c("#009900", "#3399FF", "#CC0033", "black")
+
+habitat_colors <- c("#999999", "#0072B2", "#CC79A7")
+
+elevation_colors <- c("#E69F00", "#F0E442", "#009E73", "#56B4E9")
+
+veg_open_colors <- c("#999999", "#009E73")
+
+```
+
+#Function Analysis
+
+##Figures
+
+###CRAM
+
+```{r CRAM CDF - Index}
+
+#create empirical CDF function with state data
+cdf_fn_i <- ecdf(CRAM$indexscore)
+
+#calculate CDF y-values for EMPA sites
+CRAM$index_y <- cdf_fn_i(CRAM$EMPA_index)
+
+#plot CDF for Index scores
+CRAM_index_CDF <- CRAM %>%
+  ggplot(aes(indexscore)) +
+  stat_ecdf(geom = "step",
+            color = "black",
+            linewidth = 1) +
+  theme_bw() +
+  xlab("CRAM Index Score") +
+  ylab("% of Population") +
+  ggtitle("Statewide CRAM Scores 2014 - 2024") +
+  scale_y_continuous(breaks = seq(0,1,0.1), 
+                     labels = seq(0,100,10)) +
+  theme(plot.title = element_text(face="bold",
+                                  size=18,
+                                  hjust=0.5)) +
+  theme(axis.title.x = element_text(face="bold",
+                                    size=16),
+        axis.text.x= element_text(size=16)) +
+  theme(axis.title.y = element_text(angle=90, 
+                                    face="bold", 
+                                    size=16, 
+                                    vjust=1.5),
+        axis.text.y  = element_text(size=16)) +
+  theme(legend.title = element_blank(),
+        legend.text = element_text(size = 14)) +
+  geom_hline(yintercept = c(.33, .66), 
+             linetype = "dashed") +
+  geom_point(aes(x = EMPA_index, 
+                 y = index_y,
+                 fill = EMPA_MPA),
+             size = 3,
+             shape = 21) +
+  scale_fill_manual(values = MPA_colors, na.translate = F) +
+  geom_text_repel(aes(x = EMPA_index,
+                      y = index_y,
+                      label = EMPA_siteid),
+                  size = 5,
+                  nudge_y = 0.2,
+                  hjust = 1,
+                  direction = "y",
+                  force = 2)
+
+CRAM_index_CDF
+
+```
+
+```{r CRAM CDF - biotic}
+
+#create empirical CDF function with state data
+cdf_fn_b <- ecdf(CRAM$biotic_structure)
+
+#calculate CDF y-values for EMPA sites
+CRAM$biotic_y <- cdf_fn_b(CRAM$EMPA_bio)
+
+#plot CDF for Index scores
+CRAM_Bio_CFD <- CRAM %>%
+  ggplot(aes(biotic_structure)) +
+  stat_ecdf(geom = "step",
+            color = "black",
+            linewidth = 1) +
+  theme_bw() +
+  xlab("Biotic Attribute Score") +
+  ylab("% of Population") +
+  ggtitle("Statewide Biotic Attribute Scores 2014 - 2024") +
+  scale_y_continuous(breaks = seq(0,1,0.1), 
+                     labels = seq(0,100,10)) +
+  theme(plot.title = element_text(face="bold",
+                                  size=18,
+                                  hjust=0.5)) +
+  theme(axis.title.x = element_text(face="bold",
+                                    size=16),
+        axis.text.x= element_text(size=16)) +
+  theme(axis.title.y = element_text(angle=90, 
+                                    face="bold", 
+                                    size=16, 
+                                    vjust=1.5),
+        axis.text.y  = element_text(size=16)) +
+  theme(legend.title = element_blank(),
+        legend.text = element_text(size = 14)) +
+  geom_hline(yintercept = c(.33, .66),
+             linetype = "dashed") +
+  geom_point(aes(x = EMPA_bio, 
+                 y = biotic_y,
+                 fill = EMPA_MPA),
+             size = 3,
+             shape = 21) +
+  scale_fill_manual(values = MPA_colors, na.translate = F) +
+  geom_text_repel(aes(x = EMPA_bio,
+                      y = biotic_y,
+                      label = EMPA_siteid),
+                  size = 5,
+                  nudge_y = 0.2,
+                  hjust = 1,
+                  direction = "y",
+                  force = 2)
+
+CRAM_Bio_CFD
+
+```
+
+```{r CRAM CDF - Physical}
+
+#create empirical CDF function with state data
+cdf_fn_p <- ecdf(CRAM$physical_structure)
+
+#calculate CDF y-values for EMPA sites
+CRAM$phys_y <- cdf_fn_p(CRAM$EMPA_phys)
+
+#plot CDF for Index scores
+CRAM_Phys_CFD <- CRAM %>%
+  ggplot(aes(physical_structure)) +
+  stat_ecdf(geom = "step",
+            color = "black",
+            linewidth = 1) +
+  theme_bw() +
+  xlab("Physical Attribute Score") +
+  ylab("% of Population") +
+  ggtitle("Statewide Physical Attribute Scores 2014 - 2024") +
+  scale_y_continuous(breaks = seq(0,1,0.1), 
+                     labels = seq(0,100,10)) +
+  theme(plot.title = element_text(face="bold",
+                                  size=18,
+                                  hjust=0.5)) +
+  theme(axis.title.x = element_text(face="bold",
+                                    size=16),
+        axis.text.x= element_text(size=16)) +
+  theme(axis.title.y = element_text(angle=90, 
+                                    face="bold", 
+                                    size=16, 
+                                    vjust=1.5),
+        axis.text.y  = element_text(size=16)) +
+  theme(legend.title = element_blank(),
+        legend.text = element_text(size = 14)) +
+  geom_hline(yintercept = c(.33, .66),
+             linetype = "dashed") +
+  geom_point(aes(x = EMPA_phys, 
+                 y = phys_y,
+                 fill = EMPA_MPA),
+             size = 3,
+             shape = 21) +
+  scale_fill_manual(values = MPA_colors, na.translate = F) +
+  geom_text_repel(aes(x = EMPA_phys,
+                      y = phys_y,
+                      label = EMPA_siteid),
+                  size = 5,
+                  nudge_y = 0.2,
+                  hjust = 1,
+                  direction = "y",
+                  force = 2)
+
+CRAM_Phys_CFD
+
+```
+
+###Veg Cover
+
+```{r percent veg cover in upper marsh}
+
+veg_open_cover <- veg_metadata_clean %>%
+  filter(habitat != "Low marsh") %>%
+  filter(habitat != "Upland") %>%
+  filter(habitat != "Not recorded") %>%
+  filter(habitat != "Unvegetated salt panne") %>%
+  filter(siteid != "NA") %>%
+  filter(Year == "Year 2") %>%
+  ggplot(aes(y = cover_value,
+             x = siteid,
+             fill = cover_type)) +
+  theme_bw() +
+  scale_fill_manual(values = veg_open_colors,
+                    labels = str_wrap(c("Non-Vegetated Cover", "Vegetated Cover"),
+                                     width = 14)) +
+  scale_x_discrete(limits = rev) +
+  coord_flip() +
+  geom_bar(position = "fill", stat = "identity") +
+  geom_hline(yintercept = c(0.33, 0.66),
+             linetype = "dashed") +
+  ylab("Percent Cover") +
+  xlab("Site ID") +
+  ggtitle("Percent Vegetated Cover in Upper Marsh Habitats") +
+  scale_y_continuous(labels = scales::percent_format(scale = 100)) +
+  theme(strip.text.x = element_text(face = "bold", 
+                                    size = 16)) +
+  theme(plot.title = element_text(face="bold",
+					                        size=18,
+                                  hjust=0.5)) +
+  theme(axis.title.y = element_text(angle=90, 
+                                    face="bold", 
+                                    size=16, 
+                                    vjust=1.5),
+        axis.text.y  = element_text(size=16)) +
+  theme(axis.title.x = element_text(face="bold",
+                                    size=16),
+        axis.text.x= element_text(size=16)) +
+  theme(legend.title = element_blank(),
+        legend.text = element_text(size = 14))
+
+veg_open_cover
+
+```
+
+###Upland Migration
+
+####Buffer (TBD)
+
+####Elevation
+
+#####North
+
+```{r north sites}
+
+wet_hab_north <- wetland_extents %>%
+  filter(Region == "North") %>%
+  filter(Cover_class != "Other") %>%
+  filter(Cover_class != "Upland") %>%
+  ggplot(aes(x = Extent,
+             y = Percent_cover,
+             fill = Cover_class)) +
+  theme_bw() +
+  geom_bar(position = "fill", stat = "identity", width = 0.5) +
+  facet_wrap(.~ Site_ID, ncol = 2) +
+  xlab("Sea Level Rise") +
+  ylab("Relative Cover") +
+  ggtitle("Habitat Distribution Comparison") +
+  scale_fill_manual(values=elevation_colors) +
+  scale_x_discrete(labels = function(x) str_wrap(x, width = 16)) +
+  theme(axis.title.x = element_text(face = "bold", 
+                                    size = 16),
+        axis.text.x = element_text(size = 8),
+        plot.title = element_text(face = "bold", 
+                                  size = 18, 
+                                  hjust = 0.5),
+        axis.title.y = element_text(angle = 90, 
+                                    face = "bold", 
+                                    size = 16, 
+                                    vjust = 1.5),
+        axis.text.y = element_text(size = 12),
+        legend.title = element_blank(),
+        legend.text = element_text(size = 14),
+        strip.text = element_text(face = "bold", 
+                                  size = 10))
+
+wet_hab_north
+
+```
+
+#####Central
+
+```{r central sites}
+
+wet_hab_central <- wetland_extents %>%
+  filter(Region == "Central") %>%
+  filter(Cover_class != "Other") %>%
+  filter(Cover_class != "Upland") %>%
+  ggplot(aes(x = Extent,
+             y = Percent_cover,
+             fill = Cover_class)) +
+  theme_bw() +
+  geom_bar(position = "fill", stat = "identity", width = 0.5) +
+  facet_wrap(.~ Site_ID, ncol = 2) +
+  xlab("Sea Level Rise") +
+  ylab("Relative Cover") +
+  ggtitle("Habitat Distribution Comparison") +
+  scale_fill_manual(values=elevation_colors) +
+  scale_x_discrete(labels = function(x) str_wrap(x, width = 16)) +
+  theme(axis.title.x = element_text(face = "bold", 
+                                    size = 16),
+        axis.text.x = element_text(size = 8),
+        plot.title = element_text(face = "bold", 
+                                  size = 18, 
+                                  hjust = 0.5),
+        axis.title.y = element_text(angle = 90, 
+                                    face = "bold", 
+                                    size = 16, 
+                                    vjust = 1.5),
+        axis.text.y = element_text(size = 12),
+        legend.title = element_blank(),
+        legend.text = element_text(size = 14),
+        strip.text = element_text(face = "bold", 
+                                  size = 10))
+
+wet_hab_central
+
+```
+
+#####South
+
+```{r south sites}
+
+wet_hab_south <- wetland_extents %>%
+  filter(Region == "South") %>%
+  filter(Cover_class != "Other") %>%
+  filter(Cover_class != "Upland") %>%
+  ggplot(aes(x = Extent,
+             y = Percent_cover,
+             fill = Cover_class)) +
+  theme_bw() +
+  geom_bar(position = "fill", stat = "identity", width = 0.5) +
+  facet_wrap(.~ Site_ID, ncol = 2) +
+  xlab("Sea Level Rise") +
+  ylab("Relative Cover") +
+  ggtitle("Habitat Distribution Comparison") +
+  scale_fill_manual(values=elevation_colors) +
+  scale_x_discrete(labels = function(x) str_wrap(x, width = 16)) +
+  theme(axis.title.x = element_text(face = "bold", 
+                                    size = 16),
+        axis.text.x = element_text(size = 8),
+        plot.title = element_text(face = "bold", 
+                                  size = 18, 
+                                  hjust = 0.5),
+        axis.title.y = element_text(angle = 90, 
+                                    face = "bold", 
+                                    size = 16, 
+                                    vjust = 1.5),
+        axis.text.y = element_text(size = 12),
+        legend.title = element_blank(),
+        legend.text = element_text(size = 14),
+        strip.text = element_text(face = "bold", 
+                                  size = 10))
+
+wet_hab_south
+
+```
+
+###Sediment Accretion (TBD)
