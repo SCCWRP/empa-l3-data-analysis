@@ -356,7 +356,7 @@ veg_abundance_FA23 <- Veg %>%
   filter(status != "Not recorded") %>%
   filter(status != "naturalized") %>%
   filter(Year == "Year 2") %>%
-  ggplot(aes(y = percentcovercode,
+  ggplot(aes(y = estimatedcover,
              x = siteid,
              fill = status)) +
   theme_bw() +
