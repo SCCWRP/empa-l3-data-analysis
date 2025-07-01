@@ -105,8 +105,6 @@ CRAM_index_CDF <- CRAM %>%
         axis.text.y  = element_text(size=16)) +
   theme(legend.title = element_blank(),
         legend.text = element_text(size = 14)) +
-  geom_hline(yintercept = c(.33, .66), 
-             linetype = "dashed") +
   geom_point(aes(x = EMPA_index, 
                  y = index_y,
                  fill = EMPA_MPA),
@@ -159,8 +157,6 @@ CRAM_Bio_CFD <- CRAM %>%
         axis.text.y  = element_text(size=16)) +
   theme(legend.title = element_blank(),
         legend.text = element_text(size = 14)) +
-  geom_hline(yintercept = c(.33, .66),
-             linetype = "dashed") +
   geom_point(aes(x = EMPA_bio, 
                  y = biotic_y,
                  fill = EMPA_MPA),
@@ -213,8 +209,6 @@ CRAM_Phys_CFD <- CRAM %>%
         axis.text.y  = element_text(size=16)) +
   theme(legend.title = element_blank(),
         legend.text = element_text(size = 14)) +
-  geom_hline(yintercept = c(.33, .66),
-             linetype = "dashed") +
   geom_point(aes(x = EMPA_phys, 
                  y = phys_y,
                  fill = EMPA_MPA),
@@ -255,8 +249,6 @@ veg_open_cover <- veg_metadata_clean %>%
   scale_x_discrete(limits = rev) +
   coord_flip() +
   geom_bar(position = "fill", stat = "identity") +
-  geom_hline(yintercept = c(0.33, 0.66),
-             linetype = "dashed") +
   ylab("Percent Cover") +
   xlab("Site ID") +
   ggtitle("Percent Vegetated Cover in Upper Marsh Habitats") +
