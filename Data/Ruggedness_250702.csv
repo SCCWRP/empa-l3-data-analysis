@@ -1,0 +1,17 @@
+siteid,estuaryname,Region,Year,Ruggedness
+NC-TEN,Ten Mile,North,2021,23
+NC-BIGR,Big River,North,2021,25
+NC-NAV,Navarro,North,2021,21
+NC-DRA,Drakes,North,2021,25
+NC-BOL,Bolinas,North,2021,17
+CC-PAJ,Pajaro,Central,2021,16
+CC-MCS,Moro Cojo,Central,2021,14
+CC-CAR,Carmel,Central,2021,21
+CC-ADLC,Arroyo de la Cruz,Central,2021,16
+CC-MOR,Morro Bay,Central,2021,15
+SC-GOL,Goleta,South,2021,17
+SC-VEN,Ventura,South,2021,17
+SC-MAL,Malibu,South,2021,12
+SC-BOL,Bolsa Chica,South,2023,16
+SC-NEW,Newport,South,2021,21
+SC-BAT,Batiquitos,South,2021,16
