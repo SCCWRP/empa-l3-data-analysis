@@ -441,3 +441,18 @@ veg_open_cover
 ###Ruggedness (TBD)
 
 ###Marsh Inundation (TBD)
+
+#Scoring
+
+##CRAM
+
+```{r caluclating score for CRAM data}
+
+CRAM_summary <- CRAM %>%
+  mutate(
+    index_grade = ((EMPA_index - 25) / 75) * 100,
+    biotic_grade = ((EMPA_bio - 25) / 75) * 100,
+    physical_grade = ((EMPA_phys - 25) / 75) * 100) %>%
+  select(EMPA_siteid, index_grade, biotic_grade, physical_grade)
+
+```
