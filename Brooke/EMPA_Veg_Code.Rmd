@@ -452,11 +452,14 @@ veg_open_cover
 ```{r caluclating score for CRAM data}
 
 CRAM_summary <- CRAM %>%
+  mutate(function_name = "Plant") %>%
+  mutate(indicator_name = "habitat") %>%
   mutate(
     index_grade = round(((EMPA_index - 25) / 75) * 100, digits = 1)) %>%
-  select(EMPA_siteid, index_grade) %>%
+  select(EMPA_siteid, function_name, indicator_name, index_grade) %>%
   filter(!is.na(EMPA_siteid)) %>%
-  rename(siteid = EMPA_siteid)
+  rename(siteid = EMPA_siteid) %>%
+  rename(index = index_grade)
 
 ```
 
@@ -490,7 +493,9 @@ veg_relative <- Veg %>%
 #create table with only native cover column
 
 veg_rel_summary <- veg_relative %>%
-  select(siteid, native) %>%
+  mutate(function_name = "Plant") %>%
+  mutate(indicator_name = "vegetation") %>%
+  select(siteid, function_name, indicator_name, native) %>%
   rename(native_cover = native)
 
 ```
@@ -522,7 +527,9 @@ veg_cover <- veg_metadata_clean %>%
 #create table with only vegetated cover
 
 veg_cov_summary <- veg_cover %>%
-  select(siteid, vegetated_cover) %>%
+  mutate(function_name = "Plant") %>%
+  mutate(indicator_name = "vegetation") %>%
+  select(siteid, function_name, indicator_name, vegetated_cover) %>%
   rename(veg_cover = vegetated_cover)
 
 ```
@@ -532,7 +539,9 @@ veg_cov_summary <- veg_cover %>%
 ```{r ruggedness summary table}
 
 rugged_summary <- Rugged %>%
-  select(siteid, Ruggedness) %>%
+  mutate(function_name = "Plant") %>%
+  mutate(indicator_name = "elevation") %>%
+  select(siteid, function_name, indicator_name, Ruggedness) %>%
   rename(ruggedness = Ruggedness)
 
 ```
@@ -551,15 +560,15 @@ rugged_summary <- Rugged %>%
 
 #Combine all small tables together
 
-table_list <- list(CRAM_summary, veg_rel_summary, veg_cov_summary, rugged_summary)
+combined_table <- bind_rows(CRAM_summary, veg_rel_summary, veg_cov_summary, 
+                            rugged_summary)
 
-super_table <- reduce(table_list, left_join, by = "siteid")
-
-dashboard_table <- super_table %>%
+dashboard_table <- combined_table %>%
   pivot_longer(
-    cols = -siteid,
+    cols = c(index, native_cover, veg_cover, ruggedness),
     names_to = "metric_name",
-    values_to = "metric_score"
+    values_to = "metric_score",
+    values_drop_na = TRUE
   )
 
 ```
