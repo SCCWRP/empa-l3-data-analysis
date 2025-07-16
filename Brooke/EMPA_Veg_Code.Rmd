@@ -455,7 +455,8 @@ CRAM_summary <- CRAM %>%
   mutate(
     index_grade = round(((EMPA_index - 25) / 75) * 100, digits = 1)) %>%
   select(EMPA_siteid, index_grade) %>%
-  filter(!is.na(EMPA_siteid))
+  filter(!is.na(EMPA_siteid)) %>%
+  rename(siteid = EMPA_siteid)
 
 ```
 
@@ -548,6 +549,17 @@ rugged_summary <- Rugged %>%
 
 ```{r creating final Veg scoring table}
 
-#need to combine all summaries from above and put into long format
+#Combine all small tables together
+
+table_list <- list(CRAM_summary, veg_rel_summary, veg_cov_summary, rugged_summary)
+
+super_table <- reduce(table_list, left_join, by = "siteid")
+
+dashboard_table <- super_table %>%
+  pivot_longer(
+    cols = -siteid,
+    names_to = "metric_name",
+    values_to = "metric_score"
+  )
 
 ```
