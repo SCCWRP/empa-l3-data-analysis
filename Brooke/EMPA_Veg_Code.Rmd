@@ -28,6 +28,8 @@ Veg_metadata <- read.csv("https://nexus.sccwrp.org/empachecker/export?tablename=
 
 CRAM <- read.csv("Data/EMPA_CRAM_2014-2024.csv")
 
+Rugged <- read.csv("Data/Ruggedness_250702.csv")
+
 ```
 
 #Clean Data
@@ -344,6 +346,7 @@ veg_abundance_FA23 <- Veg %>%
   filter(siteid %in% c("CC-ADLC", "CC-CAR", "CC-MCS", "CC-MOR", "CC-PAJ", 
                        "NC-BIGR", "NC-BOL", "NC-DRA", "NC-NAV", "NC-TEN", 
                        "SC-BAT", "SC-NEW", "SC-MAL", "SC-VEN", "SC-GOL", "SC-BOL")) %>%
+  filter(covertype == "vegetation") %>%
   filter(commonname != "Not recorded") %>%
   filter(commonname != "unknown plant") %>%
   filter(commonname != "unknown algae") %>%
@@ -450,9 +453,101 @@ veg_open_cover
 
 CRAM_summary <- CRAM %>%
   mutate(
-    index_grade = ((EMPA_index - 25) / 75) * 100,
-    biotic_grade = ((EMPA_bio - 25) / 75) * 100,
-    physical_grade = ((EMPA_phys - 25) / 75) * 100) %>%
-  select(EMPA_siteid, index_grade, biotic_grade, physical_grade)
+    index_grade = round(((EMPA_index - 25) / 75) * 100, digits = 1)) %>%
+  select(EMPA_siteid, index_grade) %>%
+  filter(!is.na(EMPA_siteid))
+
+```
+
+##Native Veg
+
+###Relative Invasive
+
+```{r relative native/invasive veg summary }
+
+#create a table with relative abundance for each cover class
+
+veg_relative <- Veg %>%
+  filter(status != "Not recorded") %>%
+  filter(status != "naturalized") %>%
+  filter(siteid != "NA") %>%
+  filter(estimatedcover != "-88") %>%
+  group_by(siteid, status) %>%
+  summarise(total_cover = sum(estimatedcover, na.rm = TRUE), .groups = "drop") %>%
+  group_by(siteid) %>%
+  mutate(
+    relative_abundance = total_cover / sum(total_cover) * 100) %>%
+  mutate(
+    relative_abundance = round(relative_abundance, 1)) %>%
+  select(siteid, status, relative_abundance) %>%
+  pivot_wider(
+    names_from = status,
+    values_from = relative_abundance,
+    values_fill = 0
+  )
+
+#create table with only native cover column
+
+veg_rel_summary <- veg_relative %>%
+  select(siteid, native) %>%
+  rename(native_cover = native)
+
+```
+
+###Invasive Severity
+
+###Veg Cover
+
+```{r veg cover summary}
+
+#create a table with relative abundance for both cover classes
+veg_cover <- veg_metadata_clean %>%
+  filter(siteid != "NA") %>%
+  filter(cover_value != "-88") %>%
+  group_by(siteid, cover_type) %>%
+  summarise(total_cover = sum(cover_value, na.rm = TRUE), .groups = "drop") %>%
+  group_by(siteid) %>%
+  mutate(
+    relative_abundance = total_cover / sum(total_cover) * 100) %>%
+  mutate(
+    relative_abundance = round(relative_abundance, 1)) %>%
+  select(siteid, cover_type, relative_abundance) %>%
+  pivot_wider(
+    names_from = cover_type,
+    values_from = relative_abundance,
+    values_fill = 0
+  )
+
+#create table with only vegetated cover
+
+veg_cov_summary <- veg_cover %>%
+  select(siteid, vegetated_cover) %>%
+  rename(veg_cover = vegetated_cover)
+
+```
+
+##Ruggedness
+
+```{r ruggedness summary table}
+
+rugged_summary <- Rugged %>%
+  select(siteid, Ruggedness) %>%
+  rename(ruggedness = Ruggedness)
+
+```
+
+##Marsh Inundation
+
+```{r inundation summary table}
+
+#TBD
+
+```
+
+#Final Table
+
+```{r creating final Veg scoring table}
+
+#need to combine all summaries from above and put into long format
 
 ```
