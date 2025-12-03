@@ -24,9 +24,15 @@ library(ggrepel)
 
 wetland_extents <- read.csv("Data/BufferZones_ForR.csv")
 
+CRAM <- read.csv("Data/EMPA_CRAM_2014-2024.csv")
+
+Veg_metadata <- read.csv("https://nexus.sccwrp.org/empachecker/export?tablename=tbl_vegetation_sample_metadata")
+
 ```
 
 #Clean Data
+
+##Wetland Extents
 
 ```{r order wetland data}
 
@@ -43,6 +49,84 @@ wetland_extents$Region <- factor(wetland_extents$Region, levels = c('North', 'Ce
 
 wetland_extents$Extent <- factor(wetland_extents$Extent, levels = c('Current Wetland Footprint', 'Wetland Migration/Avoid Developed (1.2 ft)', 'Wetland Migration/All Areas (1.2 ft)',
                                                                     ordered = TRUE))
+
+```
+
+##Veg Metadata
+
+```{r clean veg metadata}
+
+#convert to long format
+veg_metadata_long <- veg_metadata %>%
+  select(siteid, habitat, samplecollectiondate, vegetated_cover, non_vegetated_cover) %>%
+  pivot_longer(
+    cols = c(vegetated_cover, non_vegetated_cover),
+    names_to = "cover_type",
+    values_to = "cover_value")
+
+#clean data
+veg_metadata_clean <- veg_metadata_long %>%
+  mutate(Season = case_when(
+    str_detect(samplecollectiondate, "2021-09") ~ "Fall",
+    str_detect(samplecollectiondate, "2021-10") ~ "Fall",
+    str_detect(samplecollectiondate, "2021-11") ~ "Fall",
+    str_detect(samplecollectiondate, "2021-03") ~ "Spring",
+    str_detect(samplecollectiondate, "2021-04") ~ "Spring",
+    str_detect(samplecollectiondate, "2021-05") ~ "Spring",
+    str_detect(samplecollectiondate, "2022-03") ~ "Spring",
+    str_detect(samplecollectiondate, "2022-04") ~ "Spring",
+    str_detect(samplecollectiondate, "2022-10") ~ "Fall",
+    str_detect(samplecollectiondate, "2022-12") ~ "Fall",
+    str_detect(samplecollectiondate, "2023-03") ~ "Spring",
+    str_detect(samplecollectiondate, "2023-04") ~ "Spring",
+    str_detect(samplecollectiondate, "2023-05") ~ "Spring",
+    str_detect(samplecollectiondate, "2023-06") ~ "Spring",
+    str_detect(samplecollectiondate, "2023-07") ~ "Spring",
+    str_detect(samplecollectiondate, "2023-09") ~ "Fall",
+    str_detect(samplecollectiondate, "2023-10") ~ "Fall",
+    str_detect(samplecollectiondate, "2023-11") ~ "Fall",
+    str_detect(samplecollectiondate, "2023-12") ~ "Fall")) %>%
+  mutate(Year=case_when(
+    str_detect(samplecollectiondate, "2021") ~ "Year 1",
+    str_detect(samplecollectiondate, "2023") ~ "Year 2",
+    str_detect(samplecollectiondate, "2024") ~ "Year 3")) %>%
+  mutate(Habitat_final=case_when(
+    habitat == "Mid marsh" ~ "Mid Marsh",
+    habitat == "High marsh" ~ "High Marsh",
+    habitat == "Channel" ~ "Low Marsh",
+    habitat == "Upland" ~ "Upland",
+    habitat == "Low marsh" ~ "Low Marsh",
+    habitat == "Unvegetated salt panne" ~ "High Marsh",
+    habitat == "Brackish marsh" ~ "High Marsh",
+    habitat == "Not recorded" ~ "Not recorded",
+    habitat == "site-wide" ~ "site-wide")) %>%
+  mutate(estuaryname=case_when(
+    siteid == "NC-TEN" ~ "Ten Mile River",
+    siteid == "NC-BIGR" ~ "Big River",
+    siteid == "NC-NAV" ~ "Navarro River",
+    siteid == "NC-DRA" ~ "Drakes Estero",
+    siteid == "NC-BOL" ~ "Bolinas Lagoon",
+    siteid == "CC-PAJ" ~ "Pajaro River",
+    siteid == "CC-MCS" ~ "Moro Cojo Slough",
+    siteid == "CC-CAR" ~ "Carmel River",
+    siteid == "CC-ADLC" ~ "Arroyo de la Cruz",
+    siteid == "CC-MOR" ~ "Morro Bay",
+    siteid == "SC-GOL" ~ "Goleta Slough",
+    siteid == "SC-VEN" ~ "Ventura River",
+    siteid == "SC-MAL" ~ "Malibu Lagoon",
+    siteid == "SC-BOL" ~ "Bolsa Chica",
+    siteid == "SC-NEW" ~ "Newport Bay",
+    siteid == "SC-BAT" ~ "Batiquitos Lagoon"
+  ))
+
+```
+
+```{r order veg metadata}
+
+veg_metadata_clean$siteid <- factor(veg_metadata_clean$siteid, levels = c('NC-TEN', 'NC-BIGR', 'NC-NAV', 'NC-DRA', 'NC-BOL',
+                                                        'CC-PAJ', 'CC-MCS', 'CC-CAR', 'CC-ADLC', 'CC-MOR',
+                                                        'SC-GOL', 'SC-VEN', 'SC-MAL', 'SC-BOL', 'SC-NEW', 'SC-BAT'),
+                           ordered = TRUE)
 
 ```
 
@@ -113,7 +197,7 @@ CRAM_index_CDF <- CRAM %>%
   scale_fill_manual(values = MPA_colors, na.translate = F) +
   geom_text_repel(aes(x = EMPA_index,
                       y = index_y,
-                      label = EMPA_siteid),
+                      label = siteid),
                   size = 5,
                   nudge_y = 0.2,
                   hjust = 1,
@@ -165,7 +249,7 @@ CRAM_Bio_CFD <- CRAM %>%
   scale_fill_manual(values = MPA_colors, na.translate = F) +
   geom_text_repel(aes(x = EMPA_bio,
                       y = biotic_y,
-                      label = EMPA_siteid),
+                      label = siteid),
                   size = 5,
                   nudge_y = 0.2,
                   hjust = 1,
@@ -217,7 +301,7 @@ CRAM_Phys_CFD <- CRAM %>%
   scale_fill_manual(values = MPA_colors, na.translate = F) +
   geom_text_repel(aes(x = EMPA_phys,
                       y = phys_y,
-                      label = EMPA_siteid),
+                      label = siteid),
                   size = 5,
                   nudge_y = 0.2,
                   hjust = 1,
