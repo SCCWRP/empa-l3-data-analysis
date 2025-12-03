@@ -481,3 +481,67 @@ wet_hab_south
 ```
 
 ###Sediment Accretion (TBD)
+
+#Scoring
+
+##CRAM
+
+```{r caluclating score for CRAM data}
+
+CRAM_summary <- CRAM %>%
+  mutate(function_name = "Plant") %>%
+  mutate(indicator_name = "habitat") %>%
+  mutate(
+    index_grade = round(((EMPA_index - 25) / 75) * 100, digits = 1)) %>%
+  select(estuaryname, siteid, function_name, indicator_name, index_grade) %>%
+  filter(!is.na(siteid)) %>%
+  rename(index = index_grade)
+
+```
+
+##Veg Cover
+
+```{r veg cover summary}
+
+#create a table with relative abundance for both cover classes
+veg_cover <- veg_metadata_clean %>%
+  filter(siteid != "NA") %>%
+  filter(cover_value != "-88") %>%
+  filter(estuaryname != "NA") %>%
+  group_by(estuaryname, siteid, cover_type) %>%
+  summarise(total_cover = sum(cover_value, na.rm = TRUE), .groups = "drop") %>%
+  group_by(siteid) %>%
+  mutate(
+    relative_abundance = total_cover / sum(total_cover) * 100) %>%
+  mutate(
+    relative_abundance = round(relative_abundance, 1)) %>%
+  select(estuaryname, siteid, cover_type, relative_abundance) %>%
+  pivot_wider(
+    names_from = cover_type,
+    values_from = relative_abundance,
+    values_fill = 0
+  )
+
+#create table with only vegetated cover
+
+veg_cov_summary <- veg_cover %>%
+  mutate(function_name = "Plant") %>%
+  mutate(indicator_name = "vegetation") %>%
+  select(estuaryname, siteid, function_name, indicator_name, vegetated_cover) %>%
+  rename(veg_cover = vegetated_cover)
+
+```
+
+##Upland Migration
+
+###Buffers
+
+####500 m
+
+####30 m
+
+####Contiguous
+
+####Elevation
+
+#Final Table
