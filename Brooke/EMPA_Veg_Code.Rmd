@@ -519,6 +519,12 @@ veg_rel_summary <- veg_relative %>%
 
 ###Invasive Severity
 
+```{r invasive severity summary}
+
+#needs to be added 
+
+```
+
 ###Veg Cover
 
 ```{r veg cover summary}
