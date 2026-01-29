@@ -99,7 +99,7 @@ Veg$Habitat_final <- factor(Veg$Habitat_final, level = c('Low Marsh', 'Mid Marsh
 ```{r clean veg metadata}
 
 #convert to long format
-veg_metadata_long <- veg_metadata %>%
+veg_metadata_long <- Veg_metadata %>%
   select(siteid, habitat, samplecollectiondate, vegetated_cover, non_vegetated_cover) %>%
   pivot_longer(
     cols = c(vegetated_cover, non_vegetated_cover),
