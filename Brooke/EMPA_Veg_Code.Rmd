@@ -414,6 +414,12 @@ veg_abundance_FA23
 
 ####Invasive Severity (TBD)
 
+```{r invasive severity}
+
+#any figures necessary?
+
+```
+
 ####Veg Cover
 
 ```{r percent veg cover in upper marsh}
