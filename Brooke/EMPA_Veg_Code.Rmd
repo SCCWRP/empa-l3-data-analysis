@@ -527,7 +527,28 @@ veg_rel_summary <- veg_relative %>%
 
 ```{r invasive severity summary}
 
-#needs to be added 
+#create a table with the invasive severity penalty
+
+invasive_scoring <- Veg %>%
+  filter(siteid != "NA") %>%
+  distinct(estuaryname, siteid, scientificname, rating) %>%
+  mutate(penalty = case_when(
+    rating == "Limited" ~ 5,
+    rating == "Moderate" ~ 10,
+    rating == "High" ~ 15,
+    TRUE ~ 0)
+  ) %>%
+  group_by(estuaryname, siteid) %>%
+  summarise(
+    total_penalty = sum(penalty),
+    invasive_score = pmax(100 - total_penalty, 0),
+    .groups = "drop"
+  )
+
+invasive_severity_summary <- invasive_scoring %>%
+  mutate(function_name = "Plant") %>%
+  mutate(indicator_name = "vegetation") %>%
+  select(estuaryname, siteid, invasive_score, function_name, indicator_name)
 
 ```
 
@@ -591,11 +612,11 @@ rugged_summary <- Rugged %>%
 #Combine all small tables together
 
 combined_table <- bind_rows(CRAM_summary, veg_rel_summary, veg_cov_summary, 
-                            rugged_summary)
+                            rugged_summary, invasive_severity_summary)
 
 dashboard_table <- combined_table %>%
   pivot_longer(
-    cols = c(index, native_cover, veg_cover, ruggedness),
+    cols = c(index, native_cover, veg_cover, ruggedness, invasive_score),
     names_to = "metric_name",
     values_to = "metric_score",
     values_drop_na = TRUE
