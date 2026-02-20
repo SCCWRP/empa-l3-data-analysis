@@ -28,6 +28,8 @@ CRAM <- read.csv("Data/EMPA_CRAM_2014-2024.csv")
 
 Veg_metadata <- read.csv("https://nexus.sccwrp.org/empachecker/export?tablename=tbl_vegetation_sample_metadata")
 
+GIS_data <- read.csv("Data/BufferLandCover_251203.csv") 
+
 ```
 
 #Clean Data
@@ -130,6 +132,20 @@ veg_metadata_clean$siteid <- factor(veg_metadata_clean$siteid, levels = c('NC-TE
 
 ```
 
+##GIS Data
+
+```{r order GIS data}
+
+GIS_data$siteid <- factor(GIS_data$siteid, levels = c('NC-TEN', 'NC-BIGR', 'NC-NAV', 'NC-DRA', 'NC-BOL',
+                                                        'CC-PAJ', 'CC-MCS', 'CC-CAR', 'CC-ADLC', 'CC-MOR',
+                                                        'SC-GOL', 'SC-VEN', 'SC-MAL', 'SC-BOL', 'SC-NEW', 'SC-BAT'),
+                           ordered = TRUE)
+
+GIS_data$landcover <- factor(GIS_data$landcover, levels = c('Developed', 'Ag', 'Natural'),
+                             ordered = TRUE)
+
+```
+
 #Plot Colors
 
 ```{r plot colors}
@@ -147,6 +163,8 @@ habitat_colors <- c("#999999", "#0072B2", "#CC79A7")
 elevation_colors <- c("#E69F00", "#F0E442", "#009E73", "#56B4E9")
 
 veg_open_colors <- c("#999999", "#009E73")
+
+land_cover_colors <- c("#CC0033", "#F0E442", "#009E73")
 
 ```
 
@@ -359,7 +377,83 @@ veg_open_cover
 
 ###Upland Migration
 
-####Buffer (TBD)
+####Buffer Landcover
+
+#####500m
+
+```{r landcover barcharts 500m buffer}
+
+buffer_LC_500 <- GIS_data %>%
+  filter(buffer == "500 m") %>%
+  ggplot(aes(x = siteid,
+             y = percent,
+             fill = landcover)) +
+  theme_bw() +
+  scale_fill_manual(values = land_cover_colors) +
+  geom_bar(position = "fill", stat = "identity") +
+  scale_y_continuous(labels = scales::percent_format(scale = 100)) +
+  xlab("Site ID") +
+  ylab("Percent Cover") +
+  ggtitle("Buffer Land Cover Class Distribution (500 m)") +
+  theme(axis.title.x = element_text(face = "bold", 
+                                    size = 16),
+        axis.text.x = element_text(size = 8,
+                                   angle = 45,
+                                   hjust = 1),
+        plot.title = element_text(face = "bold", 
+                                  size = 18, 
+                                  hjust = 0.5),
+        axis.title.y = element_text(angle = 90, 
+                                    face = "bold", 
+                                    size = 16, 
+                                    vjust = 1.5),
+        axis.text.y = element_text(size = 12),
+        legend.title = element_blank(),
+        legend.text = element_text(size = 14),
+        strip.text = element_text(face = "bold", 
+                                  size = 10))
+
+buffer_LC_500
+
+```
+
+#####30m
+
+```{r landcover barcharts 30m buffer}
+
+buffer_LC_30 <- GIS_data %>%
+  filter(buffer == "30 m") %>%
+  ggplot(aes(x = siteid,
+             y = percent,
+             fill = landcover)) +
+  theme_bw() +
+  scale_fill_manual(values = land_cover_colors) +
+  geom_bar(position = "fill", stat = "identity") +
+  scale_y_continuous(labels = scales::percent_format(scale = 100)) +
+  xlab("Site ID") +
+  ylab("Percent Cover") +
+  ggtitle("Buffer Land Cover Class Distribution (30 m)") +
+  theme(axis.title.x = element_text(face = "bold", 
+                                    size = 16),
+        axis.text.x = element_text(size = 8,
+                                   angle = 45,
+                                   hjust = 1),
+        plot.title = element_text(face = "bold", 
+                                  size = 18, 
+                                  hjust = 0.5),
+        axis.title.y = element_text(angle = 90, 
+                                    face = "bold", 
+                                    size = 16, 
+                                    vjust = 1.5),
+        axis.text.y = element_text(size = 12),
+        legend.title = element_blank(),
+        legend.text = element_text(size = 14),
+        strip.text = element_text(face = "bold", 
+                                  size = 10))
+
+buffer_LC_30
+
+```
 
 ####Elevation
 
@@ -501,7 +595,7 @@ CRAM_summary <- CRAM %>%
 
 ##Veg Cover
 
-```{r veg cover summary}
+```{r veg cover summary table}
 
 #create a table with relative abundance for both cover classes
 veg_cover <- veg_metadata_clean %>%
@@ -538,10 +632,42 @@ veg_cov_summary <- veg_cover %>%
 
 ####500 m
 
+```{r 500m buffer summary table}
+
+buffer_500_summary <- GIS_data %>%
+  filter(buffer == "500 m") %>%
+  mutate(landcover_group = case_when(
+    landcover %in% c("Ag", "Natural") ~ "Ag_Natural",
+    landcover == "Developed" ~ "Developed",
+    TRUE ~ NA_character_
+  )) %>%
+  group_by(estuaryname, siteid, landcover_group) %>%
+  summarise(total_percent = sum(percent, na.rm = TRUE),
+            .groups = "drop") %>%
+  pivot_wider(
+    names_from = landcover_group,
+    values_from = total_percent,
+    values_fill = 0
+  )
+
+```
+
 ####30 m
+
+```{r 30m buffer summary table}
+
+
+
+```
 
 ####Contiguous
 
 ####Elevation
 
 #Final Table
+
+```{r creating final SLR scoring table}
+
+
+
+```
