@@ -490,7 +490,7 @@ CRAM_summary <- CRAM %>%
 
 ###Relative Invasive
 
-```{r relative native/invasive veg summary }
+```{r relative native/invasive veg summary table}
 
 #create a table with relative abundance for each cover class
 
@@ -525,7 +525,7 @@ veg_rel_summary <- veg_relative %>%
 
 ###Invasive Severity
 
-```{r invasive severity summary}
+```{r invasive severity summary table}
 
 #create a table with the invasive severity penalty
 
@@ -554,7 +554,7 @@ invasive_severity_summary <- invasive_scoring %>%
 
 ###Veg Cover
 
-```{r veg cover summary}
+```{r veg cover summary table}
 
 #create a table with relative abundance for both cover classes
 veg_cover <- veg_metadata_clean %>%
