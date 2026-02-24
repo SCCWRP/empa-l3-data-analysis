@@ -22,7 +22,7 @@ library(ggrepel)
 
 ```{r load data}
 
-wetland_extents <- read.csv("Data/BufferZones_ForR.csv")
+wetland_extents <- read.csv("Data/HabitatZones_ForR.csv")
 
 CRAM <- read.csv("Data/EMPA_CRAM_2014-2024.csv")
 
