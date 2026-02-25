@@ -22,7 +22,7 @@ library(ggrepel)
 
 ```{r load data}
 
-wetland_extents <- read.csv("Data/HabitatZones_ForR.csv")
+wetland_extents <- read.csv("Data/HabitatZones_260224.csv")
 
 CRAM <- read.csv("Data/EMPA_CRAM_2014-2024.csv")
 
@@ -582,8 +582,8 @@ wet_hab_south
 
 ```{r caluclating score for CRAM data}
 
-CRAM_summary <- CRAM %>%
-  mutate(function_name = "Plant") %>%
+CRAM_slr_summary <- CRAM %>%
+  mutate(function_name = "SLR") %>%
   mutate(indicator_name = "habitat") %>%
   mutate(
     index_grade = round(((EMPA_index - 25) / 75) * 100, digits = 1)) %>%
@@ -618,8 +618,8 @@ veg_cover <- veg_metadata_clean %>%
 
 #create table with only vegetated cover
 
-veg_cov_summary <- veg_cover %>%
-  mutate(function_name = "Plant") %>%
+veg_cov_slr_summary <- veg_cover %>%
+  mutate(function_name = "SLR") %>%
   mutate(indicator_name = "vegetation") %>%
   select(estuaryname, siteid, function_name, indicator_name, vegetated_cover) %>%
   rename(veg_cover = vegetated_cover)
@@ -637,7 +637,7 @@ veg_cov_summary <- veg_cover %>%
 buffer_500_summary <- GIS_data %>%
   filter(buffer == "500 m") %>%
   mutate(landcover_group = case_when(
-    landcover %in% c("Ag", "Natural") ~ "Ag_Natural",
+    landcover %in% c("Ag", "Natural") ~ "Ag_Natural_500",
     landcover == "Developed" ~ "Developed",
     TRUE ~ NA_character_
   )) %>%
@@ -648,7 +648,9 @@ buffer_500_summary <- GIS_data %>%
     names_from = landcover_group,
     values_from = total_percent,
     values_fill = 0
-  )
+  ) %>%
+  mutate(function_name = "SLR") %>%
+  mutate(indicator_name = "resiliency")
 
 ```
 
@@ -656,7 +658,23 @@ buffer_500_summary <- GIS_data %>%
 
 ```{r 30m buffer summary table}
 
-
+buffer_30_summary <- GIS_data %>%
+  filter(buffer == "30 m") %>%
+  mutate(landcover_group = case_when(
+    landcover %in% c("Ag", "Natural") ~ "Ag_Natural_30",
+    landcover == "Developed" ~ "Developed",
+    TRUE ~ NA_character_
+  )) %>%
+  group_by(estuaryname, siteid, landcover_group) %>%
+  summarise(total_percent = sum(percent, na.rm = TRUE),
+            .groups = "drop") %>%
+  pivot_wider(
+    names_from = landcover_group,
+    values_from = total_percent,
+    values_fill = 0
+  ) %>%
+  mutate(function_name = "SLR") %>%
+  mutate(indicator_name = "resiliency")
 
 ```
 
@@ -668,6 +686,18 @@ buffer_500_summary <- GIS_data %>%
 
 ```{r creating final SLR scoring table}
 
+#Combine all small tables together
 
+combined_table_slr <- bind_rows(CRAM_slr_summary, veg_cov_slr_summary, 
+                            buffer_500_summary, buffer_30_summary) 
+
+dashboard_table_slr <- combined_table_slr %>%
+  select(-Developed) %>%
+  pivot_longer(
+    cols = c(index, veg_cover, Ag_Natural_500, Ag_Natural_30),
+    names_to = "metric_name",
+    values_to = "metric_score",
+    values_drop_na = TRUE
+  )
 
 ```
