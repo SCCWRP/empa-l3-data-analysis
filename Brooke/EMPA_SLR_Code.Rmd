@@ -141,7 +141,7 @@ GIS_data$siteid <- factor(GIS_data$siteid, levels = c('NC-TEN', 'NC-BIGR', 'NC-N
                                                         'SC-GOL', 'SC-VEN', 'SC-MAL', 'SC-BOL', 'SC-NEW', 'SC-BAT'),
                            ordered = TRUE)
 
-GIS_data$landcover <- factor(GIS_data$landcover, levels = c('Developed', 'Ag', 'Natural'),
+GIS_data$landcover <- factor(GIS_data$landcover, levels = c('Developed', 'Ag', 'Natural', 'Total Buffer', 'Total Open', 'Largest Contiguous'),
                              ordered = TRUE)
 
 ```
@@ -455,6 +455,14 @@ buffer_LC_30
 
 ```
 
+#####Contiguous Open
+
+```{r contiguous buffer barplots}
+
+#Do we need a figure for this?
+
+```
+
 ####Elevation
 
 #####North
@@ -680,6 +688,26 @@ buffer_30_summary <- GIS_data %>%
 
 ####Contiguous
 
+```{r contiguous buffer summary table}
+
+buffer_contiguous_summary <- GIS_data %>%
+  filter(landcover %in% c("Largest Contiguous", "Total Open")) %>%
+  select(estuaryname, siteid, landcover, rastercount) %>%
+  pivot_wider(
+    names_from = landcover,
+    values_from = rastercount
+  ) %>%
+  mutate(
+    contiguous = if_else(
+      `Total Open` > 0,
+      round((`Largest Contiguous` / `Total Open`) * 100, 1),
+      NA_real_
+    )) %>%
+  mutate(function_name = "SLR") %>%
+  mutate(indicator_name = "resiliency")
+
+```
+
 ####Elevation
 
 #Final Table
@@ -689,12 +717,13 @@ buffer_30_summary <- GIS_data %>%
 #Combine all small tables together
 
 combined_table_slr <- bind_rows(CRAM_slr_summary, veg_cov_slr_summary, 
-                            buffer_500_summary, buffer_30_summary) 
+                            buffer_500_summary, buffer_30_summary, 
+                            buffer_contiguous_summary) 
 
 dashboard_table_slr <- combined_table_slr %>%
-  select(-Developed) %>%
+  select(-c(Developed, 'Total Open', 'Largest Contiguous')) %>%
   pivot_longer(
-    cols = c(index, veg_cover, Ag_Natural_500, Ag_Natural_30),
+    cols = c(index, veg_cover, Ag_Natural_500, Ag_Natural_30, contiguous),
     names_to = "metric_name",
     values_to = "metric_score",
     values_drop_na = TRUE
