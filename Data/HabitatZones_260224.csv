@@ -1,4 +1,4 @@
-estuaryname,siteid,Region,Cover_class,Cover_number,Percent_cover,Extent
+estuaryname,siteid,region,cover_class,cover_number,percent_cover,extent
 Ten Mile River,NC-TEN,North,Water,24552,0.251251036,Current Wetland Footprint
 Ten Mile River,NC-TEN,North,Low,15929,0.163008217,Current Wetland Footprint
 Ten Mile River,NC-TEN,North,Mid,49483,0.50638054,Current Wetland Footprint
