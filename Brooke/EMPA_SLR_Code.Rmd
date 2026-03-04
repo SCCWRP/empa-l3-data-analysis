@@ -41,7 +41,7 @@ GIS_data <- read.csv("Data/BufferLandCover_251203.csv")
 wetland_extents$Cover_class <- factor(wetland_extents$Cover_class, levels = c('Other', 'Upland', 'High', 'Mid', 
                                                                               'Low', 'Water', ordered = TRUE))
 
-wetland_extents$Site_ID <- factor(wetland_extents$Site_ID, levels = c('NC-TEN', 'NC-BIGR', 'NC-NAV', 'NC-DRA', 'NC-BOL',
+wetland_extents$siteid <- factor(wetland_extents$siteid, levels = c('NC-TEN', 'NC-BIGR', 'NC-NAV', 'NC-DRA', 'NC-BOL',
                                                         'CC-PAJ', 'CC-MCS', 'CC-CAR', 'CC-ADLC', 'CC-MOR',
                                                         'SC-GOL', 'SC-VEN', 'SC-MAL', 'SC-BOL', 'SC-NEW', 'SC-BAT'),
                            ordered = TRUE)
@@ -51,6 +51,17 @@ wetland_extents$Region <- factor(wetland_extents$Region, levels = c('North', 'Ce
 
 wetland_extents$Extent <- factor(wetland_extents$Extent, levels = c('Current Wetland Footprint', 'Wetland Migration/Avoid Developed (1.2 ft)', 'Wetland Migration/All Areas (1.2 ft)',
                                                                     ordered = TRUE))
+
+```
+
+```{r clean wetland extent data}
+
+wetland_extents <- wetland_extents %>%
+  mutate(extent_short = case_when(
+    Extent == "Current Wetland Footprint" ~ "current",
+    Extent == "Wetland Migration/All Areas (1.2 ft)" ~ "future_all",
+    Extent == "Wetland Migration/Avoid Developed (1.2 ft)" ~ "future_no_developed"
+  ))
 
 ```
 
@@ -708,7 +719,33 @@ buffer_contiguous_summary <- GIS_data %>%
 
 ```
 
-####Elevation
+###Elevation
+
+```{r elevation zones summary table}
+
+elevation_summary <- wetland_extents %>%
+  select(-Cover_number) %>%
+  filter(Extent != "Wetland Migration/All Areas (1.2 ft)") %>%
+  group_by(estuaryname, siteid, extent_short) %>%
+  pivot_wider(
+    names_from = Cover_class,
+    values_from = Percent_cover,
+    values_fill = 0) %>%
+  mutate(wetland_sums = rowSums(
+    across(c('Low', 'Mid', 'High')),
+    na.rm = TRUE) * 100
+    ) %>%
+  select(estuaryname, siteid, extent_short, wetland_sums) %>%
+  pivot_wider(
+    names_from = extent_short,
+    values_from = wetland_sums,
+    values_fill = 0,
+    names_prefix = "wetland_extents_"
+  ) %>%
+  mutate(function_name = "SLR") %>%
+  mutate(indicator_name = "resiliency")
+
+```
 
 #Final Table
 
@@ -718,12 +755,13 @@ buffer_contiguous_summary <- GIS_data %>%
 
 combined_table_slr <- bind_rows(CRAM_slr_summary, veg_cov_slr_summary, 
                             buffer_500_summary, buffer_30_summary, 
-                            buffer_contiguous_summary) 
+                            buffer_contiguous_summary, elevation_summary) 
 
 dashboard_table_slr <- combined_table_slr %>%
   select(-c(Developed, 'Total Open', 'Largest Contiguous')) %>%
   pivot_longer(
-    cols = c(index, veg_cover, Ag_Natural_500, Ag_Natural_30, contiguous),
+    cols = c(index, veg_cover, Ag_Natural_500, Ag_Natural_30, contiguous, 
+             wetland_extents_current, wetland_extents_future_no_developed),
     names_to = "metric_name",
     values_to = "metric_score",
     values_drop_na = TRUE
