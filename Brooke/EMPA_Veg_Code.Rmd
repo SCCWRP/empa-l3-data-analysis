@@ -473,9 +473,9 @@ veg_open_cover
 
 ##CRAM
 
-```{r caluclating score for CRAM data}
+```{r calculating score for CRAM data}
 
-CRAM_summary <- CRAM %>%
+CRAM_veg_summary <- CRAM %>%
   mutate(function_name = "Plant") %>%
   mutate(indicator_name = "habitat") %>%
   mutate(
@@ -541,14 +541,14 @@ invasive_scoring <- Veg %>%
   group_by(estuaryname, siteid) %>%
   summarise(
     total_penalty = sum(penalty),
-    invasive_severity = pmax(100 - total_penalty, 0),
+    native_resiliency = pmax(100 - total_penalty, 0),
     .groups = "drop"
   )
 
 invasive_severity_summary <- invasive_scoring %>%
   mutate(function_name = "Plant") %>%
   mutate(indicator_name = "vegetation") %>%
-  select(estuaryname, siteid, invasive_severity, function_name, indicator_name)
+  select(estuaryname, siteid, native_resiliency, function_name, indicator_name)
 
 ```
 
@@ -616,7 +616,7 @@ combined_table_veg <- bind_rows(CRAM_summary, veg_rel_summary, veg_cov_summary,
 
 dashboard_table_veg <- combined_table_veg %>%
   pivot_longer(
-    cols = c(index, native_cover, veg_cover, ruggedness, invasive_severity),
+    cols = c(index, native_cover, native_resiliency, veg_cover, ruggedness),
     names_to = "metric_name",
     values_to = "metric_score",
     values_drop_na = TRUE
