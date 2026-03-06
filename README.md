@@ -32,21 +32,21 @@ Each function is broken down into indicators, and each indicator has one or more
 
 ### Function 1: Plant (Vegetation Health)
 
-#### Indicator: Habitat
+#### Indicator: habitat
 
-**Metric: CRAM Index** — The CRAM (California Rapid Assessment Method) dataset contains a statewide index score for every wetland assessed in California between 2014 and 2024, plus each EMPA site's own index score. The raw EMPA index score is on a 25-100 scale. To normalize it to 0-100, the formula is: `((score - 25) / 75) * 100`, rounded to one decimal place. This gives a single number per site representing overall wetland condition as assessed by CRAM.
+**Metric: index (CRAM)** : The CRAM (California Rapid Assessment Method) dataset contains a statewide index score for every wetland assessed in California between 2014 and 2024, plus each EMPA site's own index score. The raw EMPA index score is on a 25-100 scale. To normalize it to 0-100, the formula is: `((score - 25) / 75) * 100`, rounded to one decimal place. This gives a single number per site representing overall wetland condition as assessed by CRAM.
 
-#### Indicator: Vegetation
+#### Indicator: vegetation
 
-**Metric: Native Cover** — Using the vegetation cover dataset (species-level plant cover estimates from field surveys), the code first removes records with status "Not recorded" or "naturalized", removes any records with the missing-data sentinel value (-88), and removes unknown species ("unknown plant", "unknown algae", etc.). It then groups all remaining plant cover by site and native status (native, non-native, invasive), sums the estimated cover for each group, and calculates the percentage that native species make up of the total. The result is a single "percent native cover" value per site.
+**Metric: native_cover** : Using the vegetation cover dataset (species-level plant cover estimates from field surveys), the code first removes records with status "Not recorded" or "naturalized", removes any records with the missing-data sentinel value (-88), and removes unknown species ("unknown plant", "unknown algae", etc.). It then groups all remaining plant cover by site and native status (native, non-native, invasive), sums the estimated cover for each group, and calculates the percentage that native species make up of the total. The result is a single "percent native cover" value per site.
 
-**Metric: Native Resiliency** — This measures how threatened the native plant community is by invasive species. For each site, the code identifies every unique invasive species present (using the Cal-IPC invasive rating). It starts with a perfect score of 100, then subtracts penalty points for each invasive species found: 5 points for "Limited" rating, 10 for "Moderate", 15 for "High". The score cannot go below 0. A site with no invasive species scores 100; a heavily invaded site scores lower.
+**Metric: invasive_severity**: This measures how threatened the native plant community is by invasive species. For each site, the code identifies every unique invasive species present (using the Cal-IPC invasive rating). It starts with a perfect score of 100, then subtracts penalty points for each invasive species found: 5 points for "Limited" rating, 10 for "Moderate", 15 for "High". The score cannot go below 0. A site with no invasive species scores 100; a heavily invaded site scores lower.
 
-**Metric: Vegetated Cover** — Using the vegetation metadata dataset (which has plot-level summaries of vegetated vs. non-vegetated area), the code sums up total vegetated cover and total non-vegetated cover across all plots at each site, then calculates what percentage of the total is vegetated. This gives a single "percent vegetated" value per site.
+**Metric: veg_cover** : Using the vegetation metadata dataset (which has plot-level summaries of vegetated vs. non-vegetated area), the code sums up total vegetated cover and total non-vegetated cover across all plots at each site, then calculates what percentage of the total is vegetated. This gives a single "percent vegetated" value per site.
 
 #### Indicator: Elevation
 
-**Metric: Ruggedness** — The ruggedness dataset contains pre-computed surface ruggedness index values for each site (measuring topographic complexity — higher values mean more microhabitat diversity). This value is taken directly from the dataset with no further calculation.
+**Metric: Ruggedness**: The ruggedness dataset contains pre-computed surface ruggedness index values for each site (measuring topographic complexity meaning higher values mean more microhabitat diversity). This value is taken directly from the dataset with no further calculation.
 
 ---
 
@@ -54,25 +54,23 @@ Each function is broken down into indicators, and each indicator has one or more
 
 #### Indicator: Habitat
 
-**Metric: CRAM Index** — Same calculation as the Plant function (normalize EMPA index from 25-100 scale to 0-100), but labeled under the SLR function.
+**Metric: index (CRAM)**: Same calculation as the Plant function (normalize EMPA index from 25-100 scale to 0-100), but labeled under the SLR function.
 
-#### Indicator: Cover
+#### Indicator: vegetation
 
-**Metric: Vegetated Cover** — Same calculation as the Plant function (percent vegetated cover from metadata), but labeled under the SLR function with indicator "cover" instead of "vegetation".
+**Metric: veg_cover**: Same calculation as the Plant function (percent vegetated cover from metadata), but labeled under the SLR function with indicator "cover" instead of "vegetation".
 
-#### Indicator: Migration
+#### Indicator: resiliency
 
-**Metric: Buffer Cover (500m)** — Using the buffer land cover dataset, the code filters to the 500m buffer around each site and groups land cover into "natural" (Agricultural + Natural) vs. "Developed". The natural percentage tells you how much undeveloped land surrounds the site — more open land means more room for the wetland to migrate inland as sea levels rise.
+**Metric: buffer_cover**: Using the buffer land cover dataset, the code filters to the 500m buffer around each site and groups land cover into "natural" (Agricultural + Natural) vs. "Developed". The natural percentage tells you how much undeveloped land surrounds the site more open land means more room for the wetland to migrate inland as sea levels rise.
 
-**Metric: Perimeter Land Cover (30m)** — Same calculation as the 500m buffer, but using the 30m buffer. This captures the immediate perimeter — whether the wetland has open space right at its edges.
+**Metric: perimeter_land_cover**: Same calculation as the 500m buffer, but using the 30m buffer. This captures the immediate perimeter whether the wetland has open space right at its edges.
 
-**Metric: Perimeter Contiguity** — Using the buffer land cover dataset, the code looks at the "Largest Contiguous" open area and the "Total Open" area (from raster pixel counts). It divides the largest contiguous patch by the total open area and multiplies by 100. A high percentage means the open space around the site is one connected patch rather than fragmented pieces — better for wetland migration.
+**Metric: perimeter_contiguity**: Using the buffer land cover dataset, the code looks at the "Largest Contiguous" open area and the "Total Open" area (from raster pixel counts). It divides the largest contiguous patch by the total open area and multiplies by 100. A high percentage means the open space around the site is one connected patch rather than fragmented pieces — better for wetland migration.
 
-#### Indicator: Future Areas
+**Metric: current_habitat_distribution**: Using the habitat zones dataset, the code filters to the "Current Wetland Footprint" extent and sums the percent cover of the Low, Mid, and High marsh zones (multiplied by 100 to convert from proportion to percentage). This tells you how much of the current wetland footprint is vegetated marsh.
 
-**Metric: Current Extent** — Using the habitat zones dataset, the code filters to the "Current Wetland Footprint" extent and sums the percent cover of the Low, Mid, and High marsh zones (multiplied by 100 to convert from proportion to percentage). This tells you how much of the current wetland footprint is vegetated marsh.
-
-**Metric: Future Extent** — Same calculation, but using the "Wetland Migration/Avoid Developed (1.2 ft)" extent — a modeled scenario showing where the wetland could shift under 1.2 feet of sea level rise, avoiding developed areas. Comparing this to current extent shows whether the wetland has room to migrate upslope.
+**Metric: future_habitat_distribution**: Same calculation, but using the "Wetland Migration/Avoid Developed (1.2 ft)" extent — a modeled scenario showing where the wetland could shift under 1.2 feet of sea level rise, avoiding developed areas. Comparing this to current extent shows whether the wetland has room to migrate upslope.
 
 ---
 

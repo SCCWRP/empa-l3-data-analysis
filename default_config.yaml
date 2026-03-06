@@ -78,42 +78,6 @@ landcover_levels:
   - "Total Open"
   - "Largest Contiguous"
 
-# ---------------------------------------------------------------------------
-# Color Palettes
-# ---------------------------------------------------------------------------
-
-palettes:
-  region:
-    - "#56B4E9"
-    - "#009E73"
-    - "#F0E442"
-  mpa:
-    - "#0072B2"
-    - "#D55E00"
-  mouth:
-    - "#000000"
-    - "#CC79A7"
-  vegetation:
-    - "#009900"
-    - "#3399FF"
-    - "#CC0033"
-    - "black"
-  habitat:
-    - "#999999"
-    - "#0072B2"
-    - "#CC79A7"
-  elevation:
-    - "#E69F00"
-    - "#F0E442"
-    - "#009E73"
-    - "#56B4E9"
-  veg_open:
-    - "#999999"
-    - "#009E73"
-  landcover:
-    - "#CC0033"
-    - "#F0E442"
-    - "#009E73"
 
 # ---------------------------------------------------------------------------
 # Scoring Parameters
@@ -160,69 +124,11 @@ scoring:
     - "High"
 
 # ---------------------------------------------------------------------------
-# Plot Theme Settings
-# ---------------------------------------------------------------------------
-
-theme:
-  title_size: 18
-  axis_title_size: 16
-  axis_text_size: 16
-  legend_text_size: 14
-
-# ---------------------------------------------------------------------------
-# Plot-Specific Settings
-# ---------------------------------------------------------------------------
-
-plots:
-  cram_cdf:
-    point_size: 3
-    label_size: 5
-    nudge_y: 0.2
-    y_breaks_by: 0.1
-    y_labels_by: 10
-
-  veg_abundance:
-    exclude_commonnames:
-      - "Not recorded"
-      - "unknown plant"
-      - "unknown algae"
-      - "unknown grass"
-      - "unknown weed"
-    exclude_statuses:
-      - "Not recorded"
-      - "naturalized"
-    legend_labels:
-      - "Native"
-      - "Non-Native"
-      - "Invasive"
-
-  veg_cover:
-    exclude_habitats:
-      - "Low marsh"
-      - "Upland"
-      - "Not recorded"
-      - "Unvegetated salt panne"
-    legend_labels:
-      - "Non-Vegetated Cover"
-      - "Vegetated Cover"
-
-  wetland_habitat:
-    exclude_classes:
-      - "Other"
-      - "Upland"
-    bar_width: 0.5
-    x_label_wrap_width: 16
-
-# ---------------------------------------------------------------------------
 # run_all() Defaults
 # ---------------------------------------------------------------------------
 
 run_all:
-  plot_width: 12
-  plot_height: 8
-  plot_dpi: 300
-
-  # Calendar years to include in scoring and plots.
+  # Calendar years to include in scoring.
   # Use "all" for all available years, or list specific years:
   #   years: [2023]
   #   years: [2021, 2023, 2024]
@@ -232,34 +138,3 @@ run_all:
   #   seasons: ["Fall"]
   #   seasons: ["Spring", "Fall"]
   seasons: "all"
-
-  cram_plots:
-    - state_col: "indexscore"
-      empa_col: "EMPA_index"
-      title: "Statewide CRAM Scores 2014 - 2024"
-      x_label: "CRAM Index Score"
-      filename: "cram_cdf_index.png"
-    - state_col: "biotic_structure"
-      empa_col: "EMPA_bio"
-      title: "Statewide Biotic Attribute Scores 2014 - 2024"
-      x_label: "Biotic Attribute Score"
-      filename: "cram_cdf_biotic.png"
-    - state_col: "physical_structure"
-      empa_col: "EMPA_phys"
-      title: "Statewide Physical Attribute Scores 2014 - 2024"
-      x_label: "Physical Attribute Score"
-      filename: "cram_cdf_physical.png"
-
-  buffer_plots:
-    - buffer_size: "500 m"
-      filename: "buffer_landcover_500m.png"
-    - buffer_size: "30 m"
-      filename: "buffer_landcover_30m.png"
-
-  wetland_regions:
-    - region: "North"
-      filename: "wetland_habitat_north.png"
-    - region: "Central"
-      filename: "wetland_habitat_central.png"
-    - region: "South"
-      filename: "wetland_habitat_south.png"

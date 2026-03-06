@@ -102,32 +102,8 @@ plot_wetland_habitat(wetland_extents, region = "South")
 # Scoring
 
 ```{r scoring}
-cram_summary <- score_cram(CRAM, function_name = "SLR")
-veg_cov_summary <- score_veg_cover(
-  veg_metadata_clean,
-  function_name = "SLR",
-  indicator_name = "cover"
-)
-buffer_500_summary <- score_buffer(GIS_data, buffer_size = "500 m")
-buffer_30_summary <- score_buffer(
-  GIS_data,
-  buffer_size = "30 m",
-  cover_name = "perimeter_land_cover"
-)
-contiguity_summary <- score_contiguity(GIS_data)
-elevation_summary <- score_elevation(wetland_extents)
-```
-
-# Final Dashboard Table
-
-```{r dashboard}
-dashboard_table_slr <- build_slr_dashboard(
-  cram_summary,
-  veg_cov_summary,
-  buffer_500_summary,
-  buffer_30_summary,
-  contiguity_summary,
-  elevation_summary
+dashboard_table_slr <- calculate_function_slr(
+  CRAM, veg_metadata_clean, GIS_data, wetland_extents
 )
 
 head(dashboard_table_slr)

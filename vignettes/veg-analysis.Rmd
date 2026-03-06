@@ -75,19 +75,8 @@ plot_veg_cover(veg_metadata_clean, year = "2023")
 # Scoring
 
 ```{r scoring}
-cram_summary     <- score_cram(CRAM, function_name = "Plant")
-veg_rel_summary  <- score_veg_relative(Veg)
-invasive_summary <- score_invasive_severity(Veg)
-veg_cov_summary  <- score_veg_cover(veg_metadata_clean)
-rugged_summary   <- score_ruggedness(Rugged)
-```
-
-# Final Dashboard Table
-
-```{r dashboard}
-dashboard_table_veg <- build_veg_dashboard(
-  cram_summary, veg_rel_summary, veg_cov_summary,
-  rugged_summary, invasive_summary
+dashboard_table_veg <- calculate_function_plant(
+  CRAM, Veg, veg_metadata_clean, Rugged
 )
 
 head(dashboard_table_veg)
