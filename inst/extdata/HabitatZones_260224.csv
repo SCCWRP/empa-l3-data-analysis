@@ -1,0 +1,273 @@
+estuaryname,siteid,region,cover_class,cover_number,percent_cover,extent
+Ten Mile River,NC-TEN,North,Water,24552,0.251251036,Current Wetland Footprint
+Ten Mile River,NC-TEN,North,Low,15929,0.163008217,Current Wetland Footprint
+Ten Mile River,NC-TEN,North,Mid,49483,0.50638054,Current Wetland Footprint
+Ten Mile River,NC-TEN,North,High,7486,0.076607415,Current Wetland Footprint
+Ten Mile River,NC-TEN,North,Upland,269,0.002752791,Current Wetland Footprint
+Big River,NC-BIGR,North,Water,53507,0.378641739,Current Wetland Footprint
+Big River,NC-BIGR,North,Low,29536,0.209011202,Current Wetland Footprint
+Big River,NC-BIGR,North,Mid,31852,0.225400352,Current Wetland Footprint
+Big River,NC-BIGR,North,High,22578,0.159772986,Current Wetland Footprint
+Big River,NC-BIGR,North,Upland,3840,0.027173721,Current Wetland Footprint
+Navarro River,NC-NAV,North,Water,48975,0.591278417,Current Wetland Footprint
+Navarro River,NC-NAV,North,Low,5116,0.061765807,Current Wetland Footprint
+Navarro River,NC-NAV,North,Mid,6388,0.077122747,Current Wetland Footprint
+Navarro River,NC-NAV,North,High,18143,0.21904164,Current Wetland Footprint
+Navarro River,NC-NAV,North,Upland,4207,0.050791389,Current Wetland Footprint
+Drakes Estero,NC-DRA,North,Water,1012980,0.833620676,Current Wetland Footprint
+Drakes Estero,NC-DRA,North,Low,62058,0.051069944,Current Wetland Footprint
+Drakes Estero,NC-DRA,North,Mid,135638,0.11162179,Current Wetland Footprint
+Drakes Estero,NC-DRA,North,High,4068,0.003347716,Current Wetland Footprint
+Drakes Estero,NC-DRA,North,Upland,413,0.000339874,Current Wetland Footprint
+Bolinas Lagoon,NC-BOL,North,Water,402367,0.708385123,Current Wetland Footprint
+Bolinas Lagoon,NC-BOL,North,Low,57063,0.100461967,Current Wetland Footprint
+Bolinas Lagoon,NC-BOL,North,Mid,76465,0.134620057,Current Wetland Footprint
+Bolinas Lagoon,NC-BOL,North,High,24309,0.042797083,Current Wetland Footprint
+Bolinas Lagoon,NC-BOL,North,Upland,7802,0.01373577,Current Wetland Footprint
+Pajaro River,CC-PAJ,Central,Water,40366,0.113526679,Current Wetland Footprint
+Pajaro River,CC-PAJ,Central,Low,233697,0.657257203,Current Wetland Footprint
+Pajaro River,CC-PAJ,Central,Mid,62432,0.17558583,Current Wetland Footprint
+Pajaro River,CC-PAJ,Central,High,13434,0.037782228,Current Wetland Footprint
+Pajaro River,CC-PAJ,Central,Upland,5635,0.015848061,Current Wetland Footprint
+Moro Cojo Slough,CC-MCS,Central,Water,76768,0.174736023,Current Wetland Footprint
+Moro Cojo Slough,CC-MCS,Central,Low,63104,0.143634613,Current Wetland Footprint
+Moro Cojo Slough,CC-MCS,Central,Mid,210095,0.478209211,Current Wetland Footprint
+Moro Cojo Slough,CC-MCS,Central,High,83284,0.189567462,Current Wetland Footprint
+Moro Cojo Slough,CC-MCS,Central,Upland,6086,0.013852692,Current Wetland Footprint
+Carmel River,CC-CAR,Central,Water,8509,0.211550893,Current Wetland Footprint
+Carmel River,CC-CAR,Central,Low,10738,0.266968326,Current Wetland Footprint
+Carmel River,CC-CAR,Central,Mid,11776,0.292775098,Current Wetland Footprint
+Carmel River,CC-CAR,Central,High,5942,0.147730098,Current Wetland Footprint
+Carmel River,CC-CAR,Central,Upland,3257,0.080975586,Current Wetland Footprint
+Arroyo de la Cruz,CC-ADLC,Central,Water,2163,0.213103448,Current Wetland Footprint
+Arroyo de la Cruz,CC-ADLC,Central,Low,545,0.053694581,Current Wetland Footprint
+Arroyo de la Cruz,CC-ADLC,Central,Mid,1829,0.180197044,Current Wetland Footprint
+Arroyo de la Cruz,CC-ADLC,Central,High,2651,0.261182266,Current Wetland Footprint
+Arroyo de la Cruz,CC-ADLC,Central,Upland,2962,0.29182266,Current Wetland Footprint
+Morro Bay,CC-MOR,Central,Water,860271,0.740541699,Current Wetland Footprint
+Morro Bay,CC-MOR,Central,Low,108585,0.093472546,Current Wetland Footprint
+Morro Bay,CC-MOR,Central,Mid,149094,0.128343655,Current Wetland Footprint
+Morro Bay,CC-MOR,Central,High,40947,0.03524815,Current Wetland Footprint
+Morro Bay,CC-MOR,Central,Upland,2781,0.002393951,Current Wetland Footprint
+Goleta Slough,SC-GOL,South,Water,10309,0.071450354,Current Wetland Footprint
+Goleta Slough,SC-GOL,South,Low,9400,0.065150192,Current Wetland Footprint
+Goleta Slough,SC-GOL,South,Mid,64854,0.449494739,Current Wetland Footprint
+Goleta Slough,SC-GOL,South,High,44397,0.307709901,Current Wetland Footprint
+Goleta Slough,SC-GOL,South,Upland,15322,0.106194813,Current Wetland Footprint
+Ventura River,SC-VEN,South,Water,3863,0.227115057,Current Wetland Footprint
+Ventura River,SC-VEN,South,Low,1688,0.099241578,Current Wetland Footprint
+Ventura River,SC-VEN,South,Mid,6555,0.385384208,Current Wetland Footprint
+Ventura River,SC-VEN,South,High,3482,0.204715151,Current Wetland Footprint
+Ventura River,SC-VEN,South,Upland,1421,0.083544006,Current Wetland Footprint
+Malibu Lagoon,SC-MAL,South,Water,6587,0.408318869,Current Wetland Footprint
+Malibu Lagoon,SC-MAL,South,Low,1588,0.098437887,Current Wetland Footprint
+Malibu Lagoon,SC-MAL,South,Mid,6474,0.401314158,Current Wetland Footprint
+Malibu Lagoon,SC-MAL,South,High,1225,0.075936028,Current Wetland Footprint
+Malibu Lagoon,SC-MAL,South,Upland,258,0.015993057,Current Wetland Footprint
+Bolsa Chica,SC-BOL,South,Water,163179,0.281276179,Current Wetland Footprint
+Bolsa Chica,SC-BOL,South,Low,347532,0.599050571,Current Wetland Footprint
+Bolsa Chica,SC-BOL,South,Mid,39624,0.06830099,Current Wetland Footprint
+Bolsa Chica,SC-BOL,South,High,28698,0.04946754,Current Wetland Footprint
+Bolsa Chica,SC-BOL,South,Upland,1105,0.001904719,Current Wetland Footprint
+Newport Bay,SC-NEW,South,Water,510548,0.648886765,Current Wetland Footprint
+Newport Bay,SC-NEW,South,Low,141020,0.179230967,Current Wetland Footprint
+Newport Bay,SC-NEW,South,Mid,111878,0.142192612,Current Wetland Footprint
+Newport Bay,SC-NEW,South,High,11417,0.014510566,Current Wetland Footprint
+Newport Bay,SC-NEW,South,Upland,11943,0.015179091,Current Wetland Footprint
+Batiquitos Lagoon,SC-BAT,South,Water,124897,0.51880883,Current Wetland Footprint
+Batiquitos Lagoon,SC-BAT,South,Low,30607,0.127138217,Current Wetland Footprint
+Batiquitos Lagoon,SC-BAT,South,Mid,29929,0.124321877,Current Wetland Footprint
+Batiquitos Lagoon,SC-BAT,South,High,54760,0.227467205,Current Wetland Footprint
+Batiquitos Lagoon,SC-BAT,South,Upland,545,0.002263872,Current Wetland Footprint
+Ten Mile River,NC-TEN,North,Water,28049,0.0395957,Wetland Migration/All Areas (1.2 ft)
+Ten Mile River,NC-TEN,North,Low,42898,0.060557465,Wetland Migration/All Areas (1.2 ft)
+Ten Mile River,NC-TEN,North,Mid,71630,0.10111733,Wetland Migration/All Areas (1.2 ft)
+Ten Mile River,NC-TEN,North,High,117909,0.166447624,Wetland Migration/All Areas (1.2 ft)
+Ten Mile River,NC-TEN,North,Upland,58902,0.0831497,Wetland Migration/All Areas (1.2 ft)
+Ten Mile River,NC-TEN,North,Other,388997,0.549132181,Wetland Migration/All Areas (1.2 ft)
+Big River,NC-BIGR,North,Water,60646,0.052304887,Wetland Migration/All Areas (1.2 ft)
+Big River,NC-BIGR,North,Low,48578,0.041896693,Wetland Migration/All Areas (1.2 ft)
+Big River,NC-BIGR,North,Mid,26403,0.022771592,Wetland Migration/All Areas (1.2 ft)
+Big River,NC-BIGR,North,High,45304,0.039072991,Wetland Migration/All Areas (1.2 ft)
+Big River,NC-BIGR,North,Upland,55992,0.048290988,Wetland Migration/All Areas (1.2 ft)
+Big River,NC-BIGR,North,Other,922548,0.79566285,Wetland Migration/All Areas (1.2 ft)
+Navarro River,NC-NAV,North,Water,50191,0.051044983,Wetland Migration/All Areas (1.2 ft)
+Navarro River,NC-NAV,North,Low,5950,0.006051237,Wetland Migration/All Areas (1.2 ft)
+Navarro River,NC-NAV,North,Mid,14345,0.014589075,Wetland Migration/All Areas (1.2 ft)
+Navarro River,NC-NAV,North,High,38319,0.038970985,Wetland Migration/All Areas (1.2 ft)
+Navarro River,NC-NAV,North,Upland,58310,0.059302125,Wetland Migration/All Areas (1.2 ft)
+Navarro River,NC-NAV,North,Other,816155,0.830041596,Wetland Migration/All Areas (1.2 ft)
+Drakes Estero,NC-DRA,North,Water,1081543,0.291160096,Wetland Migration/All Areas (1.2 ft)
+Drakes Estero,NC-DRA,North,Low,77260,0.020799015,Wetland Migration/All Areas (1.2 ft)
+Drakes Estero,NC-DRA,North,Mid,125180,0.033699465,Wetland Migration/All Areas (1.2 ft)
+Drakes Estero,NC-DRA,North,High,75500,0.020325209,Wetland Migration/All Areas (1.2 ft)
+Drakes Estero,NC-DRA,North,Upland,249111,0.06706269,Wetland Migration/All Areas (1.2 ft)
+Drakes Estero,NC-DRA,North,Other,2106005,0.566953526,Wetland Migration/All Areas (1.2 ft)
+Bolinas Lagoon,NC-BOL,North,Water,465833,0.357155563,Wetland Migration/All Areas (1.2 ft)
+Bolinas Lagoon,NC-BOL,North,Low,80696,0.061869866,Wetland Migration/All Areas (1.2 ft)
+Bolinas Lagoon,NC-BOL,North,Mid,23579,0.01807809,Wetland Migration/All Areas (1.2 ft)
+Bolinas Lagoon,NC-BOL,North,High,40726,0.031224747,Wetland Migration/All Areas (1.2 ft)
+Bolinas Lagoon,NC-BOL,North,Upland,209519,0.160638848,Wetland Migration/All Areas (1.2 ft)
+Bolinas Lagoon,NC-BOL,North,Other,483933,0.371032887,Wetland Migration/All Areas (1.2 ft)
+Pajaro River,CC-PAJ,Central,Water,41781,0.015956283,Wetland Migration/All Areas (1.2 ft)
+Pajaro River,CC-PAJ,Central,Low,319939,0.122185615,Wetland Migration/All Areas (1.2 ft)
+Pajaro River,CC-PAJ,Central,Mid,273235,0.104349224,Wetland Migration/All Areas (1.2 ft)
+Pajaro River,CC-PAJ,Central,High,491186,0.187585331,Wetland Migration/All Areas (1.2 ft)
+Pajaro River,CC-PAJ,Central,Upland,475335,0.181531789,Wetland Migration/All Areas (1.2 ft)
+Pajaro River,CC-PAJ,Central,Other,1016991,0.388391757,Wetland Migration/All Areas (1.2 ft)
+Moro Cojo Slough,CC-MCS,Central,Water,208283,0.1059422,Wetland Migration/All Areas (1.2 ft)
+Moro Cojo Slough,CC-MCS,Central,Low,238725,0.121426384,Wetland Migration/All Areas (1.2 ft)
+Moro Cojo Slough,CC-MCS,Central,Mid,71322,0.036277611,Wetland Migration/All Areas (1.2 ft)
+Moro Cojo Slough,CC-MCS,Central,High,118228,0.060136134,Wetland Migration/All Areas (1.2 ft)
+Moro Cojo Slough,CC-MCS,Central,Upland,424459,0.215899138,Wetland Migration/All Areas (1.2 ft)
+Moro Cojo Slough,CC-MCS,Central,Other,904989,0.460318534,Wetland Migration/All Areas (1.2 ft)
+Carmel River,CC-CAR,Central,Water,12396,0.034469718,Wetland Migration/All Areas (1.2 ft)
+Carmel River,CC-CAR,Central,Low,17844,0.049619042,Wetland Migration/All Areas (1.2 ft)
+Carmel River,CC-CAR,Central,Mid,17253,0.047975641,Wetland Migration/All Areas (1.2 ft)
+Carmel River,CC-CAR,Central,High,21469,0.059699127,Wetland Migration/All Areas (1.2 ft)
+Carmel River,CC-CAR,Central,Upland,126144,0.350770257,Wetland Migration/All Areas (1.2 ft)
+Carmel River,CC-CAR,Central,Other,164514,0.457466214,Wetland Migration/All Areas (1.2 ft)
+Arroyo de la Cruz,CC-ADLC,Central,Water,2293,0.01410027,Wetland Migration/All Areas (1.2 ft)
+Arroyo de la Cruz,CC-ADLC,Central,Low,677,0.004163054,Wetland Migration/All Areas (1.2 ft)
+Arroyo de la Cruz,CC-ADLC,Central,Mid,4424,0.027204359,Wetland Migration/All Areas (1.2 ft)
+Arroyo de la Cruz,CC-ADLC,Central,High,8118,0.049919752,Wetland Migration/All Areas (1.2 ft)
+Arroyo de la Cruz,CC-ADLC,Central,Upland,87836,0.540127044,Wetland Migration/All Areas (1.2 ft)
+Arroyo de la Cruz,CC-ADLC,Central,Other,59273,0.364485522,Wetland Migration/All Areas (1.2 ft)
+Morro Bay,CC-MOR,Central,Water,912718,0.360070553,Wetland Migration/All Areas (1.2 ft)
+Morro Bay,CC-MOR,Central,Low,163902,0.064659932,Wetland Migration/All Areas (1.2 ft)
+Morro Bay,CC-MOR,Central,Mid,71663,0.028271313,Wetland Migration/All Areas (1.2 ft)
+Morro Bay,CC-MOR,Central,High,120006,0.047342801,Wetland Migration/All Areas (1.2 ft)
+Morro Bay,CC-MOR,Central,Upland,491746,0.193995576,Wetland Migration/All Areas (1.2 ft)
+Morro Bay,CC-MOR,Central,Other,774796,0.305659825,Wetland Migration/All Areas (1.2 ft)
+Goleta Slough,SC-GOL,South,Water,15659,0.017984855,Wetland Migration/All Areas (1.2 ft)
+Goleta Slough,SC-GOL,South,Low,34704,0.039858639,Wetland Migration/All Areas (1.2 ft)
+Goleta Slough,SC-GOL,South,Mid,71965,0.082654073,Wetland Migration/All Areas (1.2 ft)
+Goleta Slough,SC-GOL,South,High,254622,0.292441399,Wetland Migration/All Areas (1.2 ft)
+Goleta Slough,SC-GOL,South,Upland,333666,0.383225926,Wetland Migration/All Areas (1.2 ft)
+Goleta Slough,SC-GOL,South,Other,160061,0.183835108,Wetland Migration/All Areas (1.2 ft)
+Ventura River,SC-VEN,South,Water,4184,0.030535911,Wetland Migration/All Areas (1.2 ft)
+Ventura River,SC-VEN,South,Low,4036,0.029455769,Wetland Migration/All Areas (1.2 ft)
+Ventura River,SC-VEN,South,Mid,34048,0.248491085,Wetland Migration/All Areas (1.2 ft)
+Ventura River,SC-VEN,South,High,28114,0.205183223,Wetland Migration/All Areas (1.2 ft)
+Ventura River,SC-VEN,South,Upland,27703,0.202183639,Wetland Migration/All Areas (1.2 ft)
+Ventura River,SC-VEN,South,Other,38934,0.284150373,Wetland Migration/All Areas (1.2 ft)
+Malibu Lagoon,SC-MAL,South,Water,9629,0.063924425,Wetland Migration/All Areas (1.2 ft)
+Malibu Lagoon,SC-MAL,South,Low,1770,0.011750569,Wetland Migration/All Areas (1.2 ft)
+Malibu Lagoon,SC-MAL,South,Mid,10413,0.069129197,Wetland Migration/All Areas (1.2 ft)
+Malibu Lagoon,SC-MAL,South,High,21696,0.144034097,Wetland Migration/All Areas (1.2 ft)
+Malibu Lagoon,SC-MAL,South,Upland,14277,0.094781287,Wetland Migration/All Areas (1.2 ft)
+Malibu Lagoon,SC-MAL,South,Other,92846,0.616380426,Wetland Migration/All Areas (1.2 ft)
+Bolsa Chica,SC-BOL,South,Water,224629,0.134056604,Wetland Migration/All Areas (1.2 ft)
+Bolsa Chica,SC-BOL,South,Low,624088,0.37245021,Wetland Migration/All Areas (1.2 ft)
+Bolsa Chica,SC-BOL,South,Mid,127353,0.076003146,Wetland Migration/All Areas (1.2 ft)
+Bolsa Chica,SC-BOL,South,High,288732,0.172312709,Wetland Migration/All Areas (1.2 ft)
+Bolsa Chica,SC-BOL,South,Upland,182106,0.108679253,Wetland Migration/All Areas (1.2 ft)
+Bolsa Chica,SC-BOL,South,Other,228720,0.136498077,Wetland Migration/All Areas (1.2 ft)
+Newport Bay,SC-NEW,South,Water,527858,0.177295443,Wetland Migration/All Areas (1.2 ft)
+Newport Bay,SC-NEW,South,Low,303997,0.102105647,Wetland Migration/All Areas (1.2 ft)
+Newport Bay,SC-NEW,South,Mid,95775,0.032168635,Wetland Migration/All Areas (1.2 ft)
+Newport Bay,SC-NEW,South,High,80247,0.026953134,Wetland Migration/All Areas (1.2 ft)
+Newport Bay,SC-NEW,South,Upland,582229,0.19555742,Wetland Migration/All Areas (1.2 ft)
+Newport Bay,SC-NEW,South,Other,1387173,0.465919721,Wetland Migration/All Areas (1.2 ft)
+Batiquitos Lagoon,SC-BAT,South,Water,135266,0.141438666,Wetland Migration/All Areas (1.2 ft)
+Batiquitos Lagoon,SC-BAT,South,Low,49946,0.052225213,Wetland Migration/All Areas (1.2 ft)
+Batiquitos Lagoon,SC-BAT,South,Mid,19877,0.020784058,Wetland Migration/All Areas (1.2 ft)
+Batiquitos Lagoon,SC-BAT,South,High,137560,0.14383735,Wetland Migration/All Areas (1.2 ft)
+Batiquitos Lagoon,SC-BAT,South,Upland,110767,0.11582169,Wetland Migration/All Areas (1.2 ft)
+Batiquitos Lagoon,SC-BAT,South,Other,502942,0.525893023,Wetland Migration/All Areas (1.2 ft)
+Ten Mile River,NC-TEN,North,Water,261,0.043645485,Wetland Migration/Avoid Developed (1.2 ft)
+Ten Mile River,NC-TEN,North,Low,414,0.069230769,Wetland Migration/Avoid Developed (1.2 ft)
+Ten Mile River,NC-TEN,North,Mid,636,0.106354515,Wetland Migration/Avoid Developed (1.2 ft)
+Ten Mile River,NC-TEN,North,High,831,0.138963211,Wetland Migration/Avoid Developed (1.2 ft)
+Ten Mile River,NC-TEN,North,Upland,374,0.062541806,Wetland Migration/Avoid Developed (1.2 ft)
+Ten Mile River,NC-TEN,North,Other,3464,0.579264214,Wetland Migration/Avoid Developed (1.2 ft)
+Big River,NC-BIGR,North,Water,543,0.052918819,Wetland Migration/Avoid Developed (1.2 ft)
+Big River,NC-BIGR,North,Low,465,0.045317221,Wetland Migration/Avoid Developed (1.2 ft)
+Big River,NC-BIGR,North,Mid,235,0.022902251,Wetland Migration/Avoid Developed (1.2 ft)
+Big River,NC-BIGR,North,High,370,0.036058864,Wetland Migration/Avoid Developed (1.2 ft)
+Big River,NC-BIGR,North,Upland,459,0.044732482,Wetland Migration/Avoid Developed (1.2 ft)
+Big River,NC-BIGR,North,Other,8189,0.798070364,Wetland Migration/Avoid Developed (1.2 ft)
+Navarro River,NC-NAV,North,Water,467,0.05507725,Wetland Migration/Avoid Developed (1.2 ft)
+Navarro River,NC-NAV,North,Low,44,0.005189291,Wetland Migration/Avoid Developed (1.2 ft)
+Navarro River,NC-NAV,North,Mid,117,0.013798797,Wetland Migration/Avoid Developed (1.2 ft)
+Navarro River,NC-NAV,North,High,288,0.03396627,Wetland Migration/Avoid Developed (1.2 ft)
+Navarro River,NC-NAV,North,Upland,393,0.046349805,Wetland Migration/Avoid Developed (1.2 ft)
+Navarro River,NC-NAV,North,Other,7170,0.845618587,Wetland Migration/Avoid Developed (1.2 ft)
+Drakes Estero,NC-DRA,North,Water,10934,0.294780546,Wetland Migration/Avoid Developed (1.2 ft)
+Drakes Estero,NC-DRA,North,Low,758,0.020435673,Wetland Migration/Avoid Developed (1.2 ft)
+Drakes Estero,NC-DRA,North,Mid,1250,0.033699989,Wetland Migration/Avoid Developed (1.2 ft)
+Drakes Estero,NC-DRA,North,High,741,0.019977354,Wetland Migration/Avoid Developed (1.2 ft)
+Drakes Estero,NC-DRA,North,Upland,2364,0.06373342,Wetland Migration/Avoid Developed (1.2 ft)
+Drakes Estero,NC-DRA,North,Other,21045,0.567373018,Wetland Migration/Avoid Developed (1.2 ft)
+Bolinas Lagoon,NC-BOL,North,Water,4440,0.429192847,Wetland Migration/Avoid Developed (1.2 ft)
+Bolinas Lagoon,NC-BOL,North,Low,701,0.067762204,Wetland Migration/Avoid Developed (1.2 ft)
+Bolinas Lagoon,NC-BOL,North,Mid,161,0.015563074,Wetland Migration/Avoid Developed (1.2 ft)
+Bolinas Lagoon,NC-BOL,North,High,206,0.019913001,Wetland Migration/Avoid Developed (1.2 ft)
+Bolinas Lagoon,NC-BOL,North,Upland,1101,0.106428226,Wetland Migration/Avoid Developed (1.2 ft)
+Bolinas Lagoon,NC-BOL,North,Other,3736,0.361140648,Wetland Migration/Avoid Developed (1.2 ft)
+Pajaro River,CC-PAJ,Central,Water,405,0.018840715,Wetland Migration/Avoid Developed (1.2 ft)
+Pajaro River,CC-PAJ,Central,Low,3058,0.142259025,Wetland Migration/Avoid Developed (1.2 ft)
+Pajaro River,CC-PAJ,Central,Mid,2478,0.115277261,Wetland Migration/Avoid Developed (1.2 ft)
+Pajaro River,CC-PAJ,Central,High,4454,0.20720134,Wetland Migration/Avoid Developed (1.2 ft)
+Pajaro River,CC-PAJ,Central,Upland,3953,0.183894678,Wetland Migration/Avoid Developed (1.2 ft)
+Pajaro River,CC-PAJ,Central,Other,7148,0.332526982,Wetland Migration/Avoid Developed (1.2 ft)
+Moro Cojo Slough,CC-MCS,Central,Water,1896,0.128194726,Wetland Migration/Avoid Developed (1.2 ft)
+Moro Cojo Slough,CC-MCS,Central,Low,2334,0.157809331,Wetland Migration/Avoid Developed (1.2 ft)
+Moro Cojo Slough,CC-MCS,Central,Mid,672,0.045436105,Wetland Migration/Avoid Developed (1.2 ft)
+Moro Cojo Slough,CC-MCS,Central,High,916,0.061933739,Wetland Migration/Avoid Developed (1.2 ft)
+Moro Cojo Slough,CC-MCS,Central,Upland,3324,0.22474645,Wetland Migration/Avoid Developed (1.2 ft)
+Moro Cojo Slough,CC-MCS,Central,Other,5648,0.381879648,Wetland Migration/Avoid Developed (1.2 ft)
+Carmel River,CC-CAR,Central,Water,93,0.067636364,Wetland Migration/Avoid Developed (1.2 ft)
+Carmel River,CC-CAR,Central,Low,100,0.072727273,Wetland Migration/Avoid Developed (1.2 ft)
+Carmel River,CC-CAR,Central,Mid,109,0.079272727,Wetland Migration/Avoid Developed (1.2 ft)
+Carmel River,CC-CAR,Central,High,165,0.12,Wetland Migration/Avoid Developed (1.2 ft)
+Carmel River,CC-CAR,Central,Upland,535,0.389090909,Wetland Migration/Avoid Developed (1.2 ft)
+Carmel River,CC-CAR,Central,Other,373,0.271272727,Wetland Migration/Avoid Developed (1.2 ft)
+Arroyo de la Cruz,CC-ADLC,Central,Water,21,0.013401404,Wetland Migration/Avoid Developed (1.2 ft)
+Arroyo de la Cruz,CC-ADLC,Central,Low,5,0.00319081,Wetland Migration/Avoid Developed (1.2 ft)
+Arroyo de la Cruz,CC-ADLC,Central,Mid,48,0.03063178,Wetland Migration/Avoid Developed (1.2 ft)
+Arroyo de la Cruz,CC-ADLC,Central,High,77,0.049138481,Wetland Migration/Avoid Developed (1.2 ft)
+Arroyo de la Cruz,CC-ADLC,Central,Upland,845,0.539246969,Wetland Migration/Avoid Developed (1.2 ft)
+Arroyo de la Cruz,CC-ADLC,Central,Other,571,0.364390555,Wetland Migration/Avoid Developed (1.2 ft)
+Morro Bay,CC-MOR,Central,Water,8921,0.465897222,Wetland Migration/Avoid Developed (1.2 ft)
+Morro Bay,CC-MOR,Central,Low,1583,0.08267182,Wetland Migration/Avoid Developed (1.2 ft)
+Morro Bay,CC-MOR,Central,Mid,617,0.032222686,Wetland Migration/Avoid Developed (1.2 ft)
+Morro Bay,CC-MOR,Central,High,679,0.035460623,Wetland Migration/Avoid Developed (1.2 ft)
+Morro Bay,CC-MOR,Central,Upland,2793,0.145863798,Wetland Migration/Avoid Developed (1.2 ft)
+Morro Bay,CC-MOR,Central,Other,4555,0.237883852,Wetland Migration/Avoid Developed (1.2 ft)
+Goleta Slough,SC-GOL,South,Water,56,0.022979073,Wetland Migration/Avoid Developed (1.2 ft)
+Goleta Slough,SC-GOL,South,Low,272,0.111612638,Wetland Migration/Avoid Developed (1.2 ft)
+Goleta Slough,SC-GOL,South,Mid,591,0.242511284,Wetland Migration/Avoid Developed (1.2 ft)
+Goleta Slough,SC-GOL,South,High,807,0.33114485,Wetland Migration/Avoid Developed (1.2 ft)
+Goleta Slough,SC-GOL,South,Upland,422,0.173163726,Wetland Migration/Avoid Developed (1.2 ft)
+Goleta Slough,SC-GOL,South,Other,289,0.118588428,Wetland Migration/Avoid Developed (1.2 ft)
+Ventura River,SC-VEN,South,Water,20,0.04950495,Wetland Migration/Avoid Developed (1.2 ft)
+Ventura River,SC-VEN,South,Low,10,0.024752475,Wetland Migration/Avoid Developed (1.2 ft)
+Ventura River,SC-VEN,South,Mid,82,0.202970297,Wetland Migration/Avoid Developed (1.2 ft)
+Ventura River,SC-VEN,South,High,107,0.264851485,Wetland Migration/Avoid Developed (1.2 ft)
+Ventura River,SC-VEN,South,Upland,68,0.168316832,Wetland Migration/Avoid Developed (1.2 ft)
+Ventura River,SC-VEN,South,Other,117,0.28960396,Wetland Migration/Avoid Developed (1.2 ft)
+Malibu Lagoon,SC-MAL,South,Water,40,0.12987013,Wetland Migration/Avoid Developed (1.2 ft)
+Malibu Lagoon,SC-MAL,South,Low,1,0.003246753,Wetland Migration/Avoid Developed (1.2 ft)
+Malibu Lagoon,SC-MAL,South,Mid,22,0.071428571,Wetland Migration/Avoid Developed (1.2 ft)
+Malibu Lagoon,SC-MAL,South,High,43,0.13961039,Wetland Migration/Avoid Developed (1.2 ft)
+Malibu Lagoon,SC-MAL,South,Upland,15,0.048701299,Wetland Migration/Avoid Developed (1.2 ft)
+Malibu Lagoon,SC-MAL,South,Other,187,0.607142857,Wetland Migration/Avoid Developed (1.2 ft)
+Bolsa Chica,SC-BOL,South,Water,1435,0.255020437,Wetland Migration/Avoid Developed (1.2 ft)
+Bolsa Chica,SC-BOL,South,Low,2839,0.504531722,Wetland Migration/Avoid Developed (1.2 ft)
+Bolsa Chica,SC-BOL,South,Mid,138,0.024524613,Wetland Migration/Avoid Developed (1.2 ft)
+Bolsa Chica,SC-BOL,South,High,324,0.057579527,Wetland Migration/Avoid Developed (1.2 ft)
+Bolsa Chica,SC-BOL,South,Upland,417,0.074106984,Wetland Migration/Avoid Developed (1.2 ft)
+Bolsa Chica,SC-BOL,South,Other,474,0.084236716,Wetland Migration/Avoid Developed (1.2 ft)
+Newport Bay,SC-NEW,South,Water,4042,0.458640645,Wetland Migration/Avoid Developed (1.2 ft)
+Newport Bay,SC-NEW,South,Low,1851,0.210030637,Wetland Migration/Avoid Developed (1.2 ft)
+Newport Bay,SC-NEW,South,Mid,138,0.015658686,Wetland Migration/Avoid Developed (1.2 ft)
+Newport Bay,SC-NEW,South,High,183,0.020764779,Wetland Migration/Avoid Developed (1.2 ft)
+Newport Bay,SC-NEW,South,Upland,1462,0.165891297,Wetland Migration/Avoid Developed (1.2 ft)
+Newport Bay,SC-NEW,South,Other,1137,0.129013957,Wetland Migration/Avoid Developed (1.2 ft)
+Batiquitos Lagoon,SC-BAT,South,Water,1295,0.427110818,Wetland Migration/Avoid Developed (1.2 ft)
+Batiquitos Lagoon,SC-BAT,South,Low,326,0.107519789,Wetland Migration/Avoid Developed (1.2 ft)
+Batiquitos Lagoon,SC-BAT,South,Mid,91,0.030013193,Wetland Migration/Avoid Developed (1.2 ft)
+Batiquitos Lagoon,SC-BAT,South,High,337,0.111147757,Wetland Migration/Avoid Developed (1.2 ft)
+Batiquitos Lagoon,SC-BAT,South,Upland,170,0.056068602,Wetland Migration/Avoid Developed (1.2 ft)
+Batiquitos Lagoon,SC-BAT,South,Other,813,0.268139842,Wetland Migration/Avoid Developed (1.2 ft)

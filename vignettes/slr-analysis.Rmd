@@ -1,0 +1,134 @@
+---
+title: "EMPA Sea Level Rise Analysis"
+author: "Brooke Fulkerson"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{EMPA Sea Level Rise Analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+library(EMPAFunctionAnalysis)
+```
+
+# Load Data
+
+```{r load-data}
+wetland_extents <- load_wetland_extents()
+CRAM <- load_cram_data()
+Veg_metadata <- load_veg_metadata()
+GIS_data <- load_gis_data()
+```
+
+# Clean Data
+
+```{r clean-data}
+wetland_extents <- order_wetland_extents(wetland_extents)
+veg_metadata_clean <- Veg_metadata |>
+  clean_veg_metadata() |>
+  order_veg_metadata()
+GIS_data <- order_gis_data(GIS_data)
+```
+
+# Figures
+
+## CRAM CDFs
+
+```{r cram-index}
+plot_cram_cdf(
+  CRAM,
+  state_col = "indexscore",
+  empa_col = "EMPA_index",
+  title = "Statewide CRAM Scores 2014 - 2024",
+  x_label = "CRAM Index Score"
+)
+```
+
+```{r cram-biotic}
+plot_cram_cdf(
+  CRAM,
+  state_col = "biotic_structure",
+  empa_col = "EMPA_bio",
+  title = "Statewide Biotic Attribute Scores 2014 - 2024",
+  x_label = "Biotic Attribute Score"
+)
+```
+
+```{r cram-physical}
+plot_cram_cdf(
+  CRAM,
+  state_col = "physical_structure",
+  empa_col = "EMPA_phys",
+  title = "Statewide Physical Attribute Scores 2014 - 2024",
+  x_label = "Physical Attribute Score"
+)
+```
+
+## Vegetated Cover
+
+```{r veg-cover}
+plot_veg_cover(veg_metadata_clean, year = "2023")
+```
+
+## Buffer Land Cover
+
+```{r buffer-500}
+plot_buffer_landcover(GIS_data, buffer_size = "500 m")
+```
+
+```{r buffer-30}
+plot_buffer_landcover(GIS_data, buffer_size = "30 m")
+```
+
+## Wetland Habitat by Region
+
+```{r wetland-north}
+plot_wetland_habitat(wetland_extents, region = "North")
+```
+
+```{r wetland-central}
+plot_wetland_habitat(wetland_extents, region = "Central")
+```
+
+```{r wetland-south}
+plot_wetland_habitat(wetland_extents, region = "South")
+```
+
+# Scoring
+
+```{r scoring}
+cram_summary <- score_cram(CRAM, function_name = "SLR")
+veg_cov_summary <- score_veg_cover(
+  veg_metadata_clean,
+  function_name = "SLR",
+  indicator_name = "cover"
+)
+buffer_500_summary <- score_buffer(GIS_data, buffer_size = "500 m")
+buffer_30_summary <- score_buffer(
+  GIS_data,
+  buffer_size = "30 m",
+  cover_name = "perimeter_land_cover"
+)
+contiguity_summary <- score_contiguity(GIS_data)
+elevation_summary <- score_elevation(wetland_extents)
+```
+
+# Final Dashboard Table
+
+```{r dashboard}
+dashboard_table_slr <- build_slr_dashboard(
+  cram_summary,
+  veg_cov_summary,
+  buffer_500_summary,
+  buffer_30_summary,
+  contiguity_summary,
+  elevation_summary
+)
+
+head(dashboard_table_slr)
+```

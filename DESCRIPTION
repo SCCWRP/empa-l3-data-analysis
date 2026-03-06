@@ -1,0 +1,29 @@
+Package: EMPAFunctionAnalysis
+Title: EMPA Level 3 Estuary Dashboard Data Analysis
+Version: 0.1.0
+Authors@R:
+    person("Brooke", "Fulkerson", role = c("aut", "cre"),
+           email = "placeholder@example.com")
+Description: Data loading, cleaning, scoring, and visualization functions for
+    the Estuary MPA (EMPA) Level 3 dashboard. Covers vegetation condition,
+    CRAM assessments, invasive species severity, ruggedness, sea level rise
+    vulnerability, and buffer land cover analyses across 16 California
+    estuary sites.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports:
+    dplyr (>= 1.1.0),
+    ggplot2 (>= 3.4.0),
+    ggrepel,
+    rlang,
+    scales,
+    stringr,
+    tidyr,
+    yaml
+Suggests:
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+VignetteBuilder: knitr
