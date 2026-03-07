@@ -25,7 +25,7 @@ score_current_extent <- function(
 ) {
   score_elevation_extent(
     wetland,
-    "current_extent",
+    "current_habitat_distribution",
     function_name,
     indicator_name,
     config
@@ -52,7 +52,7 @@ score_future_extent <- function(
 ) {
   score_elevation_extent(
     wetland,
-    "future_extent",
+    "future_habitat_distribution",
     function_name,
     indicator_name,
     config

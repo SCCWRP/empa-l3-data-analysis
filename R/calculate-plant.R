@@ -12,52 +12,68 @@
 #'
 #' Plant function structure:
 #' \itemize{
-#'   \item Indicator: habitat -> Metric: index (CRAM)
-#'   \item Indicator: vegetation -> Metrics: native_cover, native_resiliency,
-#'     veg_cover
+#'   \item Indicator: alliances -> Metric: plant_alliances
 #'   \item Indicator: elevation -> Metric: ruggedness
+#'   \item Indicator: habitat -> Metric: index (CRAM)
+#'   \item Indicator: inundation -> Metric: marsh_plain_inundation
+#'   \item Indicator: vegetation -> Metrics: invasive_severity, native_cover,
+#'     veg_cover
 #' }
 #'
-#' @param cram CRAM data frame (from \code{\link{load_cram_data}}).
+#' @param cram CRAM data frame.
 #' @param veg Raw or cleaned vegetation data frame.
 #' @param veg_metadata Raw or cleaned vegetation metadata data frame.
-#' @param rugged Ruggedness data frame. If \code{NULL} (default), loads the
-#'   bundled file via \code{\link{load_ruggedness_data}}.
-#' @param year Character vector of calendar years, or "all". Default "all".
+#' @param rugged Ruggedness data frame.
+#' @param year Character or numeric vector of calendar years (e.g.
+#'   \code{c(2023, 2024, 2025)}). Required.
 #' @param season Character vector of seasons, or "all". Default "all".
 #' @param config A configuration list. Defaults to \code{\link{get_config}()}.
-#' @return A long-format data frame with columns: estuaryname, siteid,
+#' @return A long-format data frame with columns: estuaryname, siteid, year,
 #'   function_name, indicator_name, metric_name, metric_score.
 #' @export
 calculate_function_plant <- function(
   cram,
   veg,
   veg_metadata,
-  rugged = NULL,
-  year = "all",
+  rugged,
+  year,
   season = "all",
   config = get_config()
 ) {
+  year <- as.character(year)
+
   if (!"calendar_year" %in% names(veg)) {
     veg <- clean_veg(veg) |> order_veg()
   }
   if (!"cover_value" %in% names(veg_metadata)) {
     veg_metadata <- clean_veg_metadata(veg_metadata) |> order_veg_metadata()
   }
-  if (is.null(rugged)) {
-    rugged <- load_ruggedness_data()
-  }
 
-  dplyr::bind_rows(
-    # Indicator: habitat
+  # Metrics that don't vary by year
+  static <- dplyr::bind_rows(
     score_cram_index(cram, function_name = "Plant", config = config),
-
-    # Indicator: vegetation
-    score_native_cover(veg, year = year, season = season, config = config),
-    score_invasive_severity(veg, year = year, season = season, config = config),
-    score_veg_cover(veg_metadata, year = year, season = season, config = config),
-
-    # Indicator: elevation
     score_ruggedness(rugged)
   )
+
+  results <- lapply(year, function(y) {
+    yearly <- dplyr::bind_rows(
+      score_plant_alliances(veg, year = y, season = season, config = config),
+      score_marsh_plain_inundation(veg, year = y, season = season, config = config),
+      score_native_cover(veg, year = y, season = season, config = config),
+      score_invasive_severity(veg, year = y, season = season, config = config),
+      score_veg_cover(veg_metadata, year = y, season = season, config = config)
+    )
+    yearly$year <- y
+
+    s <- static
+    s$year <- y
+
+    dplyr::bind_rows(s, yearly)
+  })
+
+  dplyr::bind_rows(results) |>
+    dplyr::select(
+      estuaryname, siteid, year,
+      function_name, indicator_name, metric_name, metric_score
+    )
 }

@@ -56,7 +56,7 @@ score_invasive_severity <- function(
     dplyr::mutate(
       function_name = function_name,
       indicator_name = indicator_name,
-      metric_name = "native_resiliency"
+      metric_name = "invasive_severity"
     ) |>
     dplyr::select(
       estuaryname,

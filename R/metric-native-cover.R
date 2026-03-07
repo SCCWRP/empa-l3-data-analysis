@@ -38,6 +38,7 @@ score_native_cover <- function(
 
   veg_relative <- veg |>
     dplyr::filter(
+      !is.na(.data$status),
       !.data$status %in% exclude_statuses,
       .data$siteid != "NA",
       .data$estimatedcover != missing_val

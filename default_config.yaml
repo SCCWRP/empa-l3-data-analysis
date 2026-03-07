@@ -9,8 +9,8 @@
 # ---------------------------------------------------------------------------
 
 season_months:
-  Spring: [3, 4, 5, 6]
-  Fall: [7, 8, 9, 10, 11, 12, 1, 2]
+  Spring: [3, 4, 5, 6, 7]
+  Fall: [8, 9, 10, 11, 12, 1, 2]
 
 # Habitat aliases: only non-obvious remappings.
 # All other habitat names are auto-title-cased (e.g. "Low marsh" -> "Low Marsh").
@@ -116,8 +116,8 @@ scoring:
   # Elevation/habitat zone settings
   elevation_exclude_extent: "Wetland Migration/All Areas (1.2 ft)"
   elevation_extent_mapping:
-    "Current Wetland Footprint": "current_extent"
-    "Wetland Migration/Avoid Developed (1.2 ft)": "future_extent"
+    "Current Wetland Footprint": "current_habitat_distribution"
+    "Wetland Migration/Avoid Developed (1.2 ft)": "future_habitat_distribution"
   wetland_sum_zones:
     - "Low"
     - "Mid"

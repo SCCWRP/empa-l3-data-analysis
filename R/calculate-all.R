@@ -15,12 +15,12 @@
 #' @param veg_metadata Raw or cleaned vegetation metadata data frame.
 #' @param gis_data Raw or cleaned GIS buffer data frame.
 #' @param wetland_extents Raw or cleaned wetland extents data frame.
-#' @param rugged Ruggedness data frame. If \code{NULL} (default), loads the
-#'   bundled file via \code{\link{load_ruggedness_data}}.
-#' @param year Character vector of calendar years, or "all". Default "all".
+#' @param rugged Ruggedness data frame.
+#' @param year Character or numeric vector of calendar years (e.g.
+#'   \code{c(2023, 2024, 2025)}). Required.
 #' @param season Character vector of seasons, or "all". Default "all".
 #' @param config A configuration list. Defaults to \code{\link{get_config}()}.
-#' @return A long-format data frame with columns: estuaryname, siteid,
+#' @return A long-format data frame with columns: estuaryname, siteid, year,
 #'   function_name, indicator_name, metric_name, metric_score.
 #' @export
 calculate_function_all <- function(
@@ -29,8 +29,8 @@ calculate_function_all <- function(
   veg_metadata,
   gis_data,
   wetland_extents,
-  rugged = NULL,
-  year = "all",
+  rugged,
+  year,
   season = "all",
   config = get_config()
 ) {
@@ -46,9 +46,6 @@ calculate_function_all <- function(
   }
   if (!is.ordered(wetland_extents$siteid)) {
     wetland_extents <- order_wetland_extents(wetland_extents)
-  }
-  if (is.null(rugged)) {
-    rugged <- load_ruggedness_data()
   }
 
   plant <- calculate_function_plant(

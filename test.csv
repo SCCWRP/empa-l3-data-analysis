@@ -1,0 +1,241 @@
+"","estuaryname","siteid","year","function_name","indicator_name","metric_name","metric_score"
+"1","Ten Mile River","NC-TEN","2023","Plant","habitat","index",88
+"2","Big River","NC-BIGR","2023","Plant","habitat","index",82.7
+"3","Navarro River","NC-NAV","2023","Plant","habitat","index",64.9
+"4","Drakes Estero","NC-DRA","2023","Plant","habitat","index",NA
+"5","Bolinas Lagoon","NC-BOL","2023","Plant","habitat","index",NA
+"6","Pajaro River","CC-PAJ","2023","Plant","habitat","index",51.6
+"7","Moro Cojo Slough","CC-MCS","2023","Plant","habitat","index",40
+"8","Carmel River","CC-CAR","2023","Plant","habitat","index",75.3
+"9","Arroyo de la Cruz","CC-ADLC","2023","Plant","habitat","index",80
+"10","Morro Bay","CC-MOR","2023","Plant","habitat","index",NA
+"11","Goleta Slough ","SC-GOL","2023","Plant","habitat","index",48.9
+"12","Ventura River","SC-VEN","2023","Plant","habitat","index",61.7
+"13","Malibu Lagoon","SC-MAL","2023","Plant","habitat","index",52.9
+"14","Bolsa Chica","SC-BOL","2023","Plant","habitat","index",NA
+"15","Newport Bay","SC-NEW","2023","Plant","habitat","index",44
+"16","Batiquitos Lagoon","SC-BAT","2023","Plant","habitat","index",54.3
+"17","Ten Mile River","NC-TEN","2023","Plant","elevation","ruggedness",23
+"18","Big River","NC-BIGR","2023","Plant","elevation","ruggedness",25
+"19","Navarro River","NC-NAV","2023","Plant","elevation","ruggedness",21
+"20","Drakes Estero","NC-DRA","2023","Plant","elevation","ruggedness",25
+"21","Bolinas Lagoon","NC-BOL","2023","Plant","elevation","ruggedness",17
+"22","Pajaro River","CC-PAJ","2023","Plant","elevation","ruggedness",16
+"23","Moro Cojo Slough","CC-MCS","2023","Plant","elevation","ruggedness",14
+"24","Carmel River","CC-CAR","2023","Plant","elevation","ruggedness",21
+"25","Arroyo de la Cruz","CC-ADLC","2023","Plant","elevation","ruggedness",16
+"26","Morro Bay","CC-MOR","2023","Plant","elevation","ruggedness",15
+"27","Goleta Slough","SC-GOL","2023","Plant","elevation","ruggedness",17
+"28","Ventura River","SC-VEN","2023","Plant","elevation","ruggedness",17
+"29","Malibu Lagoon","SC-MAL","2023","Plant","elevation","ruggedness",12
+"30","Bolsa Chica","SC-BOL","2023","Plant","elevation","ruggedness",16
+"31","Newport Bay","SC-NEW","2023","Plant","elevation","ruggedness",21
+"32","Batiquitos Lagoon","SC-BAT","2023","Plant","elevation","ruggedness",16
+"33","Malibu Lagoon","SC-MAL","2023","Plant","alliances","plant_alliances",NA
+"34","Newport Bay","SC-NEW","2023","Plant","alliances","plant_alliances",NA
+"35","Arroyo de la Cruz","CC-ADLC","2023","Plant","alliances","plant_alliances",NA
+"36","Moro Cojo Slough","CC-MCS","2023","Plant","alliances","plant_alliances",NA
+"37","Ventura River","SC-VEN","2023","Plant","alliances","plant_alliances",NA
+"38","Batiquitos Lagoon","SC-BAT","2023","Plant","alliances","plant_alliances",NA
+"39","Goleta Slough","SC-GOL","2023","Plant","alliances","plant_alliances",NA
+"40","Pajaro River","CC-PAJ","2023","Plant","alliances","plant_alliances",NA
+"41","Carmel River","CC-CAR","2023","Plant","alliances","plant_alliances",NA
+"42","Morro Bay","CC-MOR","2023","Plant","alliances","plant_alliances",NA
+"43","Bolinas Lagoon","NC-BOL","2023","Plant","alliances","plant_alliances",NA
+"44","Bolsa Chica","SC-BOL","2023","Plant","alliances","plant_alliances",NA
+"45","Drakes Estero","NC-DRA","2023","Plant","alliances","plant_alliances",NA
+"46","Navarro River","NC-NAV","2023","Plant","alliances","plant_alliances",NA
+"47","Big River","NC-BIGR","2023","Plant","alliances","plant_alliances",NA
+"48","Ten Mile River","NC-TEN","2023","Plant","alliances","plant_alliances",NA
+"49","Malibu Lagoon","SC-MAL","2023","Plant","inundation","marsh_plain_inundation",NA
+"50","Newport Bay","SC-NEW","2023","Plant","inundation","marsh_plain_inundation",NA
+"51","Arroyo de la Cruz","CC-ADLC","2023","Plant","inundation","marsh_plain_inundation",NA
+"52","Moro Cojo Slough","CC-MCS","2023","Plant","inundation","marsh_plain_inundation",NA
+"53","Ventura River","SC-VEN","2023","Plant","inundation","marsh_plain_inundation",NA
+"54","Batiquitos Lagoon","SC-BAT","2023","Plant","inundation","marsh_plain_inundation",NA
+"55","Goleta Slough","SC-GOL","2023","Plant","inundation","marsh_plain_inundation",NA
+"56","Pajaro River","CC-PAJ","2023","Plant","inundation","marsh_plain_inundation",NA
+"57","Carmel River","CC-CAR","2023","Plant","inundation","marsh_plain_inundation",NA
+"58","Morro Bay","CC-MOR","2023","Plant","inundation","marsh_plain_inundation",NA
+"59","Bolinas Lagoon","NC-BOL","2023","Plant","inundation","marsh_plain_inundation",NA
+"60","Bolsa Chica","SC-BOL","2023","Plant","inundation","marsh_plain_inundation",NA
+"61","Drakes Estero","NC-DRA","2023","Plant","inundation","marsh_plain_inundation",NA
+"62","Navarro River","NC-NAV","2023","Plant","inundation","marsh_plain_inundation",NA
+"63","Big River","NC-BIGR","2023","Plant","inundation","marsh_plain_inundation",NA
+"64","Ten Mile River","NC-TEN","2023","Plant","inundation","marsh_plain_inundation",NA
+"65","Arroyo de la Cruz","CC-ADLC","2023","Plant","vegetation","native_cover",41.9
+"66","Batiquitos Lagoon","SC-BAT","2023","Plant","vegetation","native_cover",86.4
+"67","Big River","NC-BIGR","2023","Plant","vegetation","native_cover",81
+"68","Bolinas Lagoon","NC-BOL","2023","Plant","vegetation","native_cover",89.2
+"69","Bolsa Chica","SC-BOL","2023","Plant","vegetation","native_cover",86.4
+"70","Carmel River","CC-CAR","2023","Plant","vegetation","native_cover",42.4
+"71","Drakes Estero","NC-DRA","2023","Plant","vegetation","native_cover",76
+"72","Goleta Slough","SC-GOL","2023","Plant","vegetation","native_cover",80.6
+"73","Malibu Lagoon","SC-MAL","2023","Plant","vegetation","native_cover",82
+"74","Moro Cojo Slough","CC-MCS","2023","Plant","vegetation","native_cover",78.4
+"75","Morro Bay","CC-MOR","2023","Plant","vegetation","native_cover",57.7
+"76","Navarro River","NC-NAV","2023","Plant","vegetation","native_cover",88
+"77","Newport Bay","SC-NEW","2023","Plant","vegetation","native_cover",95.7
+"78","Pajaro River","CC-PAJ","2023","Plant","vegetation","native_cover",44
+"79","Ten Mile River","NC-TEN","2023","Plant","vegetation","native_cover",52.1
+"80","Ventura River","SC-VEN","2023","Plant","vegetation","native_cover",45
+"81","Arroyo de la Cruz","CC-ADLC","2023","Plant","vegetation","invasive_severity",100
+"82","Batiquitos Lagoon","SC-BAT","2023","Plant","vegetation","invasive_severity",100
+"83","Big River","NC-BIGR","2023","Plant","vegetation","invasive_severity",100
+"84","Bolinas Lagoon","NC-BOL","2023","Plant","vegetation","invasive_severity",100
+"85","Bolsa Chica","SC-BOL","2023","Plant","vegetation","invasive_severity",100
+"86","Carmel River","CC-CAR","2023","Plant","vegetation","invasive_severity",100
+"87","Drakes Estero","NC-DRA","2023","Plant","vegetation","invasive_severity",100
+"88","Goleta Slough","SC-GOL","2023","Plant","vegetation","invasive_severity",100
+"89","Malibu Lagoon","SC-MAL","2023","Plant","vegetation","invasive_severity",100
+"90","Moro Cojo Slough","CC-MCS","2023","Plant","vegetation","invasive_severity",100
+"91","Morro Bay","CC-MOR","2023","Plant","vegetation","invasive_severity",100
+"92","Navarro River","NC-NAV","2023","Plant","vegetation","invasive_severity",100
+"93","Newport Bay","SC-NEW","2023","Plant","vegetation","invasive_severity",100
+"94","Pajaro River","CC-PAJ","2023","Plant","vegetation","invasive_severity",100
+"95","Ten Mile River","NC-TEN","2023","Plant","vegetation","invasive_severity",100
+"96","Ventura River","SC-VEN","2023","Plant","vegetation","invasive_severity",100
+"97","Arroyo de la Cruz","CC-ADLC","2023","Plant","vegetation","veg_cover",54.9
+"98","Batiquitos Lagoon","SC-BAT","2023","Plant","vegetation","veg_cover",61.2
+"99","Big River","NC-BIGR","2023","Plant","vegetation","veg_cover",89.5
+"100","Bolinas Lagoon","NC-BOL","2023","Plant","vegetation","veg_cover",83.9
+"101","Bolsa Chica","SC-BOL","2023","Plant","vegetation","veg_cover",68.1
+"102","Carmel River","CC-CAR","2023","Plant","vegetation","veg_cover",68.6
+"103","Drakes Estero","NC-DRA","2023","Plant","vegetation","veg_cover",80.1
+"104","Goleta Slough","SC-GOL","2023","Plant","vegetation","veg_cover",90
+"105","Malibu Lagoon","SC-MAL","2023","Plant","vegetation","veg_cover",87
+"106","Moro Cojo Slough","CC-MCS","2023","Plant","vegetation","veg_cover",85.8
+"107","Morro Bay","CC-MOR","2023","Plant","vegetation","veg_cover",69.4
+"108","Navarro River","NC-NAV","2023","Plant","vegetation","veg_cover",50
+"109","Newport Bay","SC-NEW","2023","Plant","vegetation","veg_cover",75.8
+"110","Pajaro River","CC-PAJ","2023","Plant","vegetation","veg_cover",73.7
+"111","Ten Mile River","NC-TEN","2023","Plant","vegetation","veg_cover",66.6
+"112","Ventura River","SC-VEN","2023","Plant","vegetation","veg_cover",42.2
+"113","Ten Mile River","NC-TEN","2023","SLR","habitat","index",88
+"114","Big River","NC-BIGR","2023","SLR","habitat","index",82.7
+"115","Navarro River","NC-NAV","2023","SLR","habitat","index",64.9
+"116","Drakes Estero","NC-DRA","2023","SLR","habitat","index",NA
+"117","Bolinas Lagoon","NC-BOL","2023","SLR","habitat","index",NA
+"118","Pajaro River","CC-PAJ","2023","SLR","habitat","index",51.6
+"119","Moro Cojo Slough","CC-MCS","2023","SLR","habitat","index",40
+"120","Carmel River","CC-CAR","2023","SLR","habitat","index",75.3
+"121","Arroyo de la Cruz","CC-ADLC","2023","SLR","habitat","index",80
+"122","Morro Bay","CC-MOR","2023","SLR","habitat","index",NA
+"123","Goleta Slough ","SC-GOL","2023","SLR","habitat","index",48.9
+"124","Ventura River","SC-VEN","2023","SLR","habitat","index",61.7
+"125","Malibu Lagoon","SC-MAL","2023","SLR","habitat","index",52.9
+"126","Bolsa Chica","SC-BOL","2023","SLR","habitat","index",NA
+"127","Newport Bay","SC-NEW","2023","SLR","habitat","index",44
+"128","Batiquitos Lagoon","SC-BAT","2023","SLR","habitat","index",54.3
+"129","Ten Mile River","NC-TEN","2023","SLR","accretion","sediment_supply",NA
+"130","Big River","NC-BIGR","2023","SLR","accretion","sediment_supply",NA
+"131","Navarro River","NC-NAV","2023","SLR","accretion","sediment_supply",NA
+"132","Drakes Estero","NC-DRA","2023","SLR","accretion","sediment_supply",NA
+"133","Bolinas Lagoon","NC-BOL","2023","SLR","accretion","sediment_supply",NA
+"134","Pajaro River","CC-PAJ","2023","SLR","accretion","sediment_supply",NA
+"135","Moro Cojo Slough","CC-MCS","2023","SLR","accretion","sediment_supply",NA
+"136","Carmel River","CC-CAR","2023","SLR","accretion","sediment_supply",NA
+"137","Arroyo de la Cruz","CC-ADLC","2023","SLR","accretion","sediment_supply",NA
+"138","Morro Bay","CC-MOR","2023","SLR","accretion","sediment_supply",NA
+"139","Goleta Slough ","SC-GOL","2023","SLR","accretion","sediment_supply",NA
+"140","Ventura River","SC-VEN","2023","SLR","accretion","sediment_supply",NA
+"141","Malibu Lagoon","SC-MAL","2023","SLR","accretion","sediment_supply",NA
+"142","Bolsa Chica","SC-BOL","2023","SLR","accretion","sediment_supply",NA
+"143","Newport Bay","SC-NEW","2023","SLR","accretion","sediment_supply",NA
+"144","Batiquitos Lagoon","SC-BAT","2023","SLR","accretion","sediment_supply",NA
+"145","Arroyo de la Cruz","CC-ADLC","2023","SLR","resiliency","buffer_cover",94
+"146","Batiquitos Lagoon","SC-BAT","2023","SLR","resiliency","buffer_cover",16
+"147","Big River","NC-BIGR","2023","SLR","resiliency","buffer_cover",89
+"148","Bolinas Lagoon","NC-BOL","2023","SLR","resiliency","buffer_cover",74
+"149","Bolsa Chica","SC-BOL","2023","SLR","resiliency","buffer_cover",26
+"150","Carmel","CC-CAR","2023","SLR","resiliency","buffer_cover",34
+"151","Drakes Estero","NC-DRA","2023","SLR","resiliency","buffer_cover",99
+"152","Goleta Slough","SC-GOL","2023","SLR","resiliency","buffer_cover",20
+"153","Malibu Lagoon","SC-MAL","2023","SLR","resiliency","buffer_cover",18
+"154","Moro Cojo","CC-MCS","2023","SLR","resiliency","buffer_cover",71
+"155","Morro Bay","CC-MOR","2023","SLR","resiliency","buffer_cover",62
+"156","Navarro River","NC-NAV","2023","SLR","resiliency","buffer_cover",87
+"157","Newport Bay","SC-NEW","2023","SLR","resiliency","buffer_cover",13
+"158","Pajaro","CC-PAJ","2023","SLR","resiliency","buffer_cover",81
+"159","Ten Mile River","NC-TEN","2023","SLR","resiliency","buffer_cover",83
+"160","Ventura River","SC-VEN","2023","SLR","resiliency","buffer_cover",26
+"161","Arroyo de la Cruz","CC-ADLC","2023","SLR","resiliency","perimeter_land_cover",97
+"162","Batiquitos Lagoon","SC-BAT","2023","SLR","resiliency","perimeter_land_cover",12
+"163","Big River","NC-BIGR","2023","SLR","resiliency","perimeter_land_cover",76
+"164","Bolinas Lagoon","NC-BOL","2023","SLR","resiliency","perimeter_land_cover",24
+"165","Bolsa Chica","SC-BOL","2023","SLR","resiliency","perimeter_land_cover",18
+"166","Carmel","CC-CAR","2023","SLR","resiliency","perimeter_land_cover",43
+"167","Drakes Estero","NC-DRA","2023","SLR","resiliency","perimeter_land_cover",97
+"168","Goleta Slough","SC-GOL","2023","SLR","resiliency","perimeter_land_cover",34
+"169","Malibu Lagoon","SC-MAL","2023","SLR","resiliency","perimeter_land_cover",20
+"170","Moro Cojo","CC-MCS","2023","SLR","resiliency","perimeter_land_cover",79
+"171","Morro Bay","CC-MOR","2023","SLR","resiliency","perimeter_land_cover",59
+"172","Navarro River","NC-NAV","2023","SLR","resiliency","perimeter_land_cover",51
+"173","Newport Bay","SC-NEW","2023","SLR","resiliency","perimeter_land_cover",18
+"174","Pajaro","CC-PAJ","2023","SLR","resiliency","perimeter_land_cover",83
+"175","Ten Mile River","NC-TEN","2023","SLR","resiliency","perimeter_land_cover",61
+"176","Ventura River","SC-VEN","2023","SLR","resiliency","perimeter_land_cover",35
+"177","Ten Mile River","NC-TEN","2023","SLR","resiliency","perimeter_contiguity",37.4
+"178","Big River","NC-BIGR","2023","SLR","resiliency","perimeter_contiguity",66.1
+"179","Navarro River","NC-NAV","2023","SLR","resiliency","perimeter_contiguity",33.2
+"180","Drakes Estero","NC-DRA","2023","SLR","resiliency","perimeter_contiguity",48.9
+"181","Bolinas Lagoon","NC-BOL","2023","SLR","resiliency","perimeter_contiguity",NA
+"182","Pajaro","CC-PAJ","2023","SLR","resiliency","perimeter_contiguity",22.7
+"183","Moro Cojo","CC-MCS","2023","SLR","resiliency","perimeter_contiguity",20.4
+"184","Carmel","CC-CAR","2023","SLR","resiliency","perimeter_contiguity",49.6
+"185","Arroyo de la Cruz","CC-ADLC","2023","SLR","resiliency","perimeter_contiguity",77.4
+"186","Morro Bay","CC-MOR","2023","SLR","resiliency","perimeter_contiguity",67.5
+"187","Goleta Slough","SC-GOL","2023","SLR","resiliency","perimeter_contiguity",NA
+"188","Ventura River","SC-VEN","2023","SLR","resiliency","perimeter_contiguity",NA
+"189","Malibu Lagoon","SC-MAL","2023","SLR","resiliency","perimeter_contiguity",NA
+"190","Newport Bay","SC-NEW","2023","SLR","resiliency","perimeter_contiguity",NA
+"191","Batiquitos Lagoon","SC-BAT","2023","SLR","resiliency","perimeter_contiguity",NA
+"192","Bolsa Chica","SC-BOL","2023","SLR","resiliency","perimeter_contiguity",NA
+"193","Ten Mile River","NC-TEN","2023","SLR","resiliency","current_habitat_distribution",74.5996172
+"194","Big River","NC-BIGR","2023","SLR","resiliency","current_habitat_distribution",59.418454
+"195","Navarro River","NC-NAV","2023","SLR","resiliency","current_habitat_distribution",35.7930194
+"196","Drakes Estero","NC-DRA","2023","SLR","resiliency","current_habitat_distribution",16.603945
+"197","Bolinas Lagoon","NC-BOL","2023","SLR","resiliency","current_habitat_distribution",27.7879107
+"198","Pajaro River","CC-PAJ","2023","SLR","resiliency","current_habitat_distribution",87.0625261
+"199","Moro Cojo Slough","CC-MCS","2023","SLR","resiliency","current_habitat_distribution",81.1411286
+"200","Carmel River","CC-CAR","2023","SLR","resiliency","current_habitat_distribution",70.7473522
+"201","Arroyo de la Cruz","CC-ADLC","2023","SLR","resiliency","current_habitat_distribution",49.5073891
+"202","Morro Bay","CC-MOR","2023","SLR","resiliency","current_habitat_distribution",25.7064351
+"203","Goleta Slough","SC-GOL","2023","SLR","resiliency","current_habitat_distribution",82.2354832
+"204","Ventura River","SC-VEN","2023","SLR","resiliency","current_habitat_distribution",68.9340937
+"205","Malibu Lagoon","SC-MAL","2023","SLR","resiliency","current_habitat_distribution",57.5688073
+"206","Bolsa Chica","SC-BOL","2023","SLR","resiliency","current_habitat_distribution",71.6819101
+"207","Newport Bay","SC-NEW","2023","SLR","resiliency","current_habitat_distribution",33.5934145
+"208","Batiquitos Lagoon","SC-BAT","2023","SLR","resiliency","current_habitat_distribution",47.8927299
+"209","Ten Mile River","NC-TEN","2023","SLR","resiliency","future_habitat_distribution",31.4548495
+"210","Big River","NC-BIGR","2023","SLR","resiliency","future_habitat_distribution",10.4278336
+"211","Navarro River","NC-NAV","2023","SLR","resiliency","future_habitat_distribution",5.2954358
+"212","Drakes Estero","NC-DRA","2023","SLR","resiliency","future_habitat_distribution",7.4113016
+"213","Bolinas Lagoon","NC-BOL","2023","SLR","resiliency","future_habitat_distribution",10.3238279
+"214","Pajaro River","CC-PAJ","2023","SLR","resiliency","future_habitat_distribution",46.4737626
+"215","Moro Cojo Slough","CC-MCS","2023","SLR","resiliency","future_habitat_distribution",26.5179175
+"216","Carmel River","CC-CAR","2023","SLR","resiliency","future_habitat_distribution",27.2
+"217","Arroyo de la Cruz","CC-ADLC","2023","SLR","resiliency","future_habitat_distribution",8.2961071
+"218","Morro Bay","CC-MOR","2023","SLR","resiliency","future_habitat_distribution",15.0355129
+"219","Goleta Slough","SC-GOL","2023","SLR","resiliency","future_habitat_distribution",68.5268772
+"220","Ventura River","SC-VEN","2023","SLR","resiliency","future_habitat_distribution",49.2574257
+"221","Malibu Lagoon","SC-MAL","2023","SLR","resiliency","future_habitat_distribution",21.4285714
+"222","Bolsa Chica","SC-BOL","2023","SLR","resiliency","future_habitat_distribution",58.6635862
+"223","Newport Bay","SC-NEW","2023","SLR","resiliency","future_habitat_distribution",24.6454102
+"224","Batiquitos Lagoon","SC-BAT","2023","SLR","resiliency","future_habitat_distribution",24.8680739
+"225","Arroyo de la Cruz","CC-ADLC","2023","SLR","vegetation","veg_cover",54.9
+"226","Batiquitos Lagoon","SC-BAT","2023","SLR","vegetation","veg_cover",61.2
+"227","Big River","NC-BIGR","2023","SLR","vegetation","veg_cover",89.5
+"228","Bolinas Lagoon","NC-BOL","2023","SLR","vegetation","veg_cover",83.9
+"229","Bolsa Chica","SC-BOL","2023","SLR","vegetation","veg_cover",68.1
+"230","Carmel River","CC-CAR","2023","SLR","vegetation","veg_cover",68.6
+"231","Drakes Estero","NC-DRA","2023","SLR","vegetation","veg_cover",80.1
+"232","Goleta Slough","SC-GOL","2023","SLR","vegetation","veg_cover",90
+"233","Malibu Lagoon","SC-MAL","2023","SLR","vegetation","veg_cover",87
+"234","Moro Cojo Slough","CC-MCS","2023","SLR","vegetation","veg_cover",85.8
+"235","Morro Bay","CC-MOR","2023","SLR","vegetation","veg_cover",69.4
+"236","Navarro River","NC-NAV","2023","SLR","vegetation","veg_cover",50
+"237","Newport Bay","SC-NEW","2023","SLR","vegetation","veg_cover",75.8
+"238","Pajaro River","CC-PAJ","2023","SLR","vegetation","veg_cover",73.7
+"239","Ten Mile River","NC-TEN","2023","SLR","vegetation","veg_cover",66.6
+"240","Ventura River","SC-VEN","2023","SLR","vegetation","veg_cover",42.2
