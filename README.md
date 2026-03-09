@@ -2,15 +2,6 @@
 
 R package for the Estuary MPA (EMPA) Level 3 Dashboard data analysis. Produces condition scores and visualizations for California estuary sites, evaluating both current vegetation health and vulnerability to sea level rise.
 
-## What This Package Does
-
-This package evaluates each estuary site along two dimensions:
-
-1. **How healthy is the vegetation right now?** (the "Plant" function)
-2. **How vulnerable is the site to sea level rise?** (the "SLR" function)
-
-Each function is broken down into indicators, and each indicator has one or more metrics that produce a numeric score per site.
-
 ---
 
 ## Metrics
