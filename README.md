@@ -2,23 +2,6 @@
 
 R package for the Estuary MPA (EMPA) Level 3 Dashboard data analysis. Produces condition scores and visualizations for California estuary sites, evaluating both current vegetation health and vulnerability to sea level rise.
 
-## Installation
-
-```r
-devtools::install()
-library(EMPAFunctionAnalysis)
-```
-
-## Quick Start
-
-```r
-# Run everything with all years and seasons
-run_all()
-
-# Run with a custom config file (e.g. to filter to specific years)
-run_all(config_path = "path/to/my_config.yaml")
-```
-
 ## What This Package Does
 
 This package evaluates each estuary site along two dimensions:
@@ -37,23 +20,23 @@ All metric functions return a data frame with columns:
 
 \* Static metrics (GIS/wetland inputs) do not include a `year` column.
 
-| function_name | indicator_name | metric_name |
-|---|---|---|
-| Plant | alliances | plant_alliances |
-| Plant | elevation | ruggedness |
-| Plant | habitat | cram_index |
-| Plant | inundation | marsh_plain_inundation |
-| Plant | vegetation | invasive_severity |
-| Plant | vegetation | native_cover |
-| Plant | vegetation | veg_cover |
-| SLR | accretion | sediment_supply |
-| SLR | habitat | cram_index |
-| SLR | resiliency | buffer_cover |
-| SLR | resiliency | current_habitat_distribution |
-| SLR | resiliency | future_habitat_distribution |
-| SLR | resiliency | perimeter_contiguity |
-| SLR | resiliency | perimeter_land_cover |
-| SLR | vegetation | veg_cover |
+| function_name | indicator_name | metric_name | R_function_name |
+|---|---|---|---|
+| Plant | alliances | plant_alliances | `score_plant_alliances()` |
+| Plant | elevation | ruggedness | `score_ruggedness()` |
+| Plant | habitat | cram_index | `score_cram_index()` |
+| Plant | inundation | marsh_plain_inundation | `score_marsh_plain_inundation()` |
+| Plant | vegetation | invasive_severity | `score_invasive_severity()` |
+| Plant | vegetation | native_cover | `score_native_cover()` |
+| Plant | vegetation | veg_cover | `score_veg_cover()` |
+| SLR | accretion | sediment_supply | `score_sediment_supply()` |
+| SLR | habitat | cram_index | `score_cram_index()` |
+| SLR | resiliency | buffer_cover | `score_buffer_cover()` |
+| SLR | resiliency | current_habitat_distribution | `score_current_extent()` |
+| SLR | resiliency | future_habitat_distribution | `score_future_extent()` |
+| SLR | resiliency | perimeter_contiguity | `score_perimeter_contiguity()` |
+| SLR | resiliency | perimeter_land_cover | `score_buffer_cover()` |
+| SLR | vegetation | veg_cover | `score_veg_cover()` |
 
 ---
 
