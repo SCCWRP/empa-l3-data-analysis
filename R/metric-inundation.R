@@ -1,46 +1,47 @@
 #' @title Metric: Marsh Plain Inundation
-#' @description Computes marsh plain inundation scores per site (TBD).
+#' @description Placeholder — marsh plain inundation scoring not yet implemented.
 #' @name metric-inundation
 #' @importFrom dplyr mutate select distinct filter
 
 #' Score Marsh Plain Inundation
 #'
-#' Placeholder metric for marsh plain inundation scoring. Currently returns
-#' NA scores.
+#' Placeholder metric. Extracts year from \code{samplecollectiondate}, filters
+#' to the requested year(s), and returns \code{NA} scores for all sites.
 #'
-#' @param vegetativecover_data A cleaned vegetation data frame (output of
-#'   \code{\link{clean_veg}}).
-#' @param year Numeric or character vector of years to include, or "all".
-#'   Default "all".
-#' @param season Character vector of seasons to include, or "all". Default
-#'   "all".
-#' @return A data frame with columns: estuaryname, siteid, function_name,
-#'   indicator_name, metric_name, metric_score.
+#' @param vegetativecover_data A raw vegetation cover data frame with columns
+#'   \code{estuaryname}, \code{siteid}, \code{samplecollectiondate}.
+#' @param function_name Character. Function label. Default \code{"Plant"}.
+#' @param indicator_name Character. Indicator label. Default \code{"inundation"}.
+#' @param year Numeric or character vector of years to include, or \code{"all"}.
+#'   Default \code{"all"}.
+#' @return A data frame with columns: estuaryname, siteid, year, function_name,
+#'   indicator_name, metric_name, metric_score (all NA).
 #' @export
 score_marsh_plain_inundation <- function(
   vegetativecover_data,
-  year   = "all",
-  season = "all"
+  function_name = "Plant",
+  indicator_name = "inundation",
+  year = "all"
 ) {
-  veg <- vegetativecover_data
+  veg <- vegetativecover_data |>
+    dplyr::mutate(year = as.character(substr(samplecollectiondate, 1, 4)))
+
   if (!identical(year, "all")) {
-    veg <- dplyr::filter(veg, .data$calendar_year %in% as.character(year))
-  }
-  if (!identical(season, "all")) {
-    veg <- dplyr::filter(veg, .data$Season %in% season)
+    veg <- dplyr::filter(veg, .data$year %in% as.character(year))
   }
 
   veg |>
-    dplyr::distinct(estuaryname, siteid) |>
+    dplyr::distinct(estuaryname, siteid, year) |>
     dplyr::mutate(
-      function_name  = "Plant",
-      indicator_name = "inundation",
-      metric_name    = "marsh_plain_inundation",
-      metric_score   = NA_real_
+      function_name = function_name,
+      indicator_name = indicator_name,
+      metric_name = "marsh_plain_inundation",
+      metric_score = NA_real_
     ) |>
     dplyr::select(
       estuaryname,
       siteid,
+      year,
       function_name,
       indicator_name,
       metric_name,

@@ -6,23 +6,28 @@
 
 #' Score Ruggedness
 #'
-#' Takes the ruggedness value directly from the dataset with no further
-#' calculation.
+#' Passes the pre-computed surface ruggedness index directly through with no
+#' transformation. Higher values indicate greater topographic complexity.
+#' This is a static metric — no year variation.
 #'
 #' @param rugged A data frame with columns \code{estuaryname}, \code{siteid},
-#'   and \code{ruggedness} (or \code{Ruggedness}).
+#'   and \code{ruggedness}.
+#' @param function_name Character. Function label. Default \code{"Plant"}.
+#' @param indicator_name Character. Indicator label. Default \code{"elevation"}.
 #' @return A data frame with columns: estuaryname, siteid, function_name,
 #'   indicator_name, metric_name, metric_score.
 #' @export
-score_ruggedness <- function(rugged) {
-  rug_col <- if ("Ruggedness" %in% names(rugged)) "Ruggedness" else "ruggedness"
-
+score_ruggedness <- function(
+  rugged,
+  function_name = "Plant",
+  indicator_name = "elevation"
+) {
   rugged |>
     dplyr::mutate(
-      function_name = "Plant",
-      indicator_name = "elevation",
-      metric_name = "ruggedness",
-      metric_score = .data[[rug_col]]
+      function_name  = function_name,
+      indicator_name = indicator_name,
+      metric_name    = "ruggedness",
+      metric_score   = ruggedness
     ) |>
     dplyr::select(
       estuaryname,

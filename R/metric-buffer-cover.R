@@ -6,14 +6,20 @@
 
 #' Score Buffer Cover
 #'
-#' Aggregates buffer land cover into natural vs developed, and returns the
-#' natural percentage.
+#' Filters GIS buffer data to the specified buffer distance, groups landcover
+#' into natural (Ag + Natural) vs developed, and returns the natural percentage.
+#' Called twice: once for the 500 m buffer (\code{metric_name = "buffer_cover"})
+#' and once for the 30 m buffer (\code{metric_name = "perimeter_land_cover"}).
 #'
-#' @param gis_data A data frame as returned by \code{\link{load_gis_data}}.
-#' @param buffer_size Character. Buffer distance to filter on (e.g. "500 m",
-#'   "30 m").
+#' @param gis_data A GIS buffer land cover data frame with columns
+#'   \code{estuaryname}, \code{siteid}, \code{buffer}, \code{landcover},
+#'   \code{percent}.
+#' @param buffer_size Character. Buffer distance to filter on (e.g. \code{"500 m"},
+#'   \code{"30 m"}).
 #' @param metric_name Character. Name for this metric in the output. Default
-#'   "buffer_cover".
+#'   \code{"buffer_cover"}.
+#' @param function_name Character. Function label. Default \code{"SLR"}.
+#' @param indicator_name Character. Indicator label. Default \code{"resiliency"}.
 #' @param natural_classes Character vector. Landcover classes counted as
 #'   natural. Default \code{c("Ag", "Natural")}.
 #' @return A data frame with columns: estuaryname, siteid, function_name,
@@ -23,6 +29,8 @@ score_buffer_cover <- function(
   gis_data,
   buffer_size,
   metric_name = "buffer_cover",
+  function_name = "SLR",
+  indicator_name = "resiliency",
   natural_classes = c("Ag", "Natural")
 ) {
   gis_data |>
@@ -30,7 +38,7 @@ score_buffer_cover <- function(
     dplyr::mutate(
       landcover_group = dplyr::case_when(
         .data$landcover %in% natural_classes ~ "natural",
-        .data$landcover == "Developed" ~ "developed",
+        .data$landcover == "Developed"       ~ "developed",
         TRUE ~ NA_character_
       )
     ) |>
@@ -41,9 +49,9 @@ score_buffer_cover <- function(
       .groups = "drop"
     ) |>
     dplyr::mutate(
-      function_name = "SLR",
-      indicator_name = "resiliency",
-      metric_name = metric_name
+      function_name  = function_name,
+      indicator_name = indicator_name,
+      metric_name    = metric_name
     ) |>
     dplyr::select(
       estuaryname,
