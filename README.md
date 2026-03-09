@@ -39,11 +39,11 @@ All metric functions return a data frame with columns:
 
 **Function:** `score_cram_index()`
 
-**Calculation:** Filters vegetation data by year (from `samplecollectiondate`) to get the list of surveyed sites. Filters CRAM data by year (from `Year_assessment`), groups by `Site`, and averages the `index` column to produce one site-level score per year. Left-joins averaged CRAM scores onto the vegetation site list — sites with no CRAM data receive `NA`. Normalizes using `((empa_index - cram_min) / cram_range) * 100`, rounded to 1 decimal place.
+**Calculation:** Filters vegetation data by year (from `samplecollectiondate`) to get the list of surveyed sites. Filters CRAM data by year (from `Year_assessment`), groups by `Site`, and averages the `index` column to produce one site-level score per year. Left-joins averaged CRAM scores onto the vegetation site list  sites with no CRAM data receive `NA`. Normalizes using `((empa_index - cram_min) / cram_range) * 100`, rounded to 1 decimal place.
 
 **Inputs:**
-- `cram`: CRAM data frame — columns `Site`, `Year_assessment`, `index`
-- `vegetativecover_data`: Raw vegetation cover data frame — columns `estuaryname`, `siteid`, `samplecollectiondate`
+- `cram`: CRAM data frame  columns `Site`, `Year_assessment`, `index`
+- `vegetativecover_data`: Raw vegetation cover data frame  columns `estuaryname`, `siteid`, `samplecollectiondate`
 
 **Outputs:** One row per site per year. `metric_score` is `NA` for sites with no CRAM assessment in the selected year.
 
@@ -58,7 +58,7 @@ All metric functions return a data frame with columns:
 **Calculation:** Passes the pre-computed surface ruggedness index directly through with no transformation. Higher values indicate greater topographic complexity.
 
 **Inputs:**
-- `rugged`: Ruggedness data frame — columns `estuaryname`, `siteid`, `ruggedness`
+- `rugged`: Ruggedness data frame  columns `estuaryname`, `siteid`, `ruggedness`
 
 **Outputs:** One row per site. Static (no year variation).
 
@@ -73,7 +73,7 @@ All metric functions return a data frame with columns:
 **Calculation:** Details to be added.
 
 **Inputs:**
-- `vegetativecover_data`: Raw vegetation cover data frame — columns `estuaryname`, `siteid`, `samplecollectiondate`
+- `vegetativecover_data`: Raw vegetation cover data frame  columns `estuaryname`, `siteid`, `samplecollectiondate`
 
 **Outputs:** One row per site per year. Currently returns `NA` for all sites.
 
@@ -88,7 +88,7 @@ All metric functions return a data frame with columns:
 **Calculation:** Extracts year from `samplecollectiondate` and filters to the requested year(s). Gets distinct invasive species per site and year using the Cal-IPC `rating` column. Starts at 100 and subtracts penalty points for each unique invasive species: Limited = 5 pts, Moderate = 10 pts, High = 15 pts. Score is floored at 0. Sites with no invasive species score 100.
 
 **Inputs:**
-- `vegetativecover_data`: Raw vegetation cover data frame — columns `estuaryname`, `siteid`, `samplecollectiondate`, `scientificname`, `rating`
+- `vegetativecover_data`: Raw vegetation cover data frame  columns `estuaryname`, `siteid`, `samplecollectiondate`, `scientificname`, `rating`
 
 **Outputs:** One row per site per year.
 
@@ -101,7 +101,7 @@ All metric functions return a data frame with columns:
 **Calculation:** Extracts year from `samplecollectiondate` and filters to the requested year(s). Removes records with excluded statuses (`"Not recorded"`, `"naturalized"`), missing data sentinel (`-88`), and unknown species (scientificname starting with `"unknown"`). Sums `estimatedcover` by site, year, and status, then calculates native species as a percentage of total cover across all statuses. `metric_score` = percent native.
 
 **Inputs:**
-- `vegetativecover_data`: Raw vegetation cover data frame — columns `estuaryname`, `siteid`, `samplecollectiondate`, `status`, `scientificname`, `estimatedcover`
+- `vegetativecover_data`: Raw vegetation cover data frame  columns `estuaryname`, `siteid`, `samplecollectiondate`, `status`, `scientificname`, `estimatedcover`
 
 **Outputs:** One row per site per year.
 
@@ -114,7 +114,7 @@ All metric functions return a data frame with columns:
 **Calculation:** Extracts year from `samplecollectiondate` and filters to the requested year(s). Removes missing data sentinel (`-88`). Sums `vegetated_cover` and `non_vegetated_cover` across all plots per site and year, then calculates vegetated cover as a percentage of total. `metric_score` = percent vegetated.
 
 **Inputs:**
-- `vegetation_sample_metadata`: Raw vegetation sample metadata data frame — columns `estuaryname`, `siteid`, `samplecollectiondate`, `vegetated_cover`, `non_vegetated_cover`
+- `vegetation_sample_metadata`: Raw vegetation sample metadata data frame  columns `estuaryname`, `siteid`, `samplecollectiondate`, `vegetated_cover`, `non_vegetated_cover`
 
 **Outputs:** One row per site per year.
 
@@ -129,7 +129,7 @@ All metric functions return a data frame with columns:
 **Calculation:** Details to be added.
 
 **Inputs:**
-- `vegetativecover_data`: Raw vegetation cover data frame — columns `estuaryname`, `siteid`, `samplecollectiondate`
+- `vegetativecover_data`: Raw vegetation cover data frame  columns `estuaryname`, `siteid`, `samplecollectiondate`
 
 **Outputs:** One row per site per year. Currently returns `NA` for all sites.
 
@@ -154,7 +154,7 @@ Same function and calculation as [Plant > habitat > cram_index](#cram_index). Pa
 **Calculation:** Details to be added.
 
 **Inputs:**
-- `cram`: CRAM data frame — used only to obtain the site list
+- `cram`: CRAM data frame  used only to obtain the site list
 
 **Outputs:** One row per site. Static (no year variation). Currently returns `NA` for all sites.
 
@@ -169,7 +169,7 @@ Same function and calculation as [Plant > habitat > cram_index](#cram_index). Pa
 **Calculation:** Filters GIS buffer data to the 500 m buffer. Groups landcover into "natural" (Ag + Natural) vs "Developed". Sums the `percent` column for natural classes per site. `metric_score` = percent natural landcover within the 500 m buffer.
 
 **Inputs:**
-- `gis_data`: GIS buffer land cover data frame — columns `estuaryname`, `siteid`, `buffer`, `landcover`, `percent`
+- `gis_data`: GIS buffer land cover data frame  columns `estuaryname`, `siteid`, `buffer`, `landcover`, `percent`
 
 **Outputs:** One row per site. Static (no year variation).
 
@@ -179,10 +179,10 @@ Same function and calculation as [Plant > habitat > cram_index](#cram_index). Pa
 
 **Function:** `score_buffer_cover(buffer_size = "30 m", metric_name = "perimeter_land_cover")`
 
-**Calculation:** Same as `buffer_cover` but using the 30 m buffer — captures the immediate perimeter of the site.
+**Calculation:** Same as `buffer_cover` but using the 30 m buffer  captures the immediate perimeter of the site.
 
 **Inputs:**
-- `gis_data`: GIS buffer land cover data frame — columns `estuaryname`, `siteid`, `buffer`, `landcover`, `percent`
+- `gis_data`: GIS buffer land cover data frame  columns `estuaryname`, `siteid`, `buffer`, `landcover`, `percent`
 
 **Outputs:** One row per site. Static (no year variation).
 
@@ -192,10 +192,10 @@ Same function and calculation as [Plant > habitat > cram_index](#cram_index). Pa
 
 **Function:** `score_perimeter_contiguity()`
 
-**Calculation:** Filters GIS data to the "Largest Contiguous" and "Total Open" landcover rows, pivots to wide format, then computes `(Largest Contiguous / Total Open) * 100`. A higher score means the open space surrounding the site is less fragmented — better for wetland migration.
+**Calculation:** Filters GIS data to the "Largest Contiguous" and "Total Open" landcover rows, pivots to wide format, then computes `(Largest Contiguous / Total Open) * 100`. A higher score means the open space surrounding the site is less fragmented  better for wetland migration.
 
 **Inputs:**
-- `gis_data`: GIS buffer land cover data frame — columns `estuaryname`, `siteid`, `landcover`, `rastercount`
+- `gis_data`: GIS buffer land cover data frame  columns `estuaryname`, `siteid`, `landcover`, `rastercount`
 
 **Outputs:** One row per site. Static (no year variation).
 
@@ -208,7 +208,7 @@ Same function and calculation as [Plant > habitat > cram_index](#cram_index). Pa
 **Calculation:** Filters wetland extents data to the `"Current Wetland Footprint"` extent. Pivots cover classes to wide format, sums the Low, Mid, and High marsh zone proportions, and multiplies by 100. `metric_score` = percent of current footprint that is vegetated marsh.
 
 **Inputs:**
-- `wetland`: Wetland extents data frame — columns `estuaryname`, `siteid`, `extent`, `cover_class`, `percent_cover`
+- `wetland`: Wetland extents data frame  columns `estuaryname`, `siteid`, `extent`, `cover_class`, `percent_cover`
 
 **Outputs:** One row per site. Static (no year variation).
 
@@ -218,10 +218,10 @@ Same function and calculation as [Plant > habitat > cram_index](#cram_index). Pa
 
 **Function:** `score_future_extent()`
 
-**Calculation:** Same as `current_habitat_distribution` but filtered to the `"Wetland Migration/Avoid Developed (1.2 ft)"` extent — a modeled scenario showing where the wetland could shift under 1.2 ft of sea level rise while avoiding developed land.
+**Calculation:** Same as `current_habitat_distribution` but filtered to the `"Wetland Migration/Avoid Developed (1.2 ft)"` extent  a modeled scenario showing where the wetland could shift under 1.2 ft of sea level rise while avoiding developed land.
 
 **Inputs:**
-- `wetland`: Wetland extents data frame — columns `estuaryname`, `siteid`, `extent`, `cover_class`, `percent_cover`
+- `wetland`: Wetland extents data frame  columns `estuaryname`, `siteid`, `extent`, `cover_class`, `percent_cover`
 
 **Outputs:** One row per site. Static (no year variation).
 
