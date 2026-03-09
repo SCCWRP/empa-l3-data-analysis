@@ -39,9 +39,11 @@ All metric functions return a data frame with columns:
 
 ---
 
-## Plant Function
+## Plant
 
-### Plant > habitat > cram_index
+### habitat
+
+#### cram_index
 
 **Function:** `score_cram_index()`
 
@@ -51,11 +53,13 @@ All metric functions return a data frame with columns:
 - `cram`: CRAM data frame — columns `Site`, `Year_assessment`, `index`
 - `vegetativecover_data`: Raw vegetation cover data frame — columns `estuaryname`, `siteid`, `samplecollectiondate`
 
-**Outputs:** One row per site per year per `function_name` value. `metric_score` is `NA` for sites with no CRAM assessment in the selected year. Also used for [SLR > habitat > cram_index](#slr--habitat--cram_index).
+**Outputs:** One row per site per year. `metric_score` is `NA` for sites with no CRAM assessment in the selected year.
 
 ---
 
-### Plant > elevation > ruggedness
+### elevation
+
+#### ruggedness
 
 **Function:** `score_ruggedness()`
 
@@ -68,7 +72,9 @@ All metric functions return a data frame with columns:
 
 ---
 
-### Plant > inundation > marsh_plain_inundation
+### inundation
+
+#### marsh_plain_inundation
 
 **Function:** `score_marsh_plain_inundation()`
 
@@ -77,11 +83,13 @@ All metric functions return a data frame with columns:
 **Inputs:**
 - `vegetativecover_data`: Raw vegetation cover data frame — columns `estuaryname`, `siteid`, `samplecollectiondate`
 
-**Outputs:** One row per site per year.
+**Outputs:** One row per site per year. Currently returns `NA` for all sites.
 
 ---
 
-### Plant > vegetation > invasive_severity
+### vegetation
+
+#### invasive_severity
 
 **Function:** `score_invasive_severity()`
 
@@ -94,7 +102,7 @@ All metric functions return a data frame with columns:
 
 ---
 
-### Plant > vegetation > native_cover
+#### native_cover
 
 **Function:** `score_native_cover()`
 
@@ -107,7 +115,7 @@ All metric functions return a data frame with columns:
 
 ---
 
-### Plant > vegetation > veg_cover
+#### veg_cover
 
 **Function:** `score_veg_cover()`
 
@@ -116,11 +124,13 @@ All metric functions return a data frame with columns:
 **Inputs:**
 - `vegetation_sample_metadata`: Raw vegetation sample metadata data frame — columns `estuaryname`, `siteid`, `samplecollectiondate`, `vegetated_cover`, `non_vegetated_cover`
 
-**Outputs:** One row per site per year per `function_name` value. Also used for [SLR > vegetation > veg_cover](#slr--vegetation--veg_cover).
+**Outputs:** One row per site per year.
 
 ---
 
-### Plant > alliances > plant_alliances
+### alliances
+
+#### plant_alliances
 
 **Function:** `score_plant_alliances()`
 
@@ -133,15 +143,19 @@ All metric functions return a data frame with columns:
 
 ---
 
-## SLR Function
+## SLR
 
-### SLR > habitat > cram_index
+### habitat
 
-Same function and calculation as [Plant > habitat > cram_index](#plant--habitat--cram_index). Pass `function_name = "SLR"` (or use the default `c("Plant", "SLR")` to produce both in one call).
+#### cram_index
+
+Same function and calculation as [Plant > habitat > cram_index](#cram_index). Pass `function_name = "SLR"`.
 
 ---
 
-### SLR > accretion > sediment_supply
+### accretion
+
+#### sediment_supply
 
 **Function:** `score_sediment_supply()`
 
@@ -154,7 +168,9 @@ Same function and calculation as [Plant > habitat > cram_index](#plant--habitat-
 
 ---
 
-### SLR > resiliency > buffer_cover
+### resiliency
+
+#### buffer_cover
 
 **Function:** `score_buffer_cover(buffer_size = "500 m", metric_name = "buffer_cover")`
 
@@ -167,7 +183,7 @@ Same function and calculation as [Plant > habitat > cram_index](#plant--habitat-
 
 ---
 
-### SLR > resiliency > perimeter_land_cover
+#### perimeter_land_cover
 
 **Function:** `score_buffer_cover(buffer_size = "30 m", metric_name = "perimeter_land_cover")`
 
@@ -180,7 +196,7 @@ Same function and calculation as [Plant > habitat > cram_index](#plant--habitat-
 
 ---
 
-### SLR > resiliency > perimeter_contiguity
+#### perimeter_contiguity
 
 **Function:** `score_perimeter_contiguity()`
 
@@ -193,7 +209,7 @@ Same function and calculation as [Plant > habitat > cram_index](#plant--habitat-
 
 ---
 
-### SLR > resiliency > current_habitat_distribution
+#### current_habitat_distribution
 
 **Function:** `score_current_extent()`
 
@@ -206,7 +222,7 @@ Same function and calculation as [Plant > habitat > cram_index](#plant--habitat-
 
 ---
 
-### SLR > resiliency > future_habitat_distribution
+#### future_habitat_distribution
 
 **Function:** `score_future_extent()`
 
@@ -219,9 +235,11 @@ Same function and calculation as [Plant > habitat > cram_index](#plant--habitat-
 
 ---
 
-### SLR > vegetation > veg_cover
+### vegetation
 
-Same function and calculation as [Plant > vegetation > veg_cover](#plant--vegetation--veg_cover). Pass `function_name = "SLR"` (or use the default `c("Plant", "SLR")` to produce both in one call).
+#### veg_cover
+
+Same function and calculation as [Plant > vegetation > veg_cover](#veg_cover). Pass `function_name = "SLR"`.
 
 ### Plots
 
