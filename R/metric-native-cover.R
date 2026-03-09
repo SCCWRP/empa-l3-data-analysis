@@ -9,28 +9,30 @@
 #' Filters out excluded statuses and missing data, then computes relative
 #' abundance of native species as a percentage of total cover.
 #'
-#' @param veg A cleaned vegetation data frame.
-#' @param function_name Character. Default "Plant".
-#' @param indicator_name Character. Default "vegetation".
-#' @param year Character vector of calendar years, or "all". Default "all".
-#' @param season Character vector of seasons, or "all". Default "all".
-#' @param config A configuration list. Defaults to \code{\link{get_config}()}.
+#' @param vegetativecover_data A cleaned vegetation data frame (output of
+#'   \code{\link{clean_veg}}).
+#' @param missing_val Numeric. Sentinel value for missing cover data. Default
+#'   -88.
+#' @param exclude_statuses Character vector. Status values to exclude from the
+#'   relative abundance calculation. Default \code{c("Not recorded",
+#'   "naturalized")}.
+#' @param year Numeric or character vector of years to include, or "all".
+#'   Default "all".
+#' @param season Character vector of seasons to include, or "all". Default
+#'   "all".
 #' @return A data frame with columns: estuaryname, siteid, function_name,
 #'   indicator_name, metric_name, metric_score.
 #' @export
 score_native_cover <- function(
-  veg,
-  function_name = "Plant",
-  indicator_name = "vegetation",
-  year = "all",
-  season = "all",
-  config = get_config()
+  vegetativecover_data,
+  missing_val       = -88,
+  exclude_statuses  = c("Not recorded", "naturalized"),
+  year              = "all",
+  season            = "all"
 ) {
-  missing_val <- config$scoring$missing_data_value
-  exclude_statuses <- unlist(config$scoring$veg_exclude_statuses)
-
+  veg <- vegetativecover_data
   if (!identical(year, "all")) {
-    veg <- dplyr::filter(veg, .data$calendar_year %in% year)
+    veg <- dplyr::filter(veg, .data$calendar_year %in% as.character(year))
   }
   if (!identical(season, "all")) {
     veg <- dplyr::filter(veg, .data$Season %in% season)
@@ -40,7 +42,6 @@ score_native_cover <- function(
     dplyr::filter(
       !is.na(.data$status),
       !.data$status %in% exclude_statuses,
-      .data$siteid != "NA",
       .data$estimatedcover != missing_val
     ) |>
     dplyr::group_by(estuaryname, siteid, status) |>
@@ -54,17 +55,17 @@ score_native_cover <- function(
     ) |>
     dplyr::select(estuaryname, siteid, status, relative_abundance) |>
     tidyr::pivot_wider(
-      names_from = status,
+      names_from  = status,
       values_from = relative_abundance,
       values_fill = 0
     )
 
   veg_relative |>
     dplyr::mutate(
-      function_name = function_name,
-      indicator_name = indicator_name,
-      metric_name = "native_cover",
-      metric_score = native
+      function_name  = "Plant",
+      indicator_name = "vegetation",
+      metric_name    = "native_cover",
+      metric_score   = native
     ) |>
     dplyr::select(
       estuaryname,

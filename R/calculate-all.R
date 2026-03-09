@@ -13,13 +13,14 @@
 #' @param cram CRAM data frame.
 #' @param veg Raw or cleaned vegetation data frame.
 #' @param veg_metadata Raw or cleaned vegetation metadata data frame.
-#' @param gis_data Raw or cleaned GIS buffer data frame.
-#' @param wetland_extents Raw or cleaned wetland extents data frame.
+#' @param gis_data GIS buffer land cover data frame.
+#' @param wetland_extents Wetland extents data frame.
 #' @param rugged Ruggedness data frame.
-#' @param year Character or numeric vector of calendar years (e.g.
-#'   \code{c(2023, 2024, 2025)}). Required.
+#' @param year Numeric or character vector of calendar years (e.g.
+#'   \code{c(2023, 2024)}). Required.
 #' @param season Character vector of seasons, or "all". Default "all".
-#' @param config A configuration list. Defaults to \code{\link{get_config}()}.
+#' @param config A configuration list used to supply scoring parameter defaults.
+#'   Defaults to \code{\link{get_config}()}.
 #' @return A long-format data frame with columns: estuaryname, siteid, year,
 #'   function_name, indicator_name, metric_name, metric_score.
 #' @export
@@ -36,10 +37,10 @@ calculate_function_all <- function(
 ) {
   # Clean once, pass pre-cleaned to sub-functions (avoids cleaning twice)
   if (!"calendar_year" %in% names(veg)) {
-    veg <- clean_veg(veg) |> order_veg()
+    veg <- clean_veg(veg)
   }
   if (!"cover_value" %in% names(veg_metadata)) {
-    veg_metadata <- clean_veg_metadata(veg_metadata) |> order_veg_metadata()
+    veg_metadata <- clean_veg_metadata(veg_metadata)
   }
   if (!is.ordered(gis_data$siteid)) {
     gis_data <- order_gis_data(gis_data)

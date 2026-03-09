@@ -10,38 +10,36 @@
 #' Sums vegetated and non-vegetated cover across all plots per site, then
 #' calculates the percentage that is vegetated.
 #'
-#' @param metadata A cleaned veg metadata data frame (long format).
-#' @param function_name Character. Default "Plant".
-#' @param indicator_name Character. Default "vegetation".
-#' @param year Character vector of calendar years, or "all". Default "all".
-#' @param season Character vector of seasons, or "all". Default "all".
-#' @param config A configuration list. Defaults to \code{\link{get_config}()}.
+#' @param vegetation_sample_metadata A cleaned metadata data frame in long
+#'   format (output of \code{\link{clean_veg_metadata}}).
+#' @param missing_val Numeric. Sentinel value for missing cover data. Default
+#'   -88.
+#' @param function_name Character. Function label ("Plant" or "SLR"). Default
+#'   "Plant". This metric is shared between both functions.
+#' @param year Numeric or character vector of years to include, or "all".
+#'   Default "all".
+#' @param season Character vector of seasons to include, or "all". Default
+#'   "all".
 #' @return A data frame with columns: estuaryname, siteid, function_name,
 #'   indicator_name, metric_name, metric_score.
 #' @export
 score_veg_cover <- function(
-  metadata,
+  vegetation_sample_metadata,
+  missing_val   = -88,
   function_name = "Plant",
-  indicator_name = "vegetation",
-  year = "all",
-  season = "all",
-  config = get_config()
+  year          = "all",
+  season        = "all"
 ) {
-  missing_val <- config$scoring$missing_data_value
-
+  metadata <- vegetation_sample_metadata
   if (!identical(year, "all")) {
-    metadata <- dplyr::filter(metadata, .data$calendar_year %in% year)
+    metadata <- dplyr::filter(metadata, .data$calendar_year %in% as.character(year))
   }
   if (!identical(season, "all")) {
     metadata <- dplyr::filter(metadata, .data$Season %in% season)
   }
 
   veg_cover <- metadata |>
-    dplyr::filter(
-      .data$siteid != "NA",
-      .data$cover_value != missing_val,
-      .data$estuaryname != "NA"
-    ) |>
+    dplyr::filter(.data$cover_value != missing_val) |>
     dplyr::group_by(estuaryname, siteid, cover_type) |>
     dplyr::summarise(
       total_cover = sum(cover_value, na.rm = TRUE),
@@ -53,17 +51,17 @@ score_veg_cover <- function(
     ) |>
     dplyr::select(estuaryname, siteid, cover_type, relative_abundance) |>
     tidyr::pivot_wider(
-      names_from = cover_type,
+      names_from  = cover_type,
       values_from = relative_abundance,
       values_fill = 0
     )
 
   veg_cover |>
     dplyr::mutate(
-      function_name = function_name,
-      indicator_name = indicator_name,
-      metric_name = "veg_cover",
-      metric_score = vegetated_cover
+      function_name  = function_name,
+      indicator_name = "vegetation",
+      metric_name    = "veg_cover",
+      metric_score   = vegetated_cover
     ) |>
     dplyr::select(
       estuaryname,

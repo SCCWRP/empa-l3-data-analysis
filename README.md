@@ -26,68 +26,171 @@ This package evaluates each estuary site along two dimensions:
 1. **How healthy is the vegetation right now?** (the "Plant" function)
 2. **How vulnerable is the site to sea level rise?** (the "SLR" function)
 
-Each function is broken down into indicators, and each indicator has one or more metrics that produce a numeric score per site. The full structure is:
+Each function is broken down into indicators, and each indicator has one or more metrics that produce a numeric score per site.
 
 ---
 
-### Function 1: Plant (Vegetation Health)
+## Metrics
 
-#### Indicator: habitat
-
-**Metric: index (CRAM)** : The CRAM (California Rapid Assessment Method) dataset contains a statewide index score for every wetland assessed in California between 2014 and 2024, plus each EMPA site's own index score. The raw EMPA index score is on a 25-100 scale. To normalize it to 0-100, the formula is: `((score - 25) / 75) * 100`, rounded to one decimal place. This gives a single number per site representing overall wetland condition as assessed by CRAM.
-
-#### Indicator: vegetation
-
-**Metric: native_cover** : Using the vegetation cover dataset (species-level plant cover estimates from field surveys), the code first removes records with status "Not recorded" or "naturalized", removes any records with the missing-data sentinel value (-88), and removes unknown species ("unknown plant", "unknown algae", etc.). It then groups all remaining plant cover by site and native status (native, non-native, invasive), sums the estimated cover for each group, and calculates the percentage that native species make up of the total. The result is a single "percent native cover" value per site.
-
-**Metric: invasive_severity**: This measures how threatened the native plant community is by invasive species. For each site, the code identifies every unique invasive species present (using the Cal-IPC invasive rating). It starts with a perfect score of 100, then subtracts penalty points for each invasive species found: 5 points for "Limited" rating, 10 for "Moderate", 15 for "High". The score cannot go below 0. A site with no invasive species scores 100; a heavily invaded site scores lower.
-
-**Metric: veg_cover** : Using the vegetation metadata dataset (which has plot-level summaries of vegetated vs. non-vegetated area), the code sums up total vegetated cover and total non-vegetated cover across all plots at each site, then calculates what percentage of the total is vegetated. This gives a single "percent vegetated" value per site.
-
-#### Indicator: Elevation
-
-**Metric: Ruggedness**: The ruggedness dataset contains pre-computed surface ruggedness index values for each site (measuring topographic complexity meaning higher values mean more microhabitat diversity). This value is taken directly from the dataset with no further calculation.
+All metric functions return a data frame with columns:
+`estuaryname`, `siteid`, `year`, `function_name`, `indicator_name`, `metric_name`, `metric_score`
 
 ---
 
-### Function 2: SLR (Sea Level Rise Vulnerability)
+### Metric: cram_index
 
-#### Indicator: Habitat
+**Function:** `score_cram_index()`
 
-**Metric: index (CRAM)**: Same calculation as the Plant function (normalize EMPA index from 25-100 scale to 0-100), but labeled under the SLR function.
+**Calculation:** Filters vegetation data by year (from `samplecollectiondate`) to get the list of surveyed sites. Filters CRAM data by year (from `Year_assessment`), then groups by `Site` and averages the `index` column to produce one site-level score per year. Left-joins the averaged CRAM scores onto the vegetation site list — sites with no CRAM data receive `NA`. Normalizes using `((empa_index - cram_min) / cram_range) * 100`, rounded to 1 decimal place.
 
-#### Indicator: vegetation
+**Inputs:**
+- `cram`: CRAM data frame — columns `Site`, `Year_assessment`, `index`
+- `vegetativecover_data`: Vegetation cover data frame — columns `estuaryname`, `siteid`, `samplecollectiondate`
 
-**Metric: veg_cover**: Same calculation as the Plant function (percent vegetated cover from metadata), but labeled under the SLR function with indicator "cover" instead of "vegetation".
-
-#### Indicator: resiliency
-
-**Metric: buffer_cover**: Using the buffer land cover dataset, the code filters to the 500m buffer around each site and groups land cover into "natural" (Agricultural + Natural) vs. "Developed". The natural percentage tells you how much undeveloped land surrounds the site more open land means more room for the wetland to migrate inland as sea levels rise.
-
-**Metric: perimeter_land_cover**: Same calculation as the 500m buffer, but using the 30m buffer. This captures the immediate perimeter whether the wetland has open space right at its edges.
-
-**Metric: perimeter_contiguity**: Using the buffer land cover dataset, the code looks at the "Largest Contiguous" open area and the "Total Open" area (from raster pixel counts). It divides the largest contiguous patch by the total open area and multiplies by 100. A high percentage means the open space around the site is one connected patch rather than fragmented pieces — better for wetland migration.
-
-**Metric: current_habitat_distribution**: Using the habitat zones dataset, the code filters to the "Current Wetland Footprint" extent and sums the percent cover of the Low, Mid, and High marsh zones (multiplied by 100 to convert from proportion to percentage). This tells you how much of the current wetland footprint is vegetated marsh.
-
-**Metric: future_habitat_distribution**: Same calculation, but using the "Wetland Migration/Avoid Developed (1.2 ft)" extent — a modeled scenario showing where the wetland could shift under 1.2 feet of sea level rise, avoiding developed areas. Comparing this to current extent shows whether the wetland has room to migrate upslope.
+**Outputs:** One row per site per year per `function_name` value. `metric_score` is `NA` for sites with no CRAM assessment in the selected year.
 
 ---
 
-### Final Dashboard Tables
+### Metric: ruggedness
 
-All the individual metric scores are assembled into long-format tables where every row has the same structure:
+**Function:** `score_ruggedness()`
 
-| Column | Description |
-|---|---|
-| `estuaryname` | Full estuary name (e.g., "Bolinas Lagoon") |
-| `siteid` | Short site code (e.g., "NC-BOL") |
-| `function_name` | Which function produced this row ("Plant" or "SLR") |
-| `indicator_name` | Which indicator (e.g., "habitat", "vegetation", "migration") |
-| `metric_name` | The specific metric (e.g., "index", "native_cover", "buffer_cover") |
-| `metric_score` | The numeric score |
+**Calculation:** Passes the pre-computed surface ruggedness index directly through with no transformation. Higher values indicate greater topographic complexity.
 
-Three tables are produced: one for Plant, one for SLR, and a combined master table.
+**Inputs:**
+- `rugged`: Ruggedness data frame — columns `estuaryname`, `siteid`, `ruggedness`
+
+**Outputs:** One row per site. Static (no year variation).
+
+---
+
+### Metric: native_cover
+
+**Function:** `score_native_cover()`
+
+**Calculation:** Filters to the requested year/season. Removes records with excluded statuses (`"Not recorded"`, `"naturalized"`) and missing data sentinel (`-88`). Sums `estimatedcover` by site and native status, then calculates native species as a percentage of total cover across all statuses. `metric_score` = percent native.
+
+**Inputs:**
+- `vegetativecover_data`: Cleaned vegetation cover data frame — columns `estuaryname`, `siteid`, `calendar_year`, `Season`, `status`, `estimatedcover`
+
+**Outputs:** One row per site per year/season combination.
+
+---
+
+### Metric: invasive_severity
+
+**Function:** `score_invasive_severity()`
+
+**Calculation:** Filters to the requested year/season. Gets distinct species per site. Starts at `base_score` (100) and subtracts penalty points for each unique invasive species based on Cal-IPC rating: Limited = 5 pts, Moderate = 10 pts, High = 15 pts. Score is floored at 0.
+
+**Inputs:**
+- `vegetativecover_data`: Cleaned vegetation cover data frame — columns `estuaryname`, `siteid`, `calendar_year`, `Season`, `scientificname`, `rating`
+
+**Outputs:** One row per site per year/season combination.
+
+---
+
+### Metric: veg_cover
+
+**Function:** `score_veg_cover()`
+
+**Calculation:** Filters to the requested year/season and removes missing data sentinel (`-88`). Sums `vegetated_cover` and `non_vegetated_cover` across all plots per site, then calculates vegetated cover as a percentage of total. `metric_score` = percent vegetated.
+
+**Inputs:**
+- `vegetation_sample_metadata`: Cleaned metadata data frame in long format — columns `estuaryname`, `siteid`, `calendar_year`, `Season`, `cover_type`, `cover_value`
+
+**Outputs:** One row per site per year/season combination.
+
+---
+
+### Metric: buffer_cover
+
+**Function:** `score_buffer_cover()`
+
+**Calculation:** Filters GIS buffer data to the specified buffer distance (`buffer_size`). Groups landcover classes into "natural" (Ag + Natural) vs. "Developed". Sums the `percent` column for natural classes per site. `metric_score` = percent natural landcover within the buffer.
+
+**Inputs:**
+- `gis_data`: GIS buffer land cover data frame — columns `estuaryname`, `siteid`, `buffer`, `landcover`, `percent`
+
+**Outputs:** One row per site. Static (no year variation). Called twice: once for the 500 m buffer (`metric_name = "buffer_cover"`) and once for the 30 m buffer (`metric_name = "perimeter_land_cover"`).
+
+---
+
+### Metric: perimeter_contiguity
+
+**Function:** `score_perimeter_contiguity()`
+
+**Calculation:** Filters GIS data to the "Largest Contiguous" and "Total Open" landcover rows, pivots to wide format, then computes `(Largest Contiguous / Total Open) * 100`. A higher score means the open space surrounding the site is less fragmented.
+
+**Inputs:**
+- `gis_data`: GIS buffer land cover data frame — columns `estuaryname`, `siteid`, `landcover`, `rastercount`
+
+**Outputs:** One row per site. Static (no year variation).
+
+---
+
+### Metric: current_habitat_distribution
+
+**Function:** `score_current_extent()`
+
+**Calculation:** Filters wetland extents data to the `"Current Wetland Footprint"` extent. Pivots cover classes to wide format, sums the Low, Mid, and High marsh zone proportions, and multiplies by 100. `metric_score` = percent of current footprint that is vegetated marsh.
+
+**Inputs:**
+- `wetland`: Wetland extents data frame — columns `estuaryname`, `siteid`, `extent`, `cover_class`, `percent_cover`
+
+**Outputs:** One row per site. Static (no year variation).
+
+---
+
+### Metric: future_habitat_distribution
+
+**Function:** `score_future_extent()`
+
+**Calculation:** Same as `current_habitat_distribution` but filtered to the `"Wetland Migration/Avoid Developed (1.2 ft)"` extent — a modeled scenario showing where the wetland could shift under 1.2 ft of sea level rise while avoiding developed land.
+
+**Inputs:**
+- `wetland`: Wetland extents data frame — columns `estuaryname`, `siteid`, `extent`, `cover_class`, `percent_cover`
+
+**Outputs:** One row per site. Static (no year variation).
+
+---
+
+### Metric: sediment_supply
+
+**Function:** `score_sediment_supply()`
+
+**Calculation:** Placeholder — returns `NA` for all sites. Calculation not yet implemented.
+
+**Inputs:**
+- `cram`: CRAM data frame (used only to obtain the site list)
+
+**Outputs:** One row per site. Static (no year variation).
+
+---
+
+### Metric: marsh_plain_inundation
+
+**Function:** `score_marsh_plain_inundation()`
+
+**Calculation:** Placeholder — returns `NA` for all sites. Calculation not yet implemented.
+
+**Inputs:**
+- `vegetativecover_data`: Cleaned vegetation cover data frame (used only to obtain the site list for the requested year/season)
+
+**Outputs:** One row per site per year/season combination.
+
+---
+
+### Metric: plant_alliances
+
+**Function:** `score_plant_alliances()`
+
+**Calculation:** Placeholder — returns `NA` for all sites. Calculation not yet implemented.
+
+**Inputs:**
+- `vegetativecover_data`: Cleaned vegetation cover data frame (used only to obtain the site list for the requested year/season)
+
+**Outputs:** One row per site per year/season combination.
 
 ### Plots
 

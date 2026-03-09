@@ -11,34 +11,32 @@
 #' by 100. Higher values mean less fragmented open space.
 #'
 #' @param gis_data A data frame as returned by \code{\link{load_gis_data}}.
-#' @param function_name Character. Default "SLR".
-#' @param indicator_name Character. Default "resiliency".
-#' @param config A configuration list. Defaults to \code{\link{get_config}()}.
+#' @param largest_col Character. Landcover label for the largest contiguous
+#'   patch. Default "Largest Contiguous".
+#' @param total_col Character. Landcover label for total open area. Default
+#'   "Total Open".
 #' @return A data frame with columns: estuaryname, siteid, function_name,
 #'   indicator_name, metric_name, metric_score.
 #' @export
 score_perimeter_contiguity <- function(
   gis_data,
-  function_name = "SLR",
-  indicator_name = "resiliency",
-  config = get_config()
+  largest_col = "Largest Contiguous",
+  total_col = "Total Open"
 ) {
-  contiguity_lc <- unlist(config$scoring$contiguity_landcovers)
-
   gis_data |>
-    dplyr::filter(.data$landcover %in% contiguity_lc) |>
+    dplyr::filter(.data$landcover %in% c(largest_col, total_col)) |>
     dplyr::select(estuaryname, siteid, landcover, rastercount) |>
     tidyr::pivot_wider(
       names_from = landcover,
       values_from = rastercount
     ) |>
     dplyr::mutate(
-      function_name = function_name,
-      indicator_name = indicator_name,
+      function_name = "SLR",
+      indicator_name = "resiliency",
       metric_name = "perimeter_contiguity",
       metric_score = dplyr::if_else(
-        `Total Open` > 0,
-        round((`Largest Contiguous` / `Total Open`) * 100, 1),
+        .data[[total_col]] > 0,
+        round((.data[[largest_col]] / .data[[total_col]]) * 100, 1),
         NA_real_
       )
     ) |>

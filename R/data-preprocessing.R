@@ -1,9 +1,9 @@
 #' @title EMPA Data Preprocessing
-#' @description Configuration management, data loading, cleaning, and lookup
-#'   tables for the EMPA dashboard package.
+#' @description Configuration management, data loading, and preprocessing
+#'   for the EMPA dashboard package.
 #' @name data-preprocessing
-#' @importFrom dplyr mutate rename case_when filter select group_by summarise
-#' @importFrom tidyr pivot_longer pivot_wider
+#' @importFrom dplyr mutate filter select case_when
+#' @importFrom tidyr pivot_longer
 
 # =============================================================================
 # Configuration
@@ -26,16 +26,19 @@ load_config <- function(path = NULL) {
   if (is.null(path)) {
     path <- system.file(
       "config",
-      "default_config.yaml",
+      "constants.yaml",
       package = "EMPAFunctionAnalysis"
     )
     # Fallback for development: look relative to working directory
     if (path == "") {
-      local_path <- file.path("inst", "config", "default_config.yaml")
+      local_path <- file.path("inst", "config", "constants.yaml")
       if (file.exists(local_path)) path <- local_path
     }
     if (path == "") {
-      stop("Cannot find default_config.yaml. ",
+      path <- "constants.yaml"
+    }
+    if (!file.exists(path)) {
+      stop("Cannot find constants.yaml. ",
            "Pass an explicit path or run devtools::load_all('.').")
     }
   }
@@ -61,14 +64,6 @@ get_config <- function() {
 # =============================================================================
 # Lookup Tables (read from config)
 # =============================================================================
-
-#' Habitat Aliases
-#' @param config A configuration list. Defaults to \code{\link{get_config}()}.
-#' @return A named character vector.
-#' @export
-habitat_aliases <- function(config = get_config()) {
-  unlist(config$habitat_aliases)
-}
 
 #' Ordered Site ID Levels
 #' @param config A configuration list. Defaults to \code{\link{get_config}()}.
@@ -233,7 +228,7 @@ load_gis_data <- function(path = NULL) {
 }
 
 # =============================================================================
-# Data Cleaning
+# Data Preprocessing
 # =============================================================================
 
 # Internal helper: assign Season based on samplecollectiondate
@@ -247,70 +242,45 @@ assign_season <- function(date_col, config = get_config()) {
   )
 }
 
-# Internal helper: standardize habitat names
-standardize_habitat <- function(habitat_col) {
-  aliases <- habitat_aliases()
-  title_case <- function(x) {
-    gsub("(^|\\s)(\\w)", "\\1\\U\\2", x, perl = TRUE)
-  }
-  if (is.null(aliases) || length(aliases) == 0) {
-    return(title_case(habitat_col))
-  }
-  dplyr::if_else(
-    habitat_col %in% names(aliases),
-    unname(aliases[habitat_col]),
-    title_case(habitat_col)
-  )
-}
-
 #' Clean Vegetation Cover Data
 #'
-#' Adds Season and Habitat_final columns; renames region to Region;
-#' adds a count column.
+#' Appends \code{calendar_year} and \code{Season} from
+#' \code{samplecollectiondate}, and removes rows with invalid site IDs
+#' (global filter).
+#'
 #' @param veg A data frame as returned by \code{\link{load_veg_data}}.
-#' @return A cleaned data frame with additional columns.
+#' @param config A configuration list. Defaults to \code{\link{get_config}()}.
+#' @return A cleaned data frame with \code{calendar_year} and \code{Season}
+#'   columns added.
 #' @export
-clean_veg <- function(veg) {
+clean_veg <- function(veg, config = get_config()) {
   veg |>
+    dplyr::filter(.data$siteid != "NA") |>
     dplyr::mutate(
       calendar_year = substr(samplecollectiondate, 1, 4),
-      Season = assign_season(samplecollectiondate),
-      Habitat_final = standardize_habitat(habitat),
-      count = 1L
-    ) |>
-    dplyr::rename(Region = region)
-}
-
-#' Set Factor Levels on Vegetation Data
-#'
-#' Converts siteid, Region, status, and Habitat_final to ordered factors.
-#' @param veg A data frame as returned by \code{\link{clean_veg}}.
-#' @return The same data frame with factor columns.
-#' @export
-order_veg <- function(veg) {
-  veg$siteid <- factor(veg$siteid, levels = site_levels(), ordered = TRUE)
-  veg$Region <- factor(veg$Region, levels = region_levels(), ordered = TRUE)
-  veg$status <- factor(veg$status, levels = status_levels(), ordered = TRUE)
-  veg$Habitat_final <- factor(
-    veg$Habitat_final,
-    levels = habitat_levels(),
-    ordered = TRUE
-  )
-  veg
+      Season = assign_season(samplecollectiondate, config)
+    )
 }
 
 #' Clean Vegetation Metadata
 #'
-#' Converts metadata to long format, then adds Season and Habitat_final columns.
+#' Pivots metadata to long format, appends \code{calendar_year} and
+#' \code{Season}, and removes rows with invalid site or estuary IDs
+#' (global filter).
+#'
 #' @param metadata A data frame as returned by \code{\link{load_veg_metadata}}.
+#' @param config A configuration list. Defaults to \code{\link{get_config}()}.
 #' @return A cleaned long-format data frame.
 #' @export
-clean_veg_metadata <- function(metadata) {
-  long <- metadata |>
+clean_veg_metadata <- function(metadata, config = get_config()) {
+  metadata |>
+    dplyr::filter(
+      .data$siteid != "NA",
+      .data$estuaryname != "NA"
+    ) |>
     dplyr::select(
       siteid,
       estuaryname,
-      habitat,
       samplecollectiondate,
       vegetated_cover,
       non_vegetated_cover
@@ -319,14 +289,28 @@ clean_veg_metadata <- function(metadata) {
       cols = c(vegetated_cover, non_vegetated_cover),
       names_to = "cover_type",
       values_to = "cover_value"
-    )
-
-  long |>
+    ) |>
     dplyr::mutate(
       calendar_year = substr(samplecollectiondate, 1, 4),
-      Season = assign_season(samplecollectiondate),
-      Habitat_final = standardize_habitat(habitat)
+      Season = assign_season(samplecollectiondate, config)
     )
+}
+
+# =============================================================================
+# Factor Ordering
+# =============================================================================
+
+#' Set Factor Levels on Vegetation Data
+#'
+#' Converts siteid, Region, and status to ordered factors.
+#' @param veg A data frame as returned by \code{\link{clean_veg}}.
+#' @return The same data frame with factor columns.
+#' @export
+order_veg <- function(veg) {
+  veg$siteid <- factor(veg$siteid, levels = site_levels(), ordered = TRUE)
+  veg$Region <- factor(veg$Region, levels = region_levels(), ordered = TRUE)
+  veg$status <- factor(veg$status, levels = status_levels(), ordered = TRUE)
+  veg
 }
 
 #' Set Factor Levels on Vegetation Metadata

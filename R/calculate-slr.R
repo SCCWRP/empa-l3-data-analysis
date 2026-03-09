@@ -13,7 +13,7 @@
 #' SLR function structure:
 #' \itemize{
 #'   \item Indicator: accretion -> Metric: sediment_supply
-#'   \item Indicator: habitat -> Metric: index (CRAM)
+#'   \item Indicator: habitat -> Metric: cram_index
 #'   \item Indicator: resiliency -> Metrics: buffer_cover,
 #'     current_habitat_distribution, future_habitat_distribution,
 #'     perimeter_contiguity, perimeter_land_cover
@@ -22,12 +22,13 @@
 #'
 #' @param cram CRAM data frame.
 #' @param veg_metadata Raw or cleaned vegetation metadata data frame.
-#' @param gis_data Raw or cleaned GIS buffer data frame.
-#' @param wetland_extents Raw or cleaned wetland extents data frame.
-#' @param year Character or numeric vector of calendar years (e.g.
-#'   \code{c(2023, 2024, 2025)}). Required.
+#' @param gis_data GIS buffer land cover data frame.
+#' @param wetland_extents Wetland extents data frame.
+#' @param year Numeric or character vector of calendar years (e.g.
+#'   \code{c(2023, 2024)}). Required.
 #' @param season Character vector of seasons, or "all". Default "all".
-#' @param config A configuration list. Defaults to \code{\link{get_config}()}.
+#' @param config A configuration list used to supply scoring parameter defaults.
+#'   Defaults to \code{\link{get_config}()}.
 #' @return A long-format data frame with columns: estuaryname, siteid, year,
 #'   function_name, indicator_name, metric_name, metric_score.
 #' @export
@@ -43,7 +44,7 @@ calculate_function_slr <- function(
   year <- as.character(year)
 
   if (!"cover_value" %in% names(veg_metadata)) {
-    veg_metadata <- clean_veg_metadata(veg_metadata) |> order_veg_metadata()
+    veg_metadata <- clean_veg_metadata(veg_metadata)
   }
   if (!is.ordered(gis_data$siteid)) {
     gis_data <- order_gis_data(gis_data)
@@ -52,41 +53,45 @@ calculate_function_slr <- function(
     wetland_extents <- order_wetland_extents(wetland_extents)
   }
 
-  # Metrics that don't vary by year
+  # Scoring parameters from config
+  cram_min         <- config$scoring$cram_min
+  cram_range       <- config$scoring$cram_range
+  missing_val      <- config$scoring$missing_data_value
+  natural_classes  <- unlist(config$scoring$natural_landcover_classes)
+  largest_col      <- config$scoring$contiguity_landcovers$largest
+  total_col        <- config$scoring$contiguity_landcovers$total
+  buffer_large     <- config$buffer_sizes$large
+  buffer_small     <- config$buffer_sizes$small
+  metric_large     <- config$buffer_metric_names$large
+  metric_small     <- config$buffer_metric_names$small
+  sum_zones        <- unlist(config$scoring$wetland_sum_zones)
+  extent_map       <- unlist(config$scoring$elevation_extent_mapping)
+  current_extent   <- names(extent_map[extent_map == "current_habitat_distribution"])
+  future_extent    <- names(extent_map[extent_map == "future_habitat_distribution"])
+
+  # Static metrics (no year variation)
   static <- dplyr::bind_rows(
-    score_cram_index(cram, function_name = "SLR", config = config),
-    score_sediment_supply(cram, config = config),
-    score_buffer_cover(
-      gis_data,
-      buffer_size = "500 m",
-      metric_name = "buffer_cover",
-      config = config
-    ),
-    score_buffer_cover(
-      gis_data,
-      buffer_size = "30 m",
-      metric_name = "perimeter_land_cover",
-      config = config
-    ),
-    score_perimeter_contiguity(gis_data, config = config),
-    score_current_extent(wetland_extents, config = config),
-    score_future_extent(wetland_extents, config = config)
+    score_sediment_supply(cram),
+    score_buffer_cover(gis_data, buffer_size = buffer_large,
+                       metric_name = metric_large, natural_classes = natural_classes),
+    score_buffer_cover(gis_data, buffer_size = buffer_small,
+                       metric_name = metric_small, natural_classes = natural_classes),
+    score_perimeter_contiguity(gis_data, largest_col = largest_col, total_col = total_col),
+    score_current_extent(wetland_extents, target_extent = current_extent, sum_zones = sum_zones),
+    score_future_extent(wetland_extents, target_extent = future_extent, sum_zones = sum_zones)
   )
 
   results <- lapply(year, function(y) {
-    yearly <- score_veg_cover(
-      veg_metadata,
-      function_name = "SLR",
-      indicator_name = "vegetation",
-      year = y,
-      season = season,
-      config = config
+    yearly <- dplyr::bind_rows(
+      score_cram_index(cram, function_name = "SLR",
+                       cram_min = cram_min, cram_range = cram_range, year = y),
+      score_veg_cover(veg_metadata, missing_val = missing_val,
+                      function_name = "SLR", year = y, season = season)
     )
     yearly$year <- y
 
-    s <- static
+    s      <- static
     s$year <- y
-
     dplyr::bind_rows(s, yearly)
   })
 

@@ -6,40 +6,38 @@
 
 #' Score Invasive Severity
 #'
-#' Starts at 100 and subtracts penalty points for each unique invasive species
-#' found at a site, based on Cal-IPC rating. Score cannot go below 0.
+#' Starts at \code{base_score} and subtracts penalty points for each unique
+#' invasive species found at a site, based on Cal-IPC rating. Score cannot go
+#' below 0.
 #'
-#' @param veg A cleaned vegetation data frame.
-#' @param function_name Character. Default "Plant".
-#' @param indicator_name Character. Default "vegetation".
-#' @param year Character vector of calendar years, or "all". Default "all".
-#' @param season Character vector of seasons, or "all". Default "all".
-#' @param penalties Named numeric vector mapping ratings to penalty points.
-#'   Defaults to \code{\link{invasive_penalty_mapping}()}.
-#' @param config A configuration list. Defaults to \code{\link{get_config}()}.
+#' @param vegetativecover_data A cleaned vegetation data frame (output of
+#'   \code{\link{clean_veg}}).
+#' @param base_score Numeric. Starting score before penalties. Default 100.
+#' @param penalties Named numeric vector mapping Cal-IPC rating labels to
+#'   penalty points. Default \code{c(Limited = 5, Moderate = 10, High = 15)}.
+#' @param year Numeric or character vector of years to include, or "all".
+#'   Default "all".
+#' @param season Character vector of seasons to include, or "all". Default
+#'   "all".
 #' @return A data frame with columns: estuaryname, siteid, function_name,
 #'   indicator_name, metric_name, metric_score.
 #' @export
 score_invasive_severity <- function(
-  veg,
-  function_name = "Plant",
-  indicator_name = "vegetation",
-  year = "all",
-  season = "all",
-  penalties = invasive_penalty_mapping(),
-  config = get_config()
+  vegetativecover_data,
+  base_score = 100,
+  penalties  = c(Limited = 5, Moderate = 10, High = 15),
+  year       = "all",
+  season     = "all"
 ) {
-  base_score <- config$scoring$invasive_base_score
-
+  veg <- vegetativecover_data
   if (!identical(year, "all")) {
-    veg <- dplyr::filter(veg, .data$calendar_year %in% year)
+    veg <- dplyr::filter(veg, .data$calendar_year %in% as.character(year))
   }
   if (!identical(season, "all")) {
     veg <- dplyr::filter(veg, .data$Season %in% season)
   }
 
   veg |>
-    dplyr::filter(.data$siteid != "NA") |>
     dplyr::distinct(estuaryname, siteid, scientificname, rating) |>
     dplyr::mutate(
       penalty = dplyr::if_else(
@@ -54,9 +52,9 @@ score_invasive_severity <- function(
       .groups = "drop"
     ) |>
     dplyr::mutate(
-      function_name = function_name,
-      indicator_name = indicator_name,
-      metric_name = "invasive_severity"
+      function_name  = "Plant",
+      indicator_name = "vegetation",
+      metric_name    = "invasive_severity"
     ) |>
     dplyr::select(
       estuaryname,

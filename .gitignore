@@ -6,3 +6,4 @@ output/
 test.R
 .claude/
 .Rbuildignore
+CLAUDE.md
