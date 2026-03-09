@@ -9,17 +9,25 @@ score_buffer_cover(
   gis_data,
   buffer_size,
   metric_name = "buffer_cover",
+  function_name = "SLR",
+  indicator_name = "resiliency",
   natural_classes = c("Ag", "Natural")
 )
 }
 \arguments{
-\item{gis_data}{A data frame as returned by \code{\link{load_gis_data}}.}
+\item{gis_data}{A GIS buffer land cover data frame with columns
+\code{estuaryname}, \code{siteid}, \code{buffer}, \code{landcover},
+\code{percent}.}
 
-\item{buffer_size}{Character. Buffer distance to filter on (e.g. "500 m",
-"30 m").}
+\item{buffer_size}{Character. Buffer distance to filter on (e.g. \code{"500 m"},
+\code{"30 m"}).}
 
 \item{metric_name}{Character. Name for this metric in the output. Default
-"buffer_cover".}
+\code{"buffer_cover"}.}
+
+\item{function_name}{Character. Function label. Default \code{"SLR"}.}
+
+\item{indicator_name}{Character. Indicator label. Default \code{"resiliency"}.}
 
 \item{natural_classes}{Character vector. Landcover classes counted as
 natural. Default \code{c("Ag", "Natural")}.}

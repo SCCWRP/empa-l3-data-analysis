@@ -37,6 +37,24 @@ All metric functions return a data frame with columns:
 
 \* Static metrics (GIS/wetland inputs) do not include a `year` column.
 
+| function_name | indicator_name | metric_name |
+|---|---|---|
+| Plant | alliances | plant_alliances |
+| Plant | elevation | ruggedness |
+| Plant | habitat | cram_index |
+| Plant | inundation | marsh_plain_inundation |
+| Plant | vegetation | invasive_severity |
+| Plant | vegetation | native_cover |
+| Plant | vegetation | veg_cover |
+| SLR | accretion | sediment_supply |
+| SLR | habitat | cram_index |
+| SLR | resiliency | buffer_cover |
+| SLR | resiliency | current_habitat_distribution |
+| SLR | resiliency | future_habitat_distribution |
+| SLR | resiliency | perimeter_contiguity |
+| SLR | resiliency | perimeter_land_cover |
+| SLR | vegetation | veg_cover |
+
 ---
 
 ## Plant

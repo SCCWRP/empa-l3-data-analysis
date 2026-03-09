@@ -7,24 +7,26 @@
 \usage{
 score_marsh_plain_inundation(
   vegetativecover_data,
-  year = "all",
-  season = "all"
+  function_name = "Plant",
+  indicator_name = "inundation",
+  year = "all"
 )
 }
 \arguments{
-\item{vegetativecover_data}{A cleaned vegetation data frame (output of
-\code{\link{clean_veg}}).}
+\item{vegetativecover_data}{A raw vegetation cover data frame with columns
+\code{estuaryname}, \code{siteid}, \code{samplecollectiondate}.}
 
-\item{year}{Numeric or character vector of years to include, or "all".
-Default "all".}
+\item{function_name}{Character. Function label. Default \code{"Plant"}.}
 
-\item{season}{Character vector of seasons to include, or "all". Default
-"all".}
+\item{indicator_name}{Character. Indicator label. Default \code{"inundation"}.}
+
+\item{year}{Numeric or character vector of years to include, or \code{"all"}.
+Default \code{"all"}.}
 }
 \value{
-A data frame with columns: estuaryname, siteid, function_name,
-indicator_name, metric_name, metric_score.
+A data frame with columns: estuaryname, siteid, year, function_name,
+indicator_name, metric_name, metric_score (all NA).
 }
 \description{
-Computes marsh plain inundation scores per site (TBD).
+Placeholder — marsh plain inundation scoring not yet implemented.
 }

@@ -22,12 +22,14 @@ score_ruggedness <- function(
   function_name = "Plant",
   indicator_name = "elevation"
 ) {
+  rug_col <- names(rugged)[tolower(names(rugged)) == "ruggedness"]
+
   rugged |>
     dplyr::mutate(
       function_name  = function_name,
       indicator_name = indicator_name,
       metric_name    = "ruggedness",
-      metric_score   = ruggedness
+      metric_score   = .data[[rug_col]]
     ) |>
     dplyr::select(
       estuaryname,

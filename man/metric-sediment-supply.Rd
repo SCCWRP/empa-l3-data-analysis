@@ -5,15 +5,24 @@
 \alias{score_sediment_supply}
 \title{Metric: Sediment Supply}
 \usage{
-score_sediment_supply(cram)
+score_sediment_supply(
+  cram,
+  function_name = "SLR",
+  indicator_name = "accretion"
+)
 }
 \arguments{
-\item{cram}{A CRAM data frame (used for site list).}
+\item{cram}{A CRAM data frame used only to obtain the site list — columns
+\code{estuaryname}, \code{siteid}.}
+
+\item{function_name}{Character. Function label. Default \code{"SLR"}.}
+
+\item{indicator_name}{Character. Indicator label. Default \code{"accretion"}.}
 }
 \value{
 A data frame with columns: estuaryname, siteid, function_name,
-indicator_name, metric_name, metric_score.
+indicator_name, metric_name, metric_score (all NA).
 }
 \description{
-Computes sediment accretion/supply scores per site (TBD).
+Placeholder — sediment supply scoring not yet implemented.
 }

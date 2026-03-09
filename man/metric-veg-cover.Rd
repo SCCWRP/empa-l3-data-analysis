@@ -7,7 +7,7 @@
 \usage{
 score_veg_cover(
   vegetation_sample_metadata,
-  function_name = "Plant",
+  function_name = c("Plant", "SLR"),
   indicator_name = "vegetation",
   year = "all"
 )
@@ -18,7 +18,9 @@ with columns \code{estuaryname}, \code{siteid},
 \code{samplecollectiondate}, \code{vegetated_cover},
 \code{non_vegetated_cover}.}
 
-\item{function_name}{Character. Function label. Default \code{"Plant"}.}
+\item{function_name}{Character vector. One or both of \code{"Plant"} and
+\code{"SLR"}. One output block is produced per value. Default
+\code{c("Plant", "SLR")}.}
 
 \item{indicator_name}{Character. Indicator label. Default \code{"vegetation"}.}
 

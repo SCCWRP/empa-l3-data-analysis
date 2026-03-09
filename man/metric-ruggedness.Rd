@@ -5,11 +5,15 @@
 \alias{score_ruggedness}
 \title{Metric: Ruggedness}
 \usage{
-score_ruggedness(rugged)
+score_ruggedness(rugged, function_name = "Plant", indicator_name = "elevation")
 }
 \arguments{
 \item{rugged}{A data frame with columns \code{estuaryname}, \code{siteid},
-and \code{ruggedness} (or \code{Ruggedness}).}
+and \code{ruggedness}.}
+
+\item{function_name}{Character. Function label. Default \code{"Plant"}.}
+
+\item{indicator_name}{Character. Indicator label. Default \code{"elevation"}.}
 }
 \value{
 A data frame with columns: estuaryname, siteid, function_name,

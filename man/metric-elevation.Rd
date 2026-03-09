@@ -7,12 +7,19 @@
 \usage{
 score_current_extent(
   wetland,
+  function_name = "SLR",
+  indicator_name = "resiliency",
   target_extent = "Current Wetland Footprint",
   sum_zones = c("Low", "Mid", "High")
 )
 }
 \arguments{
-\item{wetland}{A data frame as returned by \code{\link{load_wetland_extents}}.}
+\item{wetland}{A wetland extents data frame with columns \code{estuaryname},
+\code{siteid}, \code{extent}, \code{cover_class}, \code{percent_cover}.}
+
+\item{function_name}{Character. Function label. Default \code{"SLR"}.}
+
+\item{indicator_name}{Character. Indicator label. Default \code{"resiliency"}.}
 
 \item{target_extent}{Character. The extent label to filter on. Default
 \code{"Current Wetland Footprint"}.}

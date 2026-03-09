@@ -7,18 +7,25 @@
 \usage{
 score_perimeter_contiguity(
   gis_data,
+  function_name = "SLR",
+  indicator_name = "resiliency",
   largest_col = "Largest Contiguous",
   total_col = "Total Open"
 )
 }
 \arguments{
-\item{gis_data}{A data frame as returned by \code{\link{load_gis_data}}.}
+\item{gis_data}{A GIS buffer land cover data frame with columns
+\code{estuaryname}, \code{siteid}, \code{landcover}, \code{rastercount}.}
+
+\item{function_name}{Character. Function label. Default \code{"SLR"}.}
+
+\item{indicator_name}{Character. Indicator label. Default \code{"resiliency"}.}
 
 \item{largest_col}{Character. Landcover label for the largest contiguous
-patch. Default "Largest Contiguous".}
+patch. Default \code{"Largest Contiguous"}.}
 
 \item{total_col}{Character. Landcover label for total open area. Default
-"Total Open".}
+\code{"Total Open"}.}
 }
 \value{
 A data frame with columns: estuaryname, siteid, function_name,

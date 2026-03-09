@@ -1,0 +1,228 @@
+---
+title: "EMPAFunctionAnalysis Demo"
+author: "Brooke Fulkerson"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{EMPAFunctionAnalysis Demo}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+devtools::load_all(".")
+library(EMPAFunctionAnalysis)
+library(dplyr)
+```
+
+This vignette demonstrates the core scoring functions of the `EMPAFunctionAnalysis` package. All functions accept raw data directly — no pre-cleaning required.
+
+---
+
+# Load Data
+
+```{r load-data}
+vegetativecover_data <- read.csv(
+  "https://nexus.sccwrp.org/empachecker/export?tablename=tbl_vegetativecover_data"
+)
+vegetation_sample_metadata <- read.csv(
+  "https://nexus.sccwrp.org/empachecker/export?tablename=tbl_vegetation_sample_metadata"
+)
+```
+
+```{r}
+cram <- read.csv("inst/extdata/EMPA_CRAM_2014-2024.csv")
+gis_data <- read.csv("inst/extdata/BufferLandCover_251203.csv")
+wetland_extents <- read.csv("inst/extdata/HabitatZones_260224.csv")
+ruggedness <- read.csv("inst/extdata/Ruggedness_250702.csv")
+```
+
+---
+
+# Score All Metrics at Once
+
+The `score_all_metrics()` function runs every metric and returns a single long-format table. Use the `year` argument to filter to specific years.
+
+```{r score-all}
+all_scores <- score_all_metrics(
+  vegetation_sample_metadata = vegetation_sample_metadata,
+  vegetativecover_data = vegetativecover_data,
+  cram = cram,
+  gis_data = gis_data,
+  wetland = wetland_extents,
+  rugged = ruggedness,
+  year = c(2023)
+)
+
+glimpse(all_scores)
+```
+
+```{r score-all-table}
+all_scores |>
+  count(function_name, indicator_name, metric_name) |>
+  arrange(function_name, indicator_name, metric_name)
+```
+
+---
+
+# Individual Metrics
+
+## Plant Function
+
+### CRAM Index
+
+Normalized CRAM score per site. Left-joined onto vegetation sites so every surveyed site appears — `NA` where no CRAM data exists.
+
+```{r cram-index}
+cram_scores <- score_cram_index(
+  cram = cram,
+  vegetativecover_data = vegetativecover_data,
+  function_name = "Plant",
+  year = c(2023)
+)
+
+head(cram_scores)
+```
+
+### Native Cover
+
+Percent of total cover that is native, after excluding unknown species and non-recorded statuses.
+
+```{r native-cover}
+native_scores <- score_native_cover(
+  vegetativecover_data = vegetativecover_data,
+  year = c(2023)
+)
+
+head(native_scores)
+```
+
+### Invasive Severity
+
+Starts at 100 and subtracts penalty points per unique Cal-IPC-rated invasive species. Floored at 0.
+
+```{r invasive-severity}
+invasive_scores <- score_invasive_severity(
+  vegetativecover_data = vegetativecover_data,
+  year = c(2023)
+)
+
+head(invasive_scores)
+```
+
+### Vegetated Cover
+
+Percent of total cover that is vegetated, summed across all plots per site.
+
+```{r veg-cover}
+veg_cover_scores <- score_veg_cover(
+  vegetation_sample_metadata = vegetation_sample_metadata,
+  function_name = "Plant",
+  year = c(2023)
+)
+
+head(veg_cover_scores)
+```
+
+### Ruggedness
+
+Pre-computed surface ruggedness index passed through directly. Static — no year variation.
+
+```{r ruggedness}
+rugged_scores <- score_ruggedness(ruggedness)
+
+head(rugged_scores)
+```
+
+---
+
+## SLR Function
+
+### Buffer Cover (500 m)
+
+Percent natural landcover (Ag + Natural) within the 500 m buffer around each site.
+
+```{r buffer-cover}
+buffer_scores <- score_buffer_cover(
+  gis_data = gis_data,
+  buffer_size = "500 m",
+  metric_name = "buffer_cover"
+)
+
+head(buffer_scores)
+```
+
+### Perimeter Land Cover (30 m)
+
+Same calculation as buffer cover, using the 30 m buffer to capture the immediate site perimeter.
+
+```{r perimeter-land-cover}
+perimeter_scores <- score_buffer_cover(
+  gis_data = gis_data,
+  buffer_size = "30 m",
+  metric_name = "perimeter_land_cover"
+)
+
+head(perimeter_scores)
+```
+
+### Perimeter Contiguity
+
+Ratio of the largest contiguous open patch to total open area. Higher = less fragmented.
+
+```{r perimeter-contiguity}
+contiguity_scores <- score_perimeter_contiguity(gis_data)
+
+head(contiguity_scores)
+```
+
+### Current Habitat Distribution
+
+Percent of the current wetland footprint covered by vegetated marsh (Low + Mid + High zones).
+
+```{r current-extent}
+current_scores <- score_current_extent(wetland_extents)
+
+head(current_scores)
+```
+
+### Future Habitat Distribution
+
+Same calculation on the modeled 1.2 ft sea level rise migration footprint (avoiding developed land).
+
+```{r future-extent}
+future_scores <- score_future_extent(wetland_extents)
+
+head(future_scores)
+```
+
+---
+
+# Filtering by Year
+
+All year-varying metrics accept a `year` argument. Pass a vector to include multiple years, or `"all"` to include everything.
+
+```{r multi-year}
+# Multiple years
+native_multi <- score_native_cover(
+  vegetativecover_data = vegetativecover_data,
+  year = c(2021, 2023)
+)
+
+native_multi |>
+  count(year)
+```
+
+```{r all-years}
+# All years (default)
+native_all <- score_native_cover(
+  vegetativecover_data = vegetativecover_data
+)
+
+native_all |>
+  count(year) |>
+  arrange(year)
+```
