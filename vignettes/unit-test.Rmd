@@ -36,7 +36,7 @@ vegetativecover_data <- read.csv(
 )
 vegetation_sample_metadata <- read.csv(
   "https://nexus.sccwrp.org/empachecker/export?tablename=tbl_vegetation_sample_metadata"
-)
+) 
 cram <- read.csv("inst/extdata/EMPA_CRAM_2014-2024.csv")
 gis_data <- read.csv("inst/extdata/BufferLandCover_251203.csv")
 wetland_extents <- read.csv("inst/extdata/HabitatZones_260224.csv")
