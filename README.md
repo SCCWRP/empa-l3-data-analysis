@@ -13,21 +13,21 @@ Static metrics (GIS/wetland inputs) do not include a `year` column, except `scor
 
 | function_name | indicator_name | metric_name | R_function_name |
 |---|---|---|---|
-| Plant | alliances | plant_alliances | `metric-plant-alliances-score_plant_alliances` |
-| Plant | elevation | ruggedness | `metric-ruggedness-score_ruggedness` |
-| Plant | habitat | cram_index | `metric-cram-index-score_cram_index` |
-| Plant | inundation | marsh_plain_inundation | `metric-marsh-plain-inundation-score_marsh_plain_inundation` |
-| Plant | vegetation | invasive_severity | `metric-invasive-severity-score_invasive_severity` |
-| Plant | vegetation | native_cover | `metric-native-cover-score_native_cover` |
-| Plant | vegetation | veg_cover | `metric-veg-cover-score_veg_cover` |
-| SLR | accretion | sediment_supply | `metric-sediment-supply-score_sediment_supply` |
-| SLR | habitat | cram_index | `metric-cram-index-score_cram_index` |
-| SLR | resiliency | buffer_cover | `metric-buffer-cover-score_buffer_cover` |
-| SLR | resiliency | current_habitat_distribution | `metric-current-habitat-distribution-score_current_habitat_distribution` |
-| SLR | resiliency | future_habitat_distribution | `metric-future-habitat-distribution-score_future_habitat_distribution` |
-| SLR | resiliency | perimeter_contiguity | `metric-perimeter_contiguity-score_perimeter_contiguity` |
-| SLR | resiliency | perimeter_land_cover | `metric-perimeter-land-cover-score_perimeter_land_cover` |
-| SLR | vegetation | veg_cover | `metric-veg-cover-score_veg_cover` |
+| Plant | alliances | plant_alliances | `metric-plant-alliances.R`<br>`score_plant_alliances()` |
+| Plant | elevation | ruggedness | `metric-ruggedness.R`<br>`score_ruggedness()` |
+| Plant | habitat | cram_index | `metric-cram-index.R`<br>`score_cram_index()` |
+| Plant | inundation | marsh_plain_inundation | `metric-marsh-plain-inundation.R`<br>`score_marsh_plain_inundation()` |
+| Plant | vegetation | invasive_severity | `metric-invasive-severity.R`<br>`score_invasive_severity()` |
+| Plant | vegetation | native_cover | `metric-native-cover.R`<br>`score_native_cover()` |
+| Plant | vegetation | veg_cover | `metric-veg-cover.R`<br>`score_veg_cover()` |
+| SLR | accretion | sediment_supply | `metric-sediment-supply.R`<br>`score_sediment_supply()` |
+| SLR | habitat | cram_index | `metric-cram-index.R`<br>`score_cram_index()` |
+| SLR | resiliency | buffer_cover | `metric-buffer-cover.R`<br>`score_buffer_cover()` |
+| SLR | resiliency | current_habitat_distribution | `metric-current-habitat-distribution.R`<br>`score_current_habitat_distribution()` |
+| SLR | resiliency | future_habitat_distribution | `metric-future-habitat-distribution.R`<br>`score_future_habitat_distribution()` |
+| SLR | resiliency | perimeter_contiguity | `metric-perimeter_contiguity.R`<br>`score_perimeter_contiguity()` |
+| SLR | resiliency | perimeter_land_cover | `metric-perimeter-land-cover.R`<br>`score_perimeter_land_cover()` |
+| SLR | vegetation | veg_cover | `metric-veg-cover.R`<br>`score_veg_cover()` |
 
 ---
 

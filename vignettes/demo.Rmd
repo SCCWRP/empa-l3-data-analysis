@@ -212,8 +212,7 @@ native_multi <- score_native_cover(
   year = c(2021, 2023)
 )
 
-native_multi |>
-  count(year)
+head(native_multi)
 ```
 
 ```{r all-years}
@@ -222,7 +221,5 @@ native_all <- score_native_cover(
   vegetativecover_data = vegetativecover_data
 )
 
-native_all |>
-  count(year) |>
-  arrange(year)
+head(native_all)
 ```
