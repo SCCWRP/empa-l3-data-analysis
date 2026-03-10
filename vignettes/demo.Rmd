@@ -54,7 +54,7 @@ all_scores <- score_all_metrics(
   gis_data = gis_data,
   wetland = wetland_extents,
   rugged = ruggedness,
-  year = c(2023, 2024)
+  year = c(2023, 2024, 2025)
 )
 
 all_scores
@@ -77,6 +77,7 @@ all_scores |>
 Normalized CRAM score per site. Left-joined onto vegetation sites so every surveyed site appears — `NA` where no CRAM data exists.
 
 ```{r cram-index}
+
 cram_scores <- score_cram_index(
   cram = cram,
   vegetativecover_data = vegetativecover_data,
@@ -84,7 +85,7 @@ cram_scores <- score_cram_index(
   year = c(2023)
 )
 
-head(cram_scores)
+cram_scores
 ```
 
 ### Native Cover
