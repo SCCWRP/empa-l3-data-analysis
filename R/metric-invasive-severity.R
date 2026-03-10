@@ -2,7 +2,7 @@
 #' @description Computes a native resiliency score based on invasive species
 #'   penalties per site.
 #' @name metric-invasive-severity
-#' @importFrom dplyr filter distinct mutate group_by summarise select left_join
+NULL
 
 #' Score Invasive Severity
 #'

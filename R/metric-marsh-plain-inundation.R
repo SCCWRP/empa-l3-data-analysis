@@ -1,7 +1,7 @@
 #' @title Metric: Marsh Plain Inundation
 #' @description Placeholder — marsh plain inundation scoring not yet implemented.
 #' @name metric-inundation
-#' @importFrom dplyr mutate select distinct filter
+NULL
 
 #' Score Marsh Plain Inundation
 #'

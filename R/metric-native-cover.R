@@ -1,8 +1,7 @@
 #' @title Metric: Native Cover
 #' @description Computes the percentage of plant cover that is native per site.
 #' @name metric-native-cover
-#' @importFrom dplyr filter group_by summarise mutate select distinct
-#' @importFrom tidyr pivot_wider
+NULL
 
 #' Score Native Cover
 #'

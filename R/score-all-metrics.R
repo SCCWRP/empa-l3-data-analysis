@@ -1,7 +1,7 @@
 #' @title Score All Metrics
 #' @description Runs all metric functions and returns a single combined table.
 #' @name score-all-metrics
-#' @importFrom dplyr bind_rows
+NULL
 
 #' Score All Metrics
 #'
@@ -92,17 +92,13 @@ score_all_metrics <- function(
       metric_name = "buffer_cover"
     ),
     # Perimeter land cover 30m (resiliency)
-    score_buffer_cover(
-      gis_data = gis_data,
-      buffer_size = "30 m",
-      metric_name = "perimeter_land_cover"
-    ),
+    score_perimeter_land_cover(gis_data = gis_data),
     # Perimeter contiguity (resiliency)
     score_perimeter_contiguity(gis_data),
     # Current habitat distribution (resiliency)
-    score_current_extent(wetland),
+    score_current_habitat_distribution(wetland),
     # Future habitat distribution (resiliency)
-    score_future_extent(wetland),
+    score_future_habitat_distribution(wetland),
     # Vegetated cover (vegetation)
     score_veg_cover(
       vegetation_sample_metadata = vegetation_sample_metadata,

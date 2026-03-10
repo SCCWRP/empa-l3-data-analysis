@@ -1,7 +1,7 @@
 #' @title Metric: Plant Alliances
 #' @description Placeholder — plant alliance scoring not yet implemented.
 #' @name metric-plant-alliances
-#' @importFrom dplyr mutate select distinct filter
+NULL
 
 #' Score Plant Alliances
 #'

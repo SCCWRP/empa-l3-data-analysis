@@ -2,35 +2,7 @@
 % Please edit documentation in R/metric-veg-cover.R
 \name{metric-veg-cover}
 \alias{metric-veg-cover}
-\alias{score_veg_cover}
 \title{Metric: Vegetated Cover}
-\usage{
-score_veg_cover(
-  vegetation_sample_metadata,
-  function_name = c("Plant", "SLR"),
-  indicator_name = "vegetation",
-  year = "all"
-)
-}
-\arguments{
-\item{vegetation_sample_metadata}{A raw vegetation sample metadata data frame
-with columns \code{estuaryname}, \code{siteid},
-\code{samplecollectiondate}, \code{vegetated_cover},
-\code{non_vegetated_cover}.}
-
-\item{function_name}{Character vector. One or both of \code{"Plant"} and
-\code{"SLR"}. One output block is produced per value. Default
-\code{c("Plant", "SLR")}.}
-
-\item{indicator_name}{Character. Indicator label. Default \code{"vegetation"}.}
-
-\item{year}{Numeric or character vector of years to include, or \code{"all"}.
-Default \code{"all"}.}
-}
-\value{
-A data frame with columns: estuaryname, siteid, year, function_name,
-indicator_name, metric_name, metric_score.
-}
 \description{
 Computes the percentage of vegetated vs non-vegetated cover
 per site from metadata.

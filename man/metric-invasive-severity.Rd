@@ -2,36 +2,7 @@
 % Please edit documentation in R/metric-invasive-severity.R
 \name{metric-invasive-severity}
 \alias{metric-invasive-severity}
-\alias{score_invasive_severity}
 \title{Metric: Invasive Severity}
-\usage{
-score_invasive_severity(
-  vegetativecover_data,
-  function_name = "Plant",
-  indicator_name = "vegetation",
-  year = "all",
-  penalties = c(Limited = 5, Moderate = 10, High = 15)
-)
-}
-\arguments{
-\item{vegetativecover_data}{A raw vegetation cover data frame with columns
-\code{estuaryname}, \code{siteid}, \code{samplecollectiondate},
-\code{scientificname}, \code{rating}.}
-
-\item{function_name}{Character. Function label. Default \code{"Plant"}.}
-
-\item{indicator_name}{Character. Indicator label. Default \code{"vegetation"}.}
-
-\item{year}{Numeric or character vector of years to include, or \code{"all"}.
-Default \code{"all"}.}
-
-\item{penalties}{Named numeric vector mapping Cal-IPC rating labels to
-penalty points. Default \code{c(Limited = 5, Moderate = 10, High = 15)}.}
-}
-\value{
-A data frame with columns: estuaryname, siteid, year, function_name,
-indicator_name, metric_name, metric_score.
-}
 \description{
 Computes a native resiliency score based on invasive species
 penalties per site.

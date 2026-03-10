@@ -2,31 +2,7 @@
 % Please edit documentation in R/metric-plant-alliances.R
 \name{metric-plant-alliances}
 \alias{metric-plant-alliances}
-\alias{score_plant_alliances}
 \title{Metric: Plant Alliances}
-\usage{
-score_plant_alliances(
-  vegetativecover_data,
-  function_name = "Plant",
-  indicator_name = "alliances",
-  year = "all"
-)
-}
-\arguments{
-\item{vegetativecover_data}{A raw vegetation cover data frame with columns
-\code{estuaryname}, \code{siteid}, \code{samplecollectiondate}.}
-
-\item{function_name}{Character. Function label. Default \code{"Plant"}.}
-
-\item{indicator_name}{Character. Indicator label. Default \code{"alliances"}.}
-
-\item{year}{Numeric or character vector of years to include, or \code{"all"}.
-Default \code{"all"}.}
-}
-\value{
-A data frame with columns: estuaryname, siteid, year, function_name,
-indicator_name, metric_name, metric_score (all NA).
-}
 \description{
 Placeholder — plant alliance scoring not yet implemented.
 }

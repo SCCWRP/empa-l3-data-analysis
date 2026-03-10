@@ -2,7 +2,7 @@
 #' @description Computes a normalized CRAM index score per site by averaging
 #'   station-level scores then joining to vegetation survey sites.
 #' @name metric-cram-index
-#' @importFrom dplyr mutate select filter distinct bind_rows group_by summarise left_join
+NULL
 
 #' Score CRAM Index
 #'

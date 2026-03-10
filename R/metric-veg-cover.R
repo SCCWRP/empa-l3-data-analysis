@@ -2,7 +2,7 @@
 #' @description Computes the percentage of vegetated vs non-vegetated cover
 #'   per site from metadata.
 #' @name metric-veg-cover
-#' @importFrom dplyr filter group_by summarise mutate select bind_rows
+NULL
 
 #' Score Vegetated Cover
 #'

@@ -2,40 +2,7 @@
 % Please edit documentation in R/metric-buffer-cover.R
 \name{metric-buffer-cover}
 \alias{metric-buffer-cover}
-\alias{score_buffer_cover}
 \title{Metric: Buffer Land Cover}
-\usage{
-score_buffer_cover(
-  gis_data,
-  buffer_size,
-  metric_name = "buffer_cover",
-  function_name = "SLR",
-  indicator_name = "resiliency",
-  natural_classes = c("Ag", "Natural")
-)
-}
-\arguments{
-\item{gis_data}{A GIS buffer land cover data frame with columns
-\code{estuaryname}, \code{siteid}, \code{buffer}, \code{landcover},
-\code{percent}.}
-
-\item{buffer_size}{Character. Buffer distance to filter on (e.g. \code{"500 m"},
-\code{"30 m"}).}
-
-\item{metric_name}{Character. Name for this metric in the output. Default
-\code{"buffer_cover"}.}
-
-\item{function_name}{Character. Function label. Default \code{"SLR"}.}
-
-\item{indicator_name}{Character. Indicator label. Default \code{"resiliency"}.}
-
-\item{natural_classes}{Character vector. Landcover classes counted as
-natural. Default \code{c("Ag", "Natural")}.}
-}
-\value{
-A data frame with columns: estuaryname, siteid, function_name,
-indicator_name, metric_name, metric_score.
-}
 \description{
 Computes percentage of natural land cover within a buffer
 distance around each site.

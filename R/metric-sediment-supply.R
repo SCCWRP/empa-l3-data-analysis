@@ -1,7 +1,7 @@
 #' @title Metric: Sediment Supply
 #' @description Placeholder — sediment supply scoring not yet implemented.
 #' @name metric-sediment-supply
-#' @importFrom dplyr mutate select distinct filter
+NULL
 
 #' Score Sediment Supply
 #'

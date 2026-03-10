@@ -1,33 +1,33 @@
 # EMPAFunctionAnalysis
 
-R package for the Estuary MPA (EMPA) Level 3 Dashboard data analysis. Produces condition scores and visualizations for California estuary sites, evaluating both current vegetation health and vulnerability to sea level rise.
+R package for the Estuary MPA (EMPA) Level 3 Dashboard data analysis.
 
 ---
 
 ## Metrics
 
 All metric functions return a data frame with columns:
-`estuaryname`, `siteid`, `year`*, `function_name`, `indicator_name`, `metric_name`, `metric_score`
+`estuaryname`, `siteid`, `year`, `function_name`, `indicator_name`, `metric_name`, `metric_score`
 
-\* Static metrics (GIS/wetland inputs) do not include a `year` column.
+Static metrics (GIS/wetland inputs) do not include a `year` column, except `score_ruggedness()` which does.
 
 | function_name | indicator_name | metric_name | R_function_name |
 |---|---|---|---|
-| Plant | alliances | plant_alliances | `score_plant_alliances()` |
-| Plant | elevation | ruggedness | `score_ruggedness()` |
-| Plant | habitat | cram_index | `score_cram_index()` |
-| Plant | inundation | marsh_plain_inundation | `score_marsh_plain_inundation()` |
-| Plant | vegetation | invasive_severity | `score_invasive_severity()` |
-| Plant | vegetation | native_cover | `score_native_cover()` |
-| Plant | vegetation | veg_cover | `score_veg_cover()` |
-| SLR | accretion | sediment_supply | `score_sediment_supply()` |
-| SLR | habitat | cram_index | `score_cram_index()` |
-| SLR | resiliency | buffer_cover | `score_buffer_cover()` |
-| SLR | resiliency | current_habitat_distribution | `score_current_extent()` |
-| SLR | resiliency | future_habitat_distribution | `score_future_extent()` |
-| SLR | resiliency | perimeter_contiguity | `score_perimeter_contiguity()` |
-| SLR | resiliency | perimeter_land_cover | `score_buffer_cover()` |
-| SLR | vegetation | veg_cover | `score_veg_cover()` |
+| Plant | alliances | plant_alliances | `metric-plant-alliances-score_plant_alliances` |
+| Plant | elevation | ruggedness | `metric-ruggedness-score_ruggedness` |
+| Plant | habitat | cram_index | `metric-cram-index-score_cram_index` |
+| Plant | inundation | marsh_plain_inundation | `metric-marsh-plain-inundation-score_marsh_plain_inundation` |
+| Plant | vegetation | invasive_severity | `metric-invasive-severity-score_invasive_severity` |
+| Plant | vegetation | native_cover | `metric-native-cover-score_native_cover` |
+| Plant | vegetation | veg_cover | `metric-veg-cover-score_veg_cover` |
+| SLR | accretion | sediment_supply | `metric-sediment-supply-score_sediment_supply` |
+| SLR | habitat | cram_index | `metric-cram-index-score_cram_index` |
+| SLR | resiliency | buffer_cover | `metric-buffer-cover-score_buffer_cover` |
+| SLR | resiliency | current_habitat_distribution | `metric-current-habitat-distribution-score_current_habitat_distribution` |
+| SLR | resiliency | future_habitat_distribution | `metric-future-habitat-distribution-score_future_habitat_distribution` |
+| SLR | resiliency | perimeter_contiguity | `metric-perimeter_contiguity-score_perimeter_contiguity` |
+| SLR | resiliency | perimeter_land_cover | `metric-perimeter-land-cover-score_perimeter_land_cover` |
+| SLR | vegetation | veg_cover | `metric-veg-cover-score_veg_cover` |
 
 ---
 
@@ -39,7 +39,7 @@ All metric functions return a data frame with columns:
 
 **Function:** `score_cram_index()`
 
-**Calculation:** Filters vegetation data by year (from `samplecollectiondate`) to get the list of surveyed sites. Filters CRAM data by year (from `Year_assessment`), groups by `Site`, and averages the `index` column to produce one site-level score per year. Left-joins averaged CRAM scores onto the vegetation site list  sites with no CRAM data receive `NA`. Normalizes using `((empa_index - cram_min) / cram_range) * 100`, rounded to 1 decimal place.
+**Calculation:** Filters vegetation data by year (from `samplecollectiondate`) or do all years. Filters CRAM data by year (from `Year_assessment`), groups by `Site`, and averages the `index` column to produce one site-level score per year. Left-joins averaged CRAM scores onto the vegetation site list. Sites with no CRAM data receive `NA`. Normalizes using `((empa_index - cram_min) / cram_range) * 100`, rounded to 1 decimal place.
 
 **Inputs:**
 - `cram`: CRAM data frame  columns `Site`, `Year_assessment`, `index`
@@ -58,9 +58,9 @@ All metric functions return a data frame with columns:
 **Calculation:** Passes the pre-computed surface ruggedness index directly through with no transformation. Higher values indicate greater topographic complexity.
 
 **Inputs:**
-- `rugged`: Ruggedness data frame  columns `estuaryname`, `siteid`, `ruggedness`
+- `rugged`: Ruggedness data frame  columns `estuaryname`, `siteid`, `Year`, `ruggedness`
 
-**Outputs:** One row per site. Static (no year variation).
+**Outputs:** One row per site per year.
 
 ---
 
@@ -177,7 +177,7 @@ Same function and calculation as [Plant > habitat > cram_index](#cram_index). Pa
 
 #### perimeter_land_cover
 
-**Function:** `score_buffer_cover(buffer_size = "30 m", metric_name = "perimeter_land_cover")`
+**Function:** `score_perimeter_land_cover()`
 
 **Calculation:** Same as `buffer_cover` but using the 30 m buffer  captures the immediate perimeter of the site.
 
@@ -203,7 +203,7 @@ Same function and calculation as [Plant > habitat > cram_index](#cram_index). Pa
 
 #### current_habitat_distribution
 
-**Function:** `score_current_extent()`
+**Function:** `score_current_habitat_distribution()`
 
 **Calculation:** Filters wetland extents data to the `"Current Wetland Footprint"` extent. Pivots cover classes to wide format, sums the Low, Mid, and High marsh zone proportions, and multiplies by 100. `metric_score` = percent of current footprint that is vegetated marsh.
 
@@ -216,7 +216,7 @@ Same function and calculation as [Plant > habitat > cram_index](#cram_index). Pa
 
 #### future_habitat_distribution
 
-**Function:** `score_future_extent()`
+**Function:** `score_future_habitat_distribution()`
 
 **Calculation:** Same as `current_habitat_distribution` but filtered to the `"Wetland Migration/Avoid Developed (1.2 ft)"` extent  a modeled scenario showing where the wetland could shift under 1.2 ft of sea level rise while avoiding developed land.
 

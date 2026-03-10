@@ -1,23 +1,19 @@
-#' @title Metric: Buffer Land Cover
-#' @description Computes percentage of natural land cover within a buffer
-#'   distance around each site.
-#' @name metric-buffer-cover
+#' @title Metric: Perimeter Land Cover
+#' @description Computes percentage of natural land cover within the 30 m
+#'   perimeter buffer around each site.
+#' @name metric-perimeter-land-cover
 NULL
 
-#' Score Buffer Cover
+#' Score Perimeter Land Cover
 #'
-#' Filters GIS buffer data to the specified buffer distance, groups landcover
-#' into natural (Ag + Natural) vs developed, and returns the natural percentage.
-#' Called twice: once for the 500 m buffer (\code{metric_name = "buffer_cover"})
-#' and once for the 30 m buffer (\code{metric_name = "perimeter_land_cover"}).
+#' Filters GIS buffer data to the 30 m buffer, groups landcover into natural
+#' (Ag + Natural) vs developed, and returns the natural percentage.
 #'
 #' @param gis_data A GIS buffer land cover data frame with columns
 #'   \code{estuaryname}, \code{siteid}, \code{buffer}, \code{landcover},
 #'   \code{percent}.
-#' @param buffer_size Character. Buffer distance to filter on (e.g. \code{"500 m"},
-#'   \code{"30 m"}).
-#' @param metric_name Character. Name for this metric in the output. Default
-#'   \code{"buffer_cover"}.
+#' @param buffer_size Character. Buffer distance to filter on. Default
+#'   \code{"30 m"}.
 #' @param function_name Character. Function label. Default \code{"SLR"}.
 #' @param indicator_name Character. Indicator label. Default \code{"resiliency"}.
 #' @param natural_classes Character vector. Landcover classes counted as
@@ -25,10 +21,9 @@ NULL
 #' @return A data frame with columns: estuaryname, siteid, function_name,
 #'   indicator_name, metric_name, metric_score.
 #' @export
-score_buffer_cover <- function(
+score_perimeter_land_cover <- function(
   gis_data,
-  buffer_size,
-  metric_name = "buffer_cover",
+  buffer_size = "30 m",
   function_name = "SLR",
   indicator_name = "resiliency",
   natural_classes = c("Ag", "Natural")
@@ -38,7 +33,7 @@ score_buffer_cover <- function(
     dplyr::mutate(
       landcover_group = dplyr::case_when(
         .data$landcover %in% natural_classes ~ "natural",
-        .data$landcover == "Developed" ~ "developed",
+        .data$landcover == "Developed"       ~ "developed",
         TRUE ~ NA_character_
       )
     ) |>
@@ -49,9 +44,9 @@ score_buffer_cover <- function(
       .groups = "drop"
     ) |>
     dplyr::mutate(
-      function_name = function_name,
+      function_name  = function_name,
       indicator_name = indicator_name,
-      metric_name = metric_name
+      metric_name    = "perimeter_land_cover"
     ) |>
     dplyr::select(
       estuaryname,

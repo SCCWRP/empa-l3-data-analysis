@@ -2,8 +2,7 @@
 #' @description Computes the ratio of the largest contiguous open area to total
 #'   open area around each site.
 #' @name metric-contiguity
-#' @importFrom dplyr filter select mutate
-#' @importFrom tidyr pivot_wider
+NULL
 
 #' Score Perimeter Contiguity
 #'
