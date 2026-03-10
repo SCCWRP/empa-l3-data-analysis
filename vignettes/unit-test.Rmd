@@ -1,0 +1,63 @@
+---
+title: "Generate Unit Test Fixtures"
+author: "Duy Nguyen"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Generate Unit Test Fixtures}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+editor_options:
+  chunk_output_type: console
+---
+
+## Purpose
+
+This script generates CSV fixture files used in unit tests. For each metric
+function, it saves a small input dataset and the expected output to
+`tests/testthat/fixtures/<function_name>/`.
+
+---
+## Setup
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+devtools::load_all(".")
+library(dplyr)
+```
+
+---
+
+## Load Data
+
+```{r load-data}
+vegetativecover_data <- read.csv(
+  "https://nexus.sccwrp.org/empachecker/export?tablename=tbl_vegetativecover_data"
+)
+vegetation_sample_metadata <- read.csv(
+  "https://nexus.sccwrp.org/empachecker/export?tablename=tbl_vegetation_sample_metadata"
+)
+cram <- read.csv("inst/extdata/EMPA_CRAM_2014-2024.csv")
+gis_data <- read.csv("inst/extdata/BufferLandCover_251203.csv")
+wetland_extents <- read.csv("inst/extdata/HabitatZones_260224.csv")
+ruggedness <- read.csv("inst/extdata/Ruggedness_250702.csv")
+```
+
+---
+
+## score_cram_index
+
+`score_cram_index` takes two inputs. Save them as separate files.
+
+```{r fixture-cram-index}
+TEST_SITE = 'NC-TEN'
+input <- vegetativecover_data |> filter(siteid == 'NC-TEN')
+expected <- score_cram_index(
+  vegetativecover_data = input,
+  cram = cram
+)
+```
+```{r}
+write.csv(input, 'tests/testthat/fixtures/score_cram_index/input.csv')
+write.csv(expected, 'tests/testthat/fixtures/score_cram_index/expected.csv')
+```
