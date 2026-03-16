@@ -44,8 +44,7 @@ score_all_metrics <- function(
     score_cram_index(
       cram = cram,
       vegetativecover_data = vegetativecover_data,
-      function_name = "Plant",
-      year = year
+      function_name = "Plant"
     ),
     # Ruggedness (elevation)
     score_ruggedness(rugged),
@@ -81,8 +80,7 @@ score_all_metrics <- function(
     score_cram_index(
       cram = cram,
       vegetativecover_data = vegetativecover_data,
-      function_name = "SLR",
-      year = year
+      function_name = "SLR"
     ),
     # Sediment supply (accretion)
     score_sediment_supply(vegetativecover_data),
