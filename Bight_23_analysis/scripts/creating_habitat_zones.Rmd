@@ -1,0 +1,1290 @@
+---
+title: "creating_habitatzones"
+author: "Adriana Le Compte"
+date: "2026-03-13"
+output: html_document
+---
+
+```{r}
+library(readxl)
+library(tidyverse)
+library(dplyr)
+library(knitr)
+
+siteids <- read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/2_Jan/Bight_SLR_code/lu_siteid.xlsx")
+```
+
+## AGH
+```{r}
+
+AGH_current <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_AGH_DEM_Clip.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 4 ~ "Water",
+    Value <= 6 ~ "Low",
+    Value <= 9 ~ "Mid",
+    Value <= 13 ~ "High",
+    Value > 13 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Current Wetland Footprint", siteid = "SC-AGH")
+
+
+AGH_future_all <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_AGH.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 5.2 ~ "Water",
+    Value <= 7.2 ~ "Low",
+    Value <= 10.2 ~ "Mid",
+    Value <= 14.2 ~ "High",
+    Value > 14.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-AGH")
+
+AGH_future_avoid_dev <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_AGH_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 5.2 ~ "Water",
+    Value <= 7.2 ~ "Low",
+    Value <= 10.2 ~ "Mid",
+    Value <= 14.2 ~ "High",
+    Value > 14.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/Avoid Developed (1.2 ft)", siteid = "SC-AGH")
+
+AGH_scenarios <- 
+  bind_rows(AGH_current, AGH_future_all, AGH_future_avoid_dev)
+
+```
+
+## BAT
+```{r}
+
+BAT_current <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_BAT_DEM_Clip.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 2 ~ "Water",
+    Value <= 5 ~ "Low",
+    Value <= 7 ~ "Mid",
+    Value <= 12 ~ "High",
+    Value > 12 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Current Wetland Footprint", siteid = "SC-BAT")
+
+
+BAT_future_all <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_BAT.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 3.2 ~ "Water",
+    Value <= 6.2 ~ "Low",
+    Value <= 8.2 ~ "Mid",
+    Value <= 13.2 ~ "High",
+    Value > 13.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-BAT")
+
+BAT_future_avoid_dev <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_BAT_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 3.2 ~ "Water",
+    Value <= 6.2 ~ "Low",
+    Value <= 8.2 ~ "Mid",
+    Value <= 13.2 ~ "High",
+    Value > 13.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/Avoid Developed (1.2 ft)", siteid = "SC-BAT")
+
+BAT_scenarios <- 
+  bind_rows(BAT_current, BAT_future_all, BAT_future_avoid_dev)
+
+```
+
+## BOL
+```{r}
+
+BOL_current <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_BOL_DEM_Clip.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 1 ~ "Water",
+    Value <= 4 ~ "Low",
+    Value <= 6 ~ "Mid",
+    Value <= 8 ~ "High",
+    Value > 8 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Current Wetland Footprint", siteid = "SC-BOL")
+
+
+BOL_future_all <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_BOL.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 2.2 ~ "Water",
+    Value <= 5.2 ~ "Low",
+    Value <= 7.2 ~ "Mid",
+    Value <= 9.2 ~ "High",
+    Value > 9.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-BOL")
+
+BOL_future_avoid_dev <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_BOL_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 2.2 ~ "Water",
+    Value <= 5.2 ~ "Low",
+    Value <= 7.2 ~ "Mid",
+    Value <= 9.2 ~ "High",
+    Value > 9.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/Avoid Developed (1.2 ft)", siteid = "SC-BOL")
+
+BOL_scenarios <- 
+  bind_rows(BOL_current, BOL_future_all, BOL_future_avoid_dev)
+
+```
+
+## CARP
+```{r}
+
+CARP_current <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_CARP_DEM_Clip.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 4 ~ "Water",
+    Value <= 5 ~ "Low",
+    Value <= 8 ~ "Mid",
+    Value <= 9 ~ "High",
+    Value > 9 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Current Wetland Footprint", siteid = "SC-CARP")
+
+
+CARP_future_all <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_CARP.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 5.2 ~ "Water",
+    Value <= 6.2 ~ "Low",
+    Value <= 9.2 ~ "Mid",
+    Value <= 10.2 ~ "High",
+    Value > 10.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-CARP")
+
+CARP_future_avoid_dev <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_CARP_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 5.2 ~ "Water",
+    Value <= 6.2 ~ "Low",
+    Value <= 9.2 ~ "Mid",
+    Value <= 10.2 ~ "High",
+    Value > 10.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/Avoid Developed (1.2 ft)", siteid = "SC-CARP")
+
+CARP_scenarios <- 
+  bind_rows(CARP_current, CARP_future_all, CARP_future_avoid_dev)
+
+```
+
+## COL
+```{r}
+
+COL_current <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_COL_DEM_Clip.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 4 ~ "Water",
+    Value <= 6 ~ "Low",
+    # Value <=  ~ "Mid",
+    Value <= 8 ~ "High",
+    Value > 8 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Current Wetland Footprint", siteid = "SC-COL")
+
+
+COL_future_all <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_COL.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 5.2 ~ "Water",
+    Value <= 7.2 ~ "Low",
+    # Value <= ~ "Mid",
+    Value <= 9.2 ~ "High",
+    Value > 9.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-COL")
+
+COL_future_avoid_dev <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_COL_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 5.2 ~ "Water",
+    Value <= 7.2 ~ "Low",
+    # Value <= ~ "Mid",
+    Value <= 9.2 ~ "High",
+    Value > 9.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/Avoid Developed (1.2 ft)", siteid = "SC-COL")
+
+COL_scenarios <- 
+  bind_rows(COL_current, COL_future_all, COL_future_avoid_dev)
+
+```
+
+## DEV
+```{r}
+
+DEV_current <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_DEV_DEM_Clip.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 5 ~ "Water",
+    Value <= 6 ~ "Low",
+    Value <= 8 ~ "Mid",
+    Value <= 23 ~ "High",
+    Value > 23 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Current Wetland Footprint", siteid = "SC-DEV")
+
+
+DEV_future_all <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_DEV.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 6.2 ~ "Water",
+    Value <= 7.2 ~ "Low",
+    Value <= 9.2 ~ "Mid",
+    Value <= 24.2 ~ "High",
+    Value > 24.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-DEV")
+
+DEV_future_avoid_dev <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_DEV_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 6.2 ~ "Water",
+    Value <= 7.2 ~ "Low",
+    Value <= 9.2 ~ "Mid",
+    Value <= 24.2 ~ "High",
+    Value > 24.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/Avoid Developed (1.2 ft)", siteid = "SC-DEV")
+
+DEV_scenarios <- 
+  bind_rows(DEV_current, DEV_future_all, DEV_future_avoid_dev)
+
+```
+
+## GOL
+```{r}
+
+GOL_current <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_GOL_DEM_Clip.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 5 ~ "Water",
+    Value <= 7 ~ "Low",
+    Value <= 10 ~ "Mid",
+    Value <= 22 ~ "High",
+    Value > 22 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Current Wetland Footprint", siteid = "SC-GOL")
+
+
+GOL_future_all <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_GOL.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 6.2 ~ "Water",
+    Value <= 8.2 ~ "Low",
+    Value <= 11.2 ~ "Mid",
+    Value <= 23.2 ~ "High",
+    Value > 23.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-GOL")
+
+GOL_future_avoid_dev <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_GOL_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 6.2 ~ "Water",
+    Value <= 8.2 ~ "Low",
+    Value <= 11.2 ~ "Mid",
+    Value <= 23.2 ~ "High",
+    Value > 23.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/Avoid Developed (1.2 ft)", siteid = "SC-GOL")
+
+GOL_scenarios <- 
+  bind_rows(GOL_current, GOL_future_all, GOL_future_avoid_dev)
+
+```
+
+## HBW
+```{r}
+
+HBW_current <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_HBW_DEM_Clip.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 5 ~ "Water",
+    Value <= 6 ~ "Low",
+    Value <= 10 ~ "Mid",
+    Value <= 12 ~ "High",
+    Value > 12 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Current Wetland Footprint", siteid = "SC-HBW")
+
+
+HBW_future_all <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_HBW.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 6.2 ~ "Water",
+    Value <= 7.2 ~ "Low",
+    Value <= 11.2 ~ "Mid",
+    Value <= 13.2 ~ "High",
+    Value > 13.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-HBW")
+
+HBW_future_avoid_dev <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_HBW_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 6.2 ~ "Water",
+    Value <= 7.2 ~ "Low",
+    Value <= 11.2 ~ "Mid",
+    Value <= 13.2 ~ "High",
+    Value > 13.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/Avoid Developed (1.2 ft)", siteid = "SC-HBW")
+
+HBW_scenarios <- 
+  bind_rows(HBW_current, HBW_future_all, HBW_future_avoid_dev)
+
+```
+
+## KFR
+```{r}
+
+KFR_current <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_KFR_DEM_Clip.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 2 ~ "Water",
+    Value <= 4 ~ "Low",
+    Value <= 7 ~ "Mid",
+    Value <= 19 ~ "High",
+    Value > 19 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Current Wetland Footprint", siteid = "SC-KFR")
+
+
+KFR_future_all <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_KFR.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 3.2 ~ "Water",
+    Value <= 5.2 ~ "Low",
+    Value <= 8.2 ~ "Mid",
+    Value <= 20.2 ~ "High",
+    Value > 20.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-KFR")
+
+KFR_future_avoid_dev <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_KFR_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 3.2 ~ "Water",
+    Value <= 5.2 ~ "Low",
+    Value <= 8.2 ~ "Mid",
+    Value <= 20.2 ~ "High",
+    Value > 20.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/Avoid Developed (1.2 ft)", siteid = "SC-KFR")
+
+KFR_scenarios <- 
+  bind_rows(KFR_current, KFR_future_all, KFR_future_avoid_dev)
+
+```
+
+## LPL
+```{r}
+
+LPL_current <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_LPL_DEM_Clip.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 3 ~ "Water",
+    Value <= 4 ~ "Low",
+    Value <= 7 ~ "Mid",
+    Value <= 32 ~ "High",
+    Value > 32 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Current Wetland Footprint", siteid = "SC-LPL")
+
+
+LPL_future_all <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_LPL.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 4.2 ~ "Water",
+    Value <= 5.2 ~ "Low",
+    Value <= 8.2 ~ "Mid",
+    Value <= 33.2 ~ "High",
+    Value > 33.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-LPL")
+
+LPL_future_avoid_dev <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_LPL_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 4.2 ~ "Water",
+    Value <= 5.2 ~ "Low",
+    Value <= 8.2 ~ "Mid",
+    Value <= 33.2 ~ "High",
+    Value > 33.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/Avoid Developed (1.2 ft)", siteid = "SC-LPL")
+
+LPL_scenarios <- 
+  bind_rows(LPL_current, LPL_future_all, LPL_future_avoid_dev)
+
+```
+
+## MAL
+```{r}
+
+MAL_current <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_MAL_DEM_Clip.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 4 ~ "Water",
+    Value <= 6 ~ "Low",
+    Value <= 8 ~ "Mid",
+    Value <= 15 ~ "High",
+    Value > 15 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Current Wetland Footprint", siteid = "SC-MAL")
+
+
+MAL_future_all <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_MAL.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 5.2 ~ "Water",
+    Value <= 7.2 ~ "Low",
+    Value <= 9.2 ~ "Mid",
+    Value <= 16.2 ~ "High",
+    Value > 16.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-MAL")
+
+MAL_future_avoid_dev <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_MAL_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 5.2 ~ "Water",
+    Value <= 7.2 ~ "Low",
+    Value <= 9.2 ~ "Mid",
+    Value <= 16.2 ~ "High",
+    Value > 16.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/Avoid Developed (1.2 ft)", siteid = "SC-MAL")
+
+MAL_scenarios <- 
+  bind_rows(MAL_current, MAL_future_all, MAL_future_avoid_dev)
+
+```
+
+## MUGU
+```{r}
+
+MUGU_current <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_MUGU_DEM_Clip.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 2 ~ "Water",
+    Value <= 6 ~ "Low",
+    Value <= 8 ~ "Mid",
+    Value <= 15 ~ "High",
+    Value > 15 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Current Wetland Footprint", siteid = "SC-MUGU")
+
+
+MUGU_future_all <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_MUGU.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 3.2 ~ "Water",
+    Value <= 7.2 ~ "Low",
+    Value <= 9.2 ~ "Mid",
+    Value <= 16.2 ~ "High",
+    Value > 16.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-MUGU")
+
+MUGU_future_avoid_dev <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_MUGU_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 3.2 ~ "Water",
+    Value <= 7.2 ~ "Low",
+    Value <= 9.2 ~ "Mid",
+    Value <= 16.2 ~ "High",
+    Value > 16.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/Avoid Developed (1.2 ft)", siteid = "SC-MUGU")
+
+MUGU_scenarios <- 
+  bind_rows(MUGU_current, MUGU_future_all, MUGU_future_avoid_dev)
+
+```
+
+## NEW
+```{r}
+
+NEW_current <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_NEW_DEM_Clip.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 1 ~ "Water",
+    Value <= 5 ~ "Low",
+    Value <= 7 ~ "Mid",
+    Value <= 12 ~ "High",
+    Value > 12 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Current Wetland Footprint", siteid = "SC-NEW")
+
+
+NEW_future_all <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_NEW.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 2.2 ~ "Water",
+    Value <= 6.2 ~ "Low",
+    Value <= 8.2 ~ "Mid",
+    Value <= 13.2 ~ "High",
+    Value > 13.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-NEW")
+
+NEW_future_avoid_dev <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_NEW_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 2.2 ~ "Water",
+    Value <= 6.2 ~ "Low",
+    Value <= 8.2 ~ "Mid",
+    Value <= 13.2 ~ "High",
+    Value > 13.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/Avoid Developed (1.2 ft)", siteid = "SC-NEW")
+
+NEW_scenarios <- 
+  bind_rows(NEW_current, NEW_future_all, NEW_future_avoid_dev)
+
+```
+
+## SDL
+```{r}
+
+SDL_current <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_SDL_DEM_Clip.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 3 ~ "Water",
+    Value <= 5 ~ "Low",
+    Value <= 8 ~ "Mid",
+    Value <= 68 ~ "High",
+    Value > 68 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Current Wetland Footprint", siteid = "SC-SDL")
+
+
+SDL_future_all <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_SDL.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 4.2 ~ "Water",
+    Value <= 6.2 ~ "Low",
+    Value <= 9.2 ~ "Mid",
+    Value <= 69.2 ~ "High",
+    Value > 69.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-SDL")
+
+SDL_future_avoid_dev <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_SDL_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 4.2 ~ "Water",
+    Value <= 6.2 ~ "Low",
+    Value <= 9.2 ~ "Mid",
+    Value <= 69.2 ~ "High",
+    Value > 69.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/Avoid Developed (1.2 ft)", siteid = "SC-SDL")
+
+SDL_scenarios <- 
+  bind_rows(SDL_current, SDL_future_all, SDL_future_avoid_dev)
+
+```
+
+## SEAL
+```{r}
+
+SEAL_current <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_SEAL_DEM_Clip.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 1 ~ "Water",
+    Value <= 3 ~ "Low",
+    Value <= 6 ~ "Mid",
+    Value <= 13 ~ "High",
+    Value > 13 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Current Wetland Footprint", siteid = "SC-SEAL")
+
+
+SEAL_future_all <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_SEAL.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 2.2 ~ "Water",
+    Value <= 4.2 ~ "Low",
+    Value <= 7.2 ~ "Mid",
+    Value <= 14.2 ~ "High",
+    Value > 14.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-SEAL")
+
+SEAL_future_avoid_dev <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_SEAL_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 2.2 ~ "Water",
+    Value <= 4.2 ~ "Low",
+    Value <= 7.2 ~ "Mid",
+    Value <= 14.2 ~ "High",
+    Value > 14.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/Avoid Developed (1.2 ft)", siteid = "SC-SEAL")
+
+SEAL_scenarios <- 
+  bind_rows(SEAL_current, SEAL_future_all, SEAL_future_avoid_dev)
+
+```
+
+## SEL
+```{r}
+
+SEL_current <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_SEL_DEM_Clip.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 3 ~ "Water",
+    Value <= 6 ~ "Low",
+    Value <= 7 ~ "Mid",
+    Value <= 11 ~ "High",
+    Value > 11 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Current Wetland Footprint", siteid = "SC-SEL")
+
+
+SEL_future_all <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_SEL.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 4.2 ~ "Water",
+    Value <= 7.2 ~ "Low",
+    Value <= 8.2 ~ "Mid",
+    Value <= 12.2 ~ "High",
+    Value > 12.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-SEL")
+
+SEL_future_avoid_dev <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_SEL_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 4.2 ~ "Water",
+    Value <= 7.2 ~ "Low",
+    Value <= 8.2 ~ "Mid",
+    Value <= 12.2 ~ "High",
+    Value > 12.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/Avoid Developed (1.2 ft)", siteid = "SC-SEL")
+
+SEL_scenarios <- 
+  bind_rows(SEL_current, SEL_future_all, SEL_future_avoid_dev)
+
+```
+
+## SSP
+```{r}
+
+SSP_current <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_SSP_DEM_Clip.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 2 ~ "Water",
+    Value <= 4 ~ "Low",
+    Value <= 7 ~ "Mid",
+    Value <= 9 ~ "High",
+    Value > 9 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Current Wetland Footprint", siteid = "SC-SSP")
+
+
+SSP_future_all <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_SSP.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 3.2 ~ "Water",
+    Value <= 5.2 ~ "Low",
+    Value <= 8.2 ~ "Mid",
+    Value <= 10.2 ~ "High",
+    Value > 10.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-SSP")
+
+SSP_future_avoid_dev <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_SSP_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 3.2 ~ "Water",
+    Value <= 5.2 ~ "Low",
+    Value <= 8.2 ~ "Mid",
+    Value <= 10.2 ~ "High",
+    Value > 10.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/Avoid Developed (1.2 ft)", siteid = "SC-SSP")
+
+SSP_scenarios <- 
+  bind_rows(SSP_current, SSP_future_all, SSP_future_avoid_dev)
+
+```
+
+## SWM
+```{r}
+
+SWM_current <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_SWM_DEM_Clip.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 1 ~ "Water",
+    Value <= 5 ~ "Low",
+    Value <= 9 ~ "Mid",
+    Value <= 17 ~ "High",
+    Value > 17 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Current Wetland Footprint", siteid = "SC-SWM")
+
+
+SWM_future_all <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_SWM.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 2.2 ~ "Water",
+    Value <= 6.2 ~ "Low",
+    Value <= 10.2 ~ "Mid",
+    Value <= 18.2 ~ "High",
+    Value > 18.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-SWM")
+
+SWM_future_avoid_dev <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_SWM_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 2.2 ~ "Water",
+    Value <= 6.2 ~ "Low",
+    Value <= 10.2 ~ "Mid",
+    Value <= 18.2 ~ "High",
+    Value > 18.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/Avoid Developed (1.2 ft)", siteid = "SC-SWM")
+
+SWM_scenarios <- 
+  bind_rows(SWM_current, SWM_future_all, SWM_future_avoid_dev)
+
+```
+
+## TJEN
+```{r}
+
+TJEN_current <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_TJEN_DEM_Clip.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 4 ~ "Water",
+    Value <= 6 ~ "Low",
+    Value <= 8 ~ "Mid",
+    Value <= 9 ~ "High",
+    Value > 9 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Current Wetland Footprint", siteid = "SC-TJEN")
+
+
+TJEN_future_all <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_TJEN.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 5.2 ~ "Water",
+    Value <= 7.2 ~ "Low",
+    Value <= 9.2 ~ "Mid",
+    Value <= 10.2  ~ "High",
+    Value > 10.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-TJEN")
+
+TJEN_future_avoid_dev <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_TJEN_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 5.2 ~ "Water",
+    Value <= 7.2 ~ "Low",
+    Value <= 9.2 ~ "Mid",
+    Value <= 10.2  ~ "High",
+    Value > 10.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/Avoid Developed (1.2 ft)", siteid = "SC-TJEN")
+
+TJEN_scenarios <- 
+  bind_rows(TJEN_current, TJEN_future_all, TJEN_future_avoid_dev)
+
+```
+
+## TJES
+```{r}
+
+TJES_current <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_TJES_DEM_Clip.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 3 ~ "Water",
+    Value <= 6 ~ "Low",
+    Value <= 7 ~ "Mid",
+    Value <= 10 ~ "High",
+    Value > 10 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Current Wetland Footprint", siteid = "SC-TJES")
+
+
+TJES_future_all <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_TJES.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 4.2 ~ "Water",
+    Value <= 7.2 ~ "Low",
+    Value <= 8.2 ~ "Mid",
+    Value <= 11.2 ~ "High",
+    Value > 11.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-TJES")
+
+TJES_future_avoid_dev <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_TJES_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 4.2 ~ "Water",
+    Value <= 7.2 ~ "Low",
+    Value <= 8.2 ~ "Mid",
+    Value <= 11.2 ~ "High",
+    Value > 11.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/Avoid Developed (1.2 ft)", siteid = "SC-TJES")
+
+TJES_scenarios <- 
+  bind_rows(TJES_current, TJES_future_all, TJES_future_avoid_dev)
+
+```
+
+## VEN
+```{r}
+
+VEN_current <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_VEN_DEM_Clip.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 7 ~ "Water",
+    Value <= 8 ~ "Low",
+    Value <= 9 ~ "Mid",
+    Value <= 17 ~ "High",
+    Value > 17 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Current Wetland Footprint", siteid = "SC-VEN")
+
+
+VEN_future_all <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_VEN.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 8.2 ~ "Water",
+    Value <= 9.2 ~ "Low",
+    Value <= 10.2 ~ "Mid",
+    Value <= 18.2 ~ "High",
+    Value > 18.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-VEN")
+
+VEN_future_avoid_dev <- 
+  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_VEN_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  select(Value, Count) %>%
+  mutate(habitat = case_when(
+    Value <= 8.2 ~ "Water",
+    Value <= 9.2 ~ "Low",
+    Value <= 10.2 ~ "Mid",
+    Value <= 18.2 ~ "High",
+    Value > 18.2 ~ "Upland"
+  )) %>%
+  group_by(habitat) %>%
+  reframe(cover_number = sum(Count)) %>%
+  mutate(total_pixels = sum(cover_number),
+        percent_cover = (cover_number/total_pixels)) %>%
+  select(-total_pixels) %>% 
+  mutate(region = "South", extent = "Wetland Migration/Avoid Developed (1.2 ft)", siteid = "SC-VEN")
+
+VEN_scenarios <- 
+  bind_rows(VEN_current, VEN_future_all, VEN_future_avoid_dev)
+
+```
+
+## final results
+```{r}
+final_results <- 
+  bind_rows(AGH_scenarios, BAT_scenarios, BOL_scenarios, CARP_scenarios, COL_scenarios, DEV_scenarios,
+            GOL_scenarios, HBW_scenarios, KFR_scenarios, LPL_scenarios, MAL_scenarios, MUGU_scenarios,
+            NEW_scenarios, SDL_scenarios, SEAL_scenarios, SEL_scenarios, SSP_scenarios, SWM_scenarios,
+            TJEN_scenarios, TJES_scenarios, VEN_scenarios) %>% 
+  left_join(siteids, by = "siteid") %>% 
+  rename(estuaryname = estuary)
+
+write.csv(final_results, "C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/2_Jan/Bight_SLR_code/HabitatZones_260315.csv")
+
+```
+
