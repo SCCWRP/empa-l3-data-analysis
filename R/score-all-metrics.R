@@ -8,8 +8,9 @@ NULL
 #' Calls every metric function and row-binds the results into one long-format
 #' table. Static metrics (GIS/wetland inputs) produce rows with \code{year = NA}.
 #'
-#' @param cram CRAM data frame — columns \code{Site}, \code{Year_assessment},
-#'   \code{index}, \code{estuaryname}, \code{siteid}.
+#' @param cram CRAM data frame — columns \code{siteid}, \code{MPA},
+#'   \code{stationno}, \code{year}, \code{index}, \code{biotic},
+#'   \code{physical}.
 #' @param vegetativecover_data Raw vegetation cover data frame — columns
 #'   \code{estuaryname}, \code{siteid}, \code{samplecollectiondate},
 #'   \code{status}, \code{scientificname}, \code{estimatedcover}, \code{rating}.
@@ -84,7 +85,7 @@ score_all_metrics <- function(
       year = year
     ),
     # Sediment supply (accretion)
-    score_sediment_supply(cram),
+    score_sediment_supply(vegetativecover_data),
     # Buffer cover 500m (resiliency)
     score_buffer_cover(
       gis_data = gis_data,

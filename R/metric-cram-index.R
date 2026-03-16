@@ -1,18 +1,20 @@
 #' @title Metric: CRAM Index
-#' @description Computes a normalized CRAM index score per site by averaging
-#'   station-level scores then joining to vegetation survey sites.
+#' @description Computes a normalized CRAM index score per site using the
+#'   latest available CRAM data, averaging across stations when multiple exist.
 #' @name metric-cram-index
 NULL
 
 #' Score CRAM Index
 #'
-#' For the selected year(s): filters vegetation data by \code{samplecollectiondate},
-#' filters CRAM data by \code{Year_assessment}, averages the \code{index} column
-#' per \code{Site} and year, then left-joins onto vegetation sites so every
+#' For the selected year(s): filters vegetation data by \code{samplecollectiondate}
+#' to obtain surveyed sites and their survey years. For each site, uses the
+#' **latest available** CRAM year (regardless of survey year), averaging
+#' \code{index} across all stations. Left-joins onto vegetation sites so every
 #' surveyed site appears in the output (NA score when no CRAM data exists).
 #'
-#' @param cram A data frame with columns \code{Site}, \code{Year_assessment},
-#'   and \code{index}.
+#' @param cram A data frame with columns \code{siteid}, \code{MPA},
+#'   \code{stationno}, \code{year}, \code{index}, \code{biotic},
+#'   \code{physical}.
 #' @param vegetativecover_data A vegetation data frame with columns
 #'   \code{estuaryname}, \code{siteid}, and \code{samplecollectiondate}.
 #' @param function_name Character vector. One or both of \code{"Plant"} and
@@ -46,24 +48,23 @@ score_cram_index <- function(
     dplyr::mutate(year = as.character(substr(samplecollectiondate, 1, 4))) |>
     dplyr::distinct(estuaryname, siteid, year)
 
-  # 2. Filter cram by year (Year_assessment), average index per Site and year
-  if (!identical(year, "all")) {
-    cram <- dplyr::filter(cram, .data$Year_assessment %in% as.integer(year))
-  }
-  cram_avg <- cram |>
-    dplyr::group_by(Site, Year_assessment) |>
+  # 2. For each siteid, keep only the latest available year, then average index
+  #    across stations (some sites have only one station)
+  cram_latest <- cram |>
+    dplyr::filter(!is.na(.data$index)) |>
+    dplyr::group_by(.data$siteid) |>
+    dplyr::filter(.data$year == max(.data$year, na.rm = TRUE)) |>
     dplyr::summarise(
-      empa_index = mean(index, na.rm = TRUE),
+      empa_index = mean(.data$index, na.rm = TRUE),
       .groups = "drop"
-    ) |>
-    dplyr::mutate(year = as.character(Year_assessment))
+    )
 
-  # 3. Left join averaged cram onto veg sites (siteid = Site, year = year)
-  #    Sites with no CRAM data produce NA metric_score
+  # 3. Left join latest cram onto veg sites (by siteid only — CRAM year is
+  #    independent of survey year); sites with no CRAM data produce NA score
   scored <- dplyr::left_join(
     veg_sites,
-    cram_avg,
-    by = c("siteid" = "Site", "year" = "year")
+    cram_latest,
+    by = "siteid"
   ) |>
     dplyr::mutate(
       indicator_name = indicator_name,
