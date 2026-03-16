@@ -34,7 +34,7 @@ vegetation_sample_metadata <- read.csv(
 ```
 
 ```{r}
-cram <- read.csv("inst/extdata/EMPA_CRAM_2014-2024.csv")
+cram <- read.csv("inst/extdata/empa_cram.csv")
 gis_data <- read.csv("inst/extdata/BufferLandCover_251203.csv")
 wetland_extents <- read.csv("inst/extdata/HabitatZones_260224.csv")
 ruggedness <- read.csv("inst/extdata/Ruggedness_250702.csv")
@@ -54,7 +54,7 @@ all_scores <- score_all_metrics(
   gis_data = gis_data,
   wetland = wetland_extents,
   rugged = ruggedness,
-  year = c(2023, 2024)
+  year = c(2023, 2024, 2025)
 )
 
 all_scores
@@ -77,16 +77,19 @@ all_scores |>
 Normalized CRAM score per site. Left-joined onto vegetation sites so every surveyed site appears — `NA` where no CRAM data exists.
 
 ```{r cram-index}
+
 cram_scores <- score_cram_index(
   cram = cram,
   vegetativecover_data = vegetativecover_data,
-  function_name = "Plant",
-  year = c(2023)
+  function_name = "Plant"
 )
 
-head(cram_scores)
+cram_scores
 ```
 
+```{r}
+
+```
 ### Native Cover
 
 Percent of total cover that is native, after excluding unknown species and non-recorded statuses.

@@ -61,3 +61,4 @@ expected <- score_cram_index(
 write.csv(input, 'tests/testthat/fixtures/score_cram_index/input.csv')
 write.csv(expected, 'tests/testthat/fixtures/score_cram_index/expected.csv')
 ```
+
