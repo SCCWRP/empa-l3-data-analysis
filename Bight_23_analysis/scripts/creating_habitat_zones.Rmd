@@ -11,14 +11,14 @@ library(tidyverse)
 library(dplyr)
 library(knitr)
 
-siteids <- read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/2_Jan/Bight_SLR_code/lu_siteid.xlsx")
+siteids <- read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/2_Jan/Bight_SLR_code/lu_siteid.xlsx")
 ```
 
 ## AGH
 ```{r}
 
 AGH_current <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_AGH_DEM_Clip.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_AGH_DEM_Clip.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 4 ~ "Water",
@@ -36,7 +36,7 @@ AGH_current <-
 
 
 AGH_future_all <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_AGH.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_AGH.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 5.2 ~ "Water",
@@ -53,7 +53,7 @@ AGH_future_all <-
   mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-AGH")
 
 AGH_future_avoid_dev <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_AGH_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_AGH_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 5.2 ~ "Water",
@@ -78,7 +78,7 @@ AGH_scenarios <-
 ```{r}
 
 BAT_current <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_BAT_DEM_Clip.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_BAT_DEM_Clip.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 2 ~ "Water",
@@ -96,7 +96,7 @@ BAT_current <-
 
 
 BAT_future_all <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_BAT.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_BAT.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 3.2 ~ "Water",
@@ -113,7 +113,7 @@ BAT_future_all <-
   mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-BAT")
 
 BAT_future_avoid_dev <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_BAT_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_BAT_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 3.2 ~ "Water",
@@ -138,7 +138,7 @@ BAT_scenarios <-
 ```{r}
 
 BOL_current <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_BOL_DEM_Clip.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_BOL_DEM_Clip.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 1 ~ "Water",
@@ -156,7 +156,7 @@ BOL_current <-
 
 
 BOL_future_all <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_BOL.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_BOL.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 2.2 ~ "Water",
@@ -173,7 +173,7 @@ BOL_future_all <-
   mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-BOL")
 
 BOL_future_avoid_dev <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_BOL_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_BOL_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 2.2 ~ "Water",
@@ -198,7 +198,7 @@ BOL_scenarios <-
 ```{r}
 
 CARP_current <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_CARP_DEM_Clip.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_CARP_DEM_Clip.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 4 ~ "Water",
@@ -216,7 +216,7 @@ CARP_current <-
 
 
 CARP_future_all <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_CARP.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_CARP.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 5.2 ~ "Water",
@@ -233,7 +233,7 @@ CARP_future_all <-
   mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-CARP")
 
 CARP_future_avoid_dev <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_CARP_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_CARP_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 5.2 ~ "Water",
@@ -258,7 +258,7 @@ CARP_scenarios <-
 ```{r}
 
 COL_current <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_COL_DEM_Clip.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_COL_DEM_Clip.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 4 ~ "Water",
@@ -276,7 +276,7 @@ COL_current <-
 
 
 COL_future_all <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_COL.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_COL.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 5.2 ~ "Water",
@@ -293,7 +293,7 @@ COL_future_all <-
   mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-COL")
 
 COL_future_avoid_dev <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_COL_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_COL_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 5.2 ~ "Water",
@@ -318,7 +318,7 @@ COL_scenarios <-
 ```{r}
 
 DEV_current <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_DEV_DEM_Clip.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_DEV_DEM_Clip.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 5 ~ "Water",
@@ -336,7 +336,7 @@ DEV_current <-
 
 
 DEV_future_all <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_DEV.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_DEV.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 6.2 ~ "Water",
@@ -353,7 +353,7 @@ DEV_future_all <-
   mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-DEV")
 
 DEV_future_avoid_dev <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_DEV_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_DEV_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 6.2 ~ "Water",
@@ -378,7 +378,7 @@ DEV_scenarios <-
 ```{r}
 
 GOL_current <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_GOL_DEM_Clip.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_GOL_DEM_Clip.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 5 ~ "Water",
@@ -396,7 +396,7 @@ GOL_current <-
 
 
 GOL_future_all <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_GOL.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_GOL.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 6.2 ~ "Water",
@@ -413,7 +413,7 @@ GOL_future_all <-
   mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-GOL")
 
 GOL_future_avoid_dev <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_GOL_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_GOL_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 6.2 ~ "Water",
@@ -438,7 +438,7 @@ GOL_scenarios <-
 ```{r}
 
 HBW_current <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_HBW_DEM_Clip.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_HBW_DEM_Clip.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 5 ~ "Water",
@@ -456,7 +456,7 @@ HBW_current <-
 
 
 HBW_future_all <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_HBW.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_HBW.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 6.2 ~ "Water",
@@ -473,7 +473,7 @@ HBW_future_all <-
   mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-HBW")
 
 HBW_future_avoid_dev <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_HBW_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_HBW_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 6.2 ~ "Water",
@@ -498,7 +498,7 @@ HBW_scenarios <-
 ```{r}
 
 KFR_current <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_KFR_DEM_Clip.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_KFR_DEM_Clip.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 2 ~ "Water",
@@ -516,7 +516,7 @@ KFR_current <-
 
 
 KFR_future_all <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_KFR.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_KFR.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 3.2 ~ "Water",
@@ -533,7 +533,7 @@ KFR_future_all <-
   mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-KFR")
 
 KFR_future_avoid_dev <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_KFR_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_KFR_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 3.2 ~ "Water",
@@ -558,7 +558,7 @@ KFR_scenarios <-
 ```{r}
 
 LPL_current <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_LPL_DEM_Clip.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_LPL_DEM_Clip.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 3 ~ "Water",
@@ -576,7 +576,7 @@ LPL_current <-
 
 
 LPL_future_all <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_LPL.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_LPL.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 4.2 ~ "Water",
@@ -593,7 +593,7 @@ LPL_future_all <-
   mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-LPL")
 
 LPL_future_avoid_dev <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_LPL_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_LPL_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 4.2 ~ "Water",
@@ -618,7 +618,7 @@ LPL_scenarios <-
 ```{r}
 
 MAL_current <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_MAL_DEM_Clip.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_MAL_DEM_Clip.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 4 ~ "Water",
@@ -636,7 +636,7 @@ MAL_current <-
 
 
 MAL_future_all <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_MAL.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_MAL.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 5.2 ~ "Water",
@@ -653,7 +653,7 @@ MAL_future_all <-
   mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-MAL")
 
 MAL_future_avoid_dev <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_MAL_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_MAL_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 5.2 ~ "Water",
@@ -678,7 +678,7 @@ MAL_scenarios <-
 ```{r}
 
 MUGU_current <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_MUGU_DEM_Clip.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_MUGU_DEM_Clip.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 2 ~ "Water",
@@ -696,7 +696,7 @@ MUGU_current <-
 
 
 MUGU_future_all <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_MUGU.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_MUGU.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 3.2 ~ "Water",
@@ -713,7 +713,7 @@ MUGU_future_all <-
   mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-MUGU")
 
 MUGU_future_avoid_dev <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_MUGU_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_MUGU_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 3.2 ~ "Water",
@@ -738,7 +738,7 @@ MUGU_scenarios <-
 ```{r}
 
 NEW_current <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_NEW_DEM_Clip.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_NEW_DEM_Clip.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 1 ~ "Water",
@@ -756,7 +756,7 @@ NEW_current <-
 
 
 NEW_future_all <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_NEW.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_NEW.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 2.2 ~ "Water",
@@ -773,7 +773,7 @@ NEW_future_all <-
   mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-NEW")
 
 NEW_future_avoid_dev <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_NEW_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_NEW_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 2.2 ~ "Water",
@@ -798,7 +798,7 @@ NEW_scenarios <-
 ```{r}
 
 SDL_current <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_SDL_DEM_Clip.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_SDL_DEM_Clip.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 3 ~ "Water",
@@ -816,7 +816,7 @@ SDL_current <-
 
 
 SDL_future_all <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_SDL.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_SDL.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 4.2 ~ "Water",
@@ -833,7 +833,7 @@ SDL_future_all <-
   mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-SDL")
 
 SDL_future_avoid_dev <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_SDL_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_SDL_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 4.2 ~ "Water",
@@ -858,7 +858,7 @@ SDL_scenarios <-
 ```{r}
 
 SEAL_current <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_SEAL_DEM_Clip.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_SEAL_DEM_Clip.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 1 ~ "Water",
@@ -876,7 +876,7 @@ SEAL_current <-
 
 
 SEAL_future_all <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_SEAL.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_SEAL.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 2.2 ~ "Water",
@@ -893,7 +893,7 @@ SEAL_future_all <-
   mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-SEAL")
 
 SEAL_future_avoid_dev <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_SEAL_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_SEAL_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 2.2 ~ "Water",
@@ -918,7 +918,7 @@ SEAL_scenarios <-
 ```{r}
 
 SEL_current <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_SEL_DEM_Clip.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_SEL_DEM_Clip.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 3 ~ "Water",
@@ -936,7 +936,7 @@ SEL_current <-
 
 
 SEL_future_all <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_SEL.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_SEL.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 4.2 ~ "Water",
@@ -953,7 +953,7 @@ SEL_future_all <-
   mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-SEL")
 
 SEL_future_avoid_dev <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_SEL_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_SEL_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 4.2 ~ "Water",
@@ -978,7 +978,7 @@ SEL_scenarios <-
 ```{r}
 
 SSP_current <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_SSP_DEM_Clip.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_SSP_DEM_Clip.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 2 ~ "Water",
@@ -996,7 +996,7 @@ SSP_current <-
 
 
 SSP_future_all <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_SSP.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_SSP.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 3.2 ~ "Water",
@@ -1013,7 +1013,7 @@ SSP_future_all <-
   mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-SSP")
 
 SSP_future_avoid_dev <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_SSP_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_SSP_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 3.2 ~ "Water",
@@ -1038,7 +1038,7 @@ SSP_scenarios <-
 ```{r}
 
 SWM_current <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_SWM_DEM_Clip.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_SWM_DEM_Clip.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 1 ~ "Water",
@@ -1056,7 +1056,7 @@ SWM_current <-
 
 
 SWM_future_all <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_SWM.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_SWM.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 2.2 ~ "Water",
@@ -1073,7 +1073,7 @@ SWM_future_all <-
   mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-SWM")
 
 SWM_future_avoid_dev <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_SWM_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_SWM_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 2.2 ~ "Water",
@@ -1098,7 +1098,7 @@ SWM_scenarios <-
 ```{r}
 
 TJEN_current <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_TJEN_DEM_Clip.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_TJEN_DEM_Clip.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 4 ~ "Water",
@@ -1116,7 +1116,7 @@ TJEN_current <-
 
 
 TJEN_future_all <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_TJEN.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_TJEN.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 5.2 ~ "Water",
@@ -1133,7 +1133,7 @@ TJEN_future_all <-
   mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-TJEN")
 
 TJEN_future_avoid_dev <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_TJEN_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_TJEN_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 5.2 ~ "Water",
@@ -1158,7 +1158,7 @@ TJEN_scenarios <-
 ```{r}
 
 TJES_current <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_TJES_DEM_Clip.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_TJES_DEM_Clip.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 3 ~ "Water",
@@ -1176,7 +1176,7 @@ TJES_current <-
 
 
 TJES_future_all <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_TJES.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_TJES.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 4.2 ~ "Water",
@@ -1193,7 +1193,7 @@ TJES_future_all <-
   mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-TJES")
 
 TJES_future_avoid_dev <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_TJES_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_TJES_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 4.2 ~ "Water",
@@ -1218,7 +1218,7 @@ TJES_scenarios <-
 ```{r}
 
 VEN_current <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_VEN_DEM_Clip.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/current_extent/ExportTable_DEM_estuary_extent_clip_VEN_DEM_Clip.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 7 ~ "Water",
@@ -1236,7 +1236,7 @@ VEN_current <-
 
 
 VEN_future_all <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_VEN.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent/ExportTable_DEM_clipped_500mbuffer_VEN.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 8.2 ~ "Water",
@@ -1253,7 +1253,7 @@ VEN_future_all <-
   mutate(region = "South", extent = "Wetland Migration/All Areas (1.2 ft)", siteid = "SC-VEN")
 
 VEN_future_avoid_dev <- 
-  read_excel("C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_VEN_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
+  read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/ArcGIS/Projects/Bight23_estuary_SLR_analysis/DEM output tables/future_extent_excluding_dev/ExportTable_VEN_DEM_clipped_500m_buffer_excluding_dev.xls") %>%
   select(Value, Count) %>%
   mutate(habitat = case_when(
     Value <= 8.2 ~ "Water",
@@ -1284,7 +1284,7 @@ final_results <-
   left_join(siteids, by = "siteid") %>% 
   rename(estuaryname = estuary)
 
-write.csv(final_results, "C:/Users/ADRIANALS/OneDrive - SCCWRP/Documents/2_Jan/Bight_SLR_code/HabitatZones_260315.csv")
+write.csv(final_results, "C:/Users/adrianal/OneDrive - SCCWRP/Documents/Repositories/empa-l3-data-analysis/Bight_23_analysis/data/HabitatZones_260315.csv", row.names = F)
 
 ```
 
