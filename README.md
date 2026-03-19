@@ -4,6 +4,77 @@ R package for the Estuary MPA (EMPA) Level 3 Dashboard data analysis.
 
 ---
 
+## How to Run
+
+### 1. Clone this repo
+
+```bash
+git clone https://github.com/your-org/empa-l3-data-analysis.git
+cd empa-l3-data-analysis
+```
+
+### 2. Load the package
+
+```r
+devtools::load_all(".")
+```
+
+### 3. Load EMPA data
+
+```r
+vegetativecover_data <- read.csv(
+  "https://nexus.sccwrp.org/empachecker/export?tablename=tbl_vegetativecover_data"
+)
+vegetation_sample_metadata <- read.csv(
+  "https://nexus.sccwrp.org/empachecker/export?tablename=tbl_vegetation_sample_metadata"
+)
+```
+
+### 4. Load external datasets
+
+```r
+cram <- read.csv("inst/extdata/empa_cram.csv")
+gis_data <- read.csv("inst/extdata/BufferLandCover_251203.csv")
+wetland_extents <- read.csv("inst/extdata/HabitatZones_260224.csv")
+ruggedness <- read.csv("inst/extdata/Ruggedness_250702.csv")
+```
+
+### 5. Run all metrics
+
+```r
+all_scores <- score_all_metrics(
+  vegetation_sample_metadata = vegetation_sample_metadata,
+  vegetativecover_data = vegetativecover_data,
+  cram = cram,
+  gis_data = gis_data,
+  wetland = wetland_extents,
+  rugged = ruggedness,
+  year = c(2023, 2024, 2025)
+)
+```
+
+### 6. Run individual metrics
+
+Example for CRAM index:
+
+```r
+cram_scores <- score_cram_index(
+  cram = cram,
+  vegetativecover_data = vegetativecover_data
+)
+```
+
+Example for native cover:
+
+```r
+native_scores <- score_native_cover(
+  vegetativecover_data = vegetativecover_data,
+  year = c(2023)
+)
+```
+
+---
+
 ## Metrics
 
 All metric functions return a data frame with columns:

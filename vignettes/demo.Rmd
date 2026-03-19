@@ -80,8 +80,7 @@ Normalized CRAM score per site. Left-joined onto vegetation sites so every surve
 
 cram_scores <- score_cram_index(
   cram = cram,
-  vegetativecover_data = vegetativecover_data,
-  function_name = "Plant"
+  vegetativecover_data = vegetativecover_data
 )
 
 cram_scores
