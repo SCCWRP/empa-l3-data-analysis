@@ -41,7 +41,10 @@ cram<- cram %>%
   select(siteid, year = vyear, index = indexscore, biotic = biotic_structure,
          physical = physical_structure)
 
-ruggedness <- read.csv("/Users/janw/Desktop/projects/Bight-Estuary-2023/Data/Ruggedness_260320.csv")
+ruggedness_raw <- read.csv("/Users/janw/Desktop/projects/Bight-Estuary-2023/Data/Ruggedness_260320.csv")
+
+ruggedness <-ruggedness_raw %>% 
+  rename(estuaryname = estuary)
 
 
 ```
@@ -49,6 +52,8 @@ ruggedness <- read.csv("/Users/janw/Desktop/projects/Bight-Estuary-2023/Data/Rug
 # Individual metrics
 
 ```{r CRAM}
+
+#one question for BF regarding normalizing 
 
 score_cram_index <- function(
   cram,
@@ -81,7 +86,8 @@ score_cram_index <- function(
     dplyr::mutate(
       indicator_name = indicator_name,
       metric_name = "cram_index",
-      #this grades the CRAM score
+      #this grades the CRAM score - normalizes it
+      #QUESTION for BF: Is this necessary to normalize to 100?      
       metric_score = round(((empa_index - cram_min) / cram_range) * 100, 1)
     )
 
@@ -106,4 +112,322 @@ cram_scores <- score_cram_index(
 
 ```
 
+```{r upper veg cover}
+
+#This should be mid and upper marsh only
+# This is not reflected in the code - see comments
+
+score_veg_cover <- function(
+  vegetation_sample_metadata,
+  function_name = c("Plant", "SLR"),
+  indicator_name = "vegetation",
+  year = "all"
+) {
+  missing_val <- -88
+
+  meta <- vegetation_sample_metadata |>
+    dplyr::mutate(year = as.character(substr(samplecollectiondate, 1, 4)))
+
+  if (!identical(year, "all")) {
+    meta <- dplyr::filter(meta, .data$year %in% as.character(year))
+  }
+
+  scored <- meta |>
+    dplyr::filter(
+      .data$vegetated_cover != missing_val,
+      .data$non_vegetated_cover != missing_val
+    ) |>
+    #adding filter for high and mid marsh only
+    #QUESTION BF: Do we still want to make sure this is high cover only
+    dplyr::filter(habitat == "High marsh" |
+                    habitat == "Mid marsh" |
+                    habitat == "Brackish marsh" |
+                    habitat == "Unvegetated salt panne") |>
+    dplyr::group_by(estuaryname, siteid, year) |>
+    dplyr::summarise(
+      total_vegetated     = sum(vegetated_cover, na.rm = TRUE),
+      total_non_vegetated = sum(non_vegetated_cover, na.rm = TRUE),
+      .groups = "drop"
+    ) |>
+    dplyr::mutate(
+      indicator_name = indicator_name,
+      metric_name    = "veg_cover",
+      metric_score   = round(
+        total_vegetated / (total_vegetated + total_non_vegetated) * 100, 1
+      )
+    )
+
+  dplyr::bind_rows(lapply(function_name, function(fn) {
+    dplyr::mutate(scored, function_name = fn)
+  })) |>
+    dplyr::select(
+      estuaryname,
+      siteid,
+      year,
+      function_name,
+      indicator_name,
+      metric_name,
+      metric_score
+    )
+}
+
+
+veg_cover_scores <- score_veg_cover(
+  vegetation_sample_metadata = vegetation_sample_metadata
+)
+
+
+```
+
+```{r native cover}
+
+#Question: This includes all native cover regardless of habitat type - we need to be clear about that
+
+score_native_cover <- function(
+  vegetativecover_data,
+  function_name = "Plant",
+  indicator_name = "vegetation",
+  year = "all"
+) {
+  exclude_statuses <- c("Not recorded", "naturalized")
+  missing_val <- -88
+
+  veg <- vegetativecover_data |>
+    dplyr::mutate(year = as.character(substr(samplecollectiondate, 1, 4)))
+
+  if (!identical(year, "all")) {
+    veg <- dplyr::filter(veg, .data$year %in% as.character(year))
+  }
+
+  veg_relative <- veg |>
+    dplyr::filter(
+      !is.na(.data$status),
+      !.data$status %in% exclude_statuses,
+      .data$estimatedcover != missing_val,
+      !grepl("^unknown", .data$scientificname, ignore.case = TRUE)
+    ) |>
+    dplyr::group_by(estuaryname, siteid, year, status) |>
+    dplyr::summarise(
+      total_cover = sum(estimatedcover, na.rm = TRUE),
+      .groups = "drop"
+    ) |>
+    dplyr::group_by(siteid, year) |>
+    dplyr::mutate(
+      relative_abundance = round(total_cover / sum(total_cover) * 100, 1)
+    ) |>
+    dplyr::select(estuaryname, siteid, year, status, relative_abundance) |>
+    tidyr::pivot_wider(
+      names_from = status,
+      values_from = relative_abundance,
+      values_fill = 0
+    )
+
+  veg_relative |>
+    dplyr::mutate(
+      function_name = function_name,
+      indicator_name = indicator_name,
+      metric_name = "native_cover",
+      metric_score = if ("native" %in% names(veg_relative)) native else NA_real_
+    ) |>
+    dplyr::select(
+      estuaryname,
+      siteid,
+      year,
+      function_name,
+      indicator_name,
+      metric_name,
+      metric_score
+    )
+}
+
+
+native_cover_scores <- score_native_cover(
+  vegetativecover_data = vegetativecover_data
+)
+
+```
+
+```{r invasive severity}
+
+score_invasive_severity <- function(
+  vegetativecover_data,
+  function_name = "Plant",
+  indicator_name = "vegetation",
+  year = "all",
+  penalties = c(Limited = 5, Moderate = 10, High = 15)
+) {
+  veg <- vegetativecover_data |>
+    dplyr::mutate(year = as.character(substr(samplecollectiondate, 1, 4)))
+
+  if (!identical(year, "all")) {
+    veg <- dplyr::filter(veg, .data$year %in% as.character(year))
+  }
+
+  # All sites × years present in the data (to preserve sites with no invasives)
+  all_sites <- dplyr::distinct(veg, estuaryname, siteid, year)
+
+  # Unique invasive species per site × year, with their penalty
+  penalties_df <- data.frame(
+    rating = names(penalties),
+    penalty = unname(penalties),
+    stringsAsFactors = FALSE
+  )
+
+  invasive_penalties <- veg |>
+    dplyr::filter(.data$rating %in% names(penalties)) |>
+    dplyr::distinct(estuaryname, siteid, year, scientificname, rating) |>
+    dplyr::left_join(penalties_df, by = "rating") |>
+    dplyr::group_by(estuaryname, siteid, year) |>
+    dplyr::summarise(
+      total_penalty = sum(penalty, na.rm = TRUE),
+      .groups = "drop"
+    )
+
+  all_sites |>
+    dplyr::left_join(
+      invasive_penalties,
+      by = c("estuaryname", "siteid", "year")
+    ) |>
+    dplyr::mutate(
+      total_penalty = ifelse(is.na(total_penalty), 0, total_penalty),
+      function_name = function_name,
+      indicator_name = indicator_name,
+      metric_name = "invasive_severity",
+      metric_score = pmax(100 - total_penalty, 0)
+    ) |>
+    dplyr::select(
+      estuaryname,
+      siteid,
+      year,
+      function_name,
+      indicator_name,
+      metric_name,
+      metric_score
+    )
+}
+
+invasive_scores <- score_invasive_severity(
+  vegetativecover_data = vegetativecover_data
+)
+
+```
+
+```{r Ruggedness}
+
+#QUESTION: Everything is scaled out of 100, except ruggedness - should this be scaled be normalized like CRAM; 
+#I think it's okay if we don't normalize them to 100
+#Need to decide and be consistent - we would then use the raw index score for CRAM
+
+score_ruggedness <- function(
+    #CHANGE: change rugged to ruggedness
+  rugged,
+  function_name = "Plant",
+  indicator_name = "elevation"
+) {
+  rug_col  <- names(rugged)[tolower(names(rugged)) == "ruggedness"]
+  year_col <- names(rugged)[tolower(names(rugged)) == "year"]
+
+  rugged |>
+    dplyr::mutate(
+      year           = as.character(.data[[year_col]]),
+      function_name  = function_name,
+      indicator_name = indicator_name,
+      metric_name    = "ruggedness",
+      metric_score   = .data[[rug_col]]
+    ) |>
+    dplyr::select(
+      estuaryname,
+      siteid,
+      year,
+      function_name,
+      indicator_name,
+      metric_name,
+      metric_score
+    )
+}
+
+rugg_scores <- score_ruggedness(
+  rugged = ruggedness
+)
+
+```
+
+```{r alliance}
+
+#need to calculate
+
+
+
+```
+
+```{r inundation}
+
+# need to calculate
+
+```
+
+# Score
+
+```{r veg}
+
+#I modified this to only be veg scores, and I commented out metrics that are not scored
+score_all_metrics <- function(
+  vegetation_sample_metadata,
+  vegetativecover_data,
+  cram,
+  rugged,
+  year = "all"
+) {
+  dplyr::bind_rows(
+    ## Plant
+    # CRAM index (habitat)
+    score_cram_index(
+      cram = cram,
+      vegetativecover_data = vegetativecover_data,
+      function_name = "Plant"
+    ),
+    # Ruggedness (elevation)
+    score_ruggedness(rugged),
+    # Marsh plain inundation (inundation)
+    # score_marsh_plain_inundation(
+    #   vegetativecover_data = vegetativecover_data,
+    #   year = year
+    # ),
+    # Invasive severity (vegetation)
+    score_invasive_severity(
+      vegetativecover_data = vegetativecover_data,
+      year = 2023
+    ),
+    # Native cover (vegetation)
+    score_native_cover(
+      vegetativecover_data = vegetativecover_data,
+      year = 2023
+    ),
+    # Vegetated cover (vegetation)
+    score_veg_cover(
+      vegetation_sample_metadata = vegetation_sample_metadata,
+      function_name = "Plant",
+      year = 2023
+    ),
+    # Plant alliances (alliances)
+    # score_plant_alliances(
+    #   vegetativecover_data = vegetativecover_data,
+    #   year = year
+    # ),
+  )
+}
+
+all_scores <- score_all_metrics(
+  vegetation_sample_metadata = vegetation_sample_metadata,
+  vegetativecover_data = vegetativecover_data,
+  cram = cram,
+  rugged = ruggedness,
+  #This doesn't seem to be pulling 2023 only
+  #QUESTION: this calls all years
+  year = c(2023)
+)
+
+#Refine for Bight
+
+```
 
