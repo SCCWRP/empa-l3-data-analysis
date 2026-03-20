@@ -27,10 +27,10 @@ This vignette demonstrates the core scoring functions of the `EMPAFunctionAnalys
 ```{r load-data}
 vegetativecover_data <- read.csv(
   "https://nexus.sccwrp.org/empachecker/export?tablename=tbl_vegetativecover_data"
-)
+) |> filter(projectid == 'Bight-Estuary-23')
 vegetation_sample_metadata <- read.csv(
   "https://nexus.sccwrp.org/empachecker/export?tablename=tbl_vegetation_sample_metadata"
-)
+) |> filter(projectid == 'Bight-Estuary-23')
 ```
 
 ```{r}
