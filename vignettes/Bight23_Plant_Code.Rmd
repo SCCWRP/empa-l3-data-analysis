@@ -1,0 +1,109 @@
+---
+title: "Bight-Plant-Function"
+author: "Jan Walker"
+date: "2026-03-20"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+Bight 2023 - Estuary
+Plant Function
+
+#Load
+
+```{r load packages}
+
+library(devtools)
+
+devtools::load_all(".")
+
+
+```
+
+```{r data}
+
+vegetativecover_data <- read.csv(
+  "https://nexus.sccwrp.org/empachecker/export?tablename=tbl_vegetativecover_data"
+)
+vegetation_sample_metadata <- read.csv(
+  "https://nexus.sccwrp.org/empachecker/export?tablename=tbl_vegetation_sample_metadata"
+)
+
+```
+
+```{r external datasets}
+
+cram_raw <- read.csv("/Users/janw/Desktop/projects/Bight-Estuary-2023/Outputs/CRAM_data_7-21-25.csv")
+
+#edit cram data to match function expectations
+cram<- cram %>% 
+  select(siteid, year = vyear, index = indexscore, biotic = biotic_structure,
+         physical = physical_structure)
+
+ruggedness <- read.csv("/Users/janw/Desktop/projects/Bight-Estuary-2023/Data/Ruggedness_260320.csv")
+
+
+```
+
+# Individual metrics
+
+```{r CRAM}
+
+score_cram_index <- function(
+  cram,
+  vegetativecover_data,
+  function_name = c("Plant", "SLR"),
+  indicator_name = "habitat",
+  cram_min = 25,
+  cram_range = 75
+) {
+  # 1. Get all distinct sites from veg data (no year filtering for CRAM)
+  veg_sites <- dplyr::distinct(vegetativecover_data, estuaryname, siteid)
+
+  # 2. For each siteid, keep only the latest available year, then average index
+  #    across stations
+  cram_latest <- cram |>
+    dplyr::filter(!is.na(.data$index)) |>
+    dplyr::group_by(.data$siteid) |>
+    dplyr::filter(.data$year == max(.data$year, na.rm = TRUE)) |>
+    dplyr::summarise(
+      empa_index = mean(.data$index, na.rm = TRUE),
+      .groups = "drop"
+    )
+
+  # 3. Left join latest cram onto veg sites; sites with no CRAM data produce NA score
+  scored <- dplyr::left_join(
+    veg_sites,
+    cram_latest,
+    by = "siteid"
+  ) |>
+    dplyr::mutate(
+      indicator_name = indicator_name,
+      metric_name = "cram_index",
+      #this grades the CRAM score
+      metric_score = round(((empa_index - cram_min) / cram_range) * 100, 1)
+    )
+
+  # 4. Produce one block of rows per function_name
+  dplyr::bind_rows(lapply(function_name, function(fn) {
+    dplyr::mutate(scored, function_name = fn)
+  })) |>
+    dplyr::select(
+      estuaryname,
+      siteid,
+      function_name,
+      indicator_name,
+      metric_name,
+      metric_score
+    )
+}
+
+cram_scores <- score_cram_index(
+  cram = cram,
+  vegetativecover_data = vegetativecover_data
+)
+
+```
+
+
