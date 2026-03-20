@@ -1,5 +1,5 @@
 ---
-title: "creating_habitatzones"
+title: "preparing_Bight_data"
 author: "Adriana Le Compte"
 date: "2026-03-13"
 output: html_document
@@ -1282,9 +1282,28 @@ final_results <-
             NEW_scenarios, SDL_scenarios, SEAL_scenarios, SEL_scenarios, SSP_scenarios, SWM_scenarios,
             TJEN_scenarios, TJES_scenarios, VEN_scenarios) %>% 
   left_join(siteids, by = "siteid") %>% 
-  rename(estuaryname = estuary)
+  rename(estuaryname = estuary, Cover_class = habitat)
 
-write.csv(final_results, "C:/Users/adrianal/OneDrive - SCCWRP/Documents/Repositories/empa-l3-data-analysis/Bight_23_analysis/data/HabitatZones_260315.csv", row.names = F)
+#write.csv(final_results, "C:/Users/adrianal/OneDrive - SCCWRP/Documents/Repositories/empa-l3-data-analysis/Bight_23_analysis/data/HabitatZones_260315.csv", row.names = F)
 
 ```
 
+## create buffer land cover file
+```{r}
+buffer_landcover <- read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/2_Jan/Bight_SLR_code/buffer_landcover.xlsx") %>%
+  left_join(siteids, by = "siteid") %>% 
+  mutate(Region = "South")
+
+#write.csv(buffer_landcover, "C:/Users/adrianal/OneDrive - SCCWRP/Documents/Repositories/empa-l3-data-analysis/Bight_23_analysis/data/BufferLandCover_260320.csv", row.names = F)
+
+```
+
+## create ruggedness file
+```{r}
+ruggedness <- read_excel("C:/Users/adrianal/OneDrive - SCCWRP/Documents/2_Jan/Bight_SLR_code/ruggedness.xlsx") %>%
+  left_join(siteids, by = "siteid") %>% 
+  mutate(Region = "South")
+
+#write.csv(ruggedness, "C:/Users/adrianal/OneDrive - SCCWRP/Documents/Repositories/empa-l3-data-analysis/Bight_23_analysis/data/Ruggedness_260320.csv", row.names = F)
+
+```

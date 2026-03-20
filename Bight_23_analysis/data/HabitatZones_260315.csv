@@ -1,4 +1,4 @@
-"habitat","cover_number","percent_cover","region","extent","siteid","estuaryname"
+"Cover_class","cover_number","percent_cover","region","extent","siteid","estuaryname"
 "High",12305,0.0559356319749074,"South","Current Wetland Footprint","SC-AGH","Agua Hedionda"
 "Low",27720,0.126008591494875,"South","Current Wetland Footprint","SC-AGH","Agua Hedionda"
 "Mid",17698,0.0804509398368071,"South","Current Wetland Footprint","SC-AGH","Agua Hedionda"
